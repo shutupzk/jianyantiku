@@ -1,0 +1,11 @@
+{
+  "extends": ["standard"],
+  "globals": {
+    "__DEV__": false,
+    "requestAnimationFrame": true,
+    "fetch": true
+  },
+  "rules": {
+    "space-before-function-paren": [0, "always"]
+  }
+}

@@ -1,0 +1,50 @@
+type User {
+  id: ObjID!
+  phone: String!
+  avatar: String
+  name: String!
+  sex: String # 0: 女 1：男
+  openId: String #微信用户的openid
+  wcNickName: String
+  birthday: String
+  disabled: Boolean
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  users(lastCreatedAt: Float, skip:Int, limit: Int): [User!]
+  user(id: ObjID!): User
+}
+
+input signUpInput {
+  phone: String!
+  password: String!
+  avatar: String
+  name: String!
+  sex: String! # 0: 女 1：男
+  openId: String #微信用户的openid
+  wcNickName: String
+  birthday: String
+  openId:String
+}
+
+input UpdateUserInput {
+  avatar: String
+  password: String
+  disabled: Boolean
+  openId: String
+}
+
+input UpdatePasswordInput {
+  password: String
+  newPassword: String
+  verifyCode: String
+}
+
+extend type Mutation {
+  signUp(input:signUpInput!): User
+  updateUser(id: ObjID!, input: UpdateUserInput!): User
+  updatePassword(phone:String!,input:UpdatePasswordInput!): User
+  removeUser(id: ObjID!): Boolean
+}
