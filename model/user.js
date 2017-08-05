@@ -15,101 +15,14 @@ export default class User {
     return this.loader.load(id)
   }
 
-  all({ lastCreatedAt = 0, skip = 0, limit = 10 }) {
-    return this.collection
-      .find({
-        createdAt: { $gt: lastCreatedAt }
-      })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
+  all({ skip = 0, limit = 10 }) {
+    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  groupHasUsers(user, { lastCreatedAt = 0, skip = 0, limit = 10 }) {
-    return this.context.GroupHasUser.collection
-      .find({
-        userId: user._id,
-        createdAt: { $gt: lastCreatedAt }
-      })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-  }
-
-  patients(user, { lastCreatedAt = 0, skip = 0, limit = 10 }) {
-    return this.context.Patient.collection
-      .find({
-        userId: user._id,
-        createdAt: { $gt: lastCreatedAt }
-      })
-      .sort({ createdAt: 1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-  }
-
-  userHasDoctors(user, { lastCreatedAt = 0, doctorId, skip = 0, limit = 10 }) {
-    let ops = {
-      userId: user._id,
-      createdAt: { $gt: lastCreatedAt }
-    }
-    if (doctorId) ops.doctorId = doctorId
-    return this.context.UserHasDoctor.collection
-      .find(ops)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-  }
-
-  messages(user, { lastCreatedAt = 0, skip = 0, limit = 10 }) {
-    return this.context.Message.collection
-      .find({
-        userId: user._id,
-        createdAt: { $gt: lastCreatedAt }
-      })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-  }
-
-  async consultations(
-    user,
-    { lastCreatedAt = 0, skip = 0, limit = 10 }
-  ) {
-    const patients = await this.context.Patient.collection
-      .find({ userId: user._id })
-      .toArray()
-    let ids = []
-    for (let patient of patients) {
-      ids.push(patient._id)
-    }
-    return this.context.Consultation.collection
-      .find({
-        patientId: { $in: ids },
-        createdAt: { $gt: lastCreatedAt }
-      })
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
-  }
-
-  userWithDoctors(user, { lastCreatedAt = 0, doctorId, skip = 0, limit = 10 }) {
-    let ops = {
-      userId: user._id,
-      createdAt: { $gt: lastCreatedAt }
-    }
-    if (doctorId) ops.doctorId = doctorId
-    return this.context.UserWithDoctor.collection
-      .find(ops)
-      .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
+  exerciseCollects(user, { skip = 0, limit = 10 }) {
+    return this.context.ExerciseCollect.collection.find({
+      userId: user._id
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

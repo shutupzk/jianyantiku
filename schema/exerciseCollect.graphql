@@ -1,0 +1,31 @@
+type ExerciseCollect {
+  id: ObjID!
+  content: String!
+  user: User!
+  exercise: Exercise!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
+  exerciseCollect(id: ObjID!): ExerciseCollect
+}
+
+input createExerciseCollectinput {
+  content: String!
+  userId: String!
+  exerciseId: String!
+}
+
+input UpdateExerciseCollectInput {
+  content: String
+  userId: String
+  exerciseId: String
+}
+
+extend type Mutation {
+  createExerciseCollect(input:createExerciseCollectinput!): ExerciseCollect
+  updateExerciseCollect(id: ObjID!, input: UpdateExerciseCollectInput!): ExerciseCollect
+  removeExerciseCollect(id: ObjID!): Boolean
+}

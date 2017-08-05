@@ -1,0 +1,32 @@
+type OfficialExamination {
+  id: ObjID!
+  title: String!
+  address: String #地址
+  date: String
+  exercise(skip:Int, limit: Int): [Exercise!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  officialExaminations(skip:Int, limit: Int): [OfficialExamination!]
+  officialExamination(id: ObjID!): OfficialExamination
+}
+
+input createOfficialExaminationinput {
+  title: String!
+  address: String #地址
+  date: String
+}
+
+input UpdateOfficialExaminationInput {
+  title: String
+  address: String #地址
+  date: String
+}
+
+extend type Mutation {
+  createOfficialExamination(input:createOfficialExaminationinput!): OfficialExamination
+  updateOfficialExamination(id: ObjID!, input: UpdateOfficialExaminationInput!): OfficialExamination
+  removeOfficialExamination(id: ObjID!): Boolean
+}

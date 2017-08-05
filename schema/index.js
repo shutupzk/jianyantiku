@@ -20,3 +20,10 @@ const typeDefs = [`
 export default typeDefs
 
 typeDefs.push(requireGraphQL('./user.graphql'))
+typeDefs.push(requireGraphQL('./exercise.graphql'))
+typeDefs.push(requireGraphQL('./answer.graphql'))
+typeDefs.push(requireGraphQL('./exerciseCollect.graphql'))
+typeDefs.push(requireGraphQL('./exerciseImage.graphql'))
+typeDefs.push(requireGraphQL('./answerImage.graphql'))
+typeDefs.push(requireGraphQL('./officialExamination.graphql'))
+typeDefs.push(requireGraphQL('./mockExamination.graphql'))

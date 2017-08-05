@@ -8,12 +8,13 @@ type User {
   wcNickName: String
   birthday: String
   disabled: Boolean
+  exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  users(lastCreatedAt: Float, skip:Int, limit: Int): [User!]
+  users(skip:Int, limit: Int): [User!]
   user(id: ObjID!): User
 }
 

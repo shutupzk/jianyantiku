@@ -1,0 +1,32 @@
+type Exercise {
+  id: ObjID!
+  content: String!
+  basics: Boolean # 是否是基础
+  hot: Boolean # 是否是高频
+  officialExamination: OfficialExamination
+  mockExamination: MockExamination
+  answers(skip:Int, limit: Int): [Answer!]
+  exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
+  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  exercises(skip:Int, limit: Int): [Exercise!]
+  exercise(id: ObjID!): Exercise
+}
+
+input createExerciseinput {
+  content: String!
+}
+
+input UpdateExerciseInput {
+  content: String
+}
+
+extend type Mutation {
+  createExercise(input:createExerciseinput!): Exercise
+  updateExercise(id: ObjID!, input: UpdateExerciseInput!): Exercise
+  removeExercise(id: ObjID!): Boolean
+}

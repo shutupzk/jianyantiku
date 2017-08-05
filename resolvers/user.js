@@ -2,11 +2,15 @@ const resolvers = {
   User: {
     id(user) {
       return user._id
+    },
+
+    exerciseCollects(user, { skip, limit }, { User }) {
+      return User.exerciseCollects(user, { skip, limit })
     }
   },
   Query: {
-    users(root, { lastCreatedAt, skip, limit }, { User }) {
-      return User.all({ lastCreatedAt, skip, limit })
+    users(root, { skip, limit }, { User }) {
+      return User.all({ skip, limit })
     },
 
     user(root, { id }, { User }) {

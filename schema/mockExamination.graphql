@@ -1,0 +1,32 @@
+type MockExamination {
+  id: ObjID!
+  title: String!
+  address: String #地址
+  date: String
+  exercise(skip:Int, limit: Int): [Exercise!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  mockExaminations(skip:Int, limit: Int): [MockExamination!]
+  mockExamination(id: ObjID!): MockExamination
+}
+
+input createMockExaminationinput {
+  title: String!
+  address: String #地址
+  date: String
+}
+
+input UpdateMockExaminationInput {
+  title: String
+  address: String #地址
+  date: String
+}
+
+extend type Mutation {
+  createMockExamination(input:createMockExaminationinput!): MockExamination
+  updateMockExamination(id: ObjID!, input: UpdateMockExaminationInput!): MockExamination
+  removeMockExamination(id: ObjID!): Boolean
+}

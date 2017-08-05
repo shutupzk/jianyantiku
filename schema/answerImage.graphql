@@ -1,0 +1,29 @@
+type AnswerImage {
+  id: ObjID!
+  text: String!
+  url: String!
+  answer: Answer!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  answerImages(skip:Int, limit: Int): [AnswerImage!]
+  answerImage(id: ObjID!): AnswerImage
+}
+
+input createAnswerImageinput {
+  text: String!
+  url: String!
+}
+
+input UpdateAnswerImageInput {
+  text: String
+  url: String
+}
+
+extend type Mutation {
+  createAnswerImage(input:createAnswerImageinput!): AnswerImage
+  updateAnswerImage(id: ObjID!, input: UpdateAnswerImageInput!): AnswerImage
+  removeAnswerImage(id: ObjID!): Boolean
+}

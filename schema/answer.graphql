@@ -1,0 +1,30 @@
+type Answer {
+  id: ObjID!
+  content: String!
+  isAnswer: Boolean!
+  exercise: Exercise!
+  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  answers(skip:Int, limit: Int): [Answer!]
+  answer(id: ObjID!): Answer
+}
+
+input createAnswerinput {
+  name: String!
+  isAnswer: Boolean!
+}
+
+input UpdateAnswerInput {
+  name: String
+  isAnswer: Boolean
+}
+
+extend type Mutation {
+  createAnswer(input:createAnswerinput!): Answer
+  updateAnswer(id: ObjID!, input: UpdateAnswerInput!): Answer
+  removeAnswer(id: ObjID!): Boolean
+}

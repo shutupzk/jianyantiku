@@ -1,0 +1,29 @@
+type ExerciseImage {
+  id: ObjID!
+  text: String!
+  url: String!
+  exercise: Exercise!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
+  exerciseImage(id: ObjID!): ExerciseImage
+}
+
+input createExerciseImageinput {
+  text: String!
+  url: String!
+}
+
+input UpdateExerciseImageInput {
+  text: String
+  url: String
+}
+
+extend type Mutation {
+  createExerciseImage(input:createExerciseImageinput!): ExerciseImage
+  updateExerciseImage(id: ObjID!, input: UpdateExerciseImageInput!): ExerciseImage
+  removeExerciseImage(id: ObjID!): Boolean
+}
