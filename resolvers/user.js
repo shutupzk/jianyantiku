@@ -6,6 +6,10 @@ const resolvers = {
 
     exerciseCollects(user, { skip, limit }, { User }) {
       return User.exerciseCollects(user, { skip, limit })
+    },
+
+    userAnswers(user, { skip, limit }, { User }) {
+      return User.userAnswers(user, { skip, limit })
     }
   },
   Query: {

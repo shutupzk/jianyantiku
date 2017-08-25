@@ -1,7 +1,7 @@
 type AnswerImage {
   id: ObjID!
   text: String!
-  url: String!
+  image: String!
   answer: Answer!
   createdAt: Float!
   updatedAt: Float!
@@ -14,12 +14,14 @@ extend type Query {
 
 input createAnswerImageinput {
   text: String!
-  url: String!
+  image: String!
+  answerId: ObjID!
 }
 
 input UpdateAnswerImageInput {
   text: String
-  url: String
+  image: String
+  answerId: ObjID
 }
 
 extend type Mutation {

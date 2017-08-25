@@ -1,0 +1,35 @@
+type Chapter {
+  id: ObjID!
+  num: Int!
+  name: String!
+  remark: String
+  course: Course!
+  sections(skip:Int, limit: Int): [Section!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  chapters(skip:Int, limit: Int): [Chapter!]
+  chapter(id: ObjID!): Chapter
+}
+
+input createChapterinput {
+  num: Int!
+  name: String!
+  remark: String
+  courseId: ObjID!
+}
+
+input UpdateChapterInput {
+  num: Int!
+  name: String
+  remark: String
+  courseId: ObjID
+}
+
+extend type Mutation {
+  createChapter(input:createChapterinput!): Chapter
+  updateChapter(id: ObjID!, input: UpdateChapterInput!): Chapter
+  removeChapter(id: ObjID!): Boolean
+}

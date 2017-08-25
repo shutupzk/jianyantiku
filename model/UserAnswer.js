@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class Answer {
+export default class UserAnswer {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('answer')
+    this.collection = context.db.collection('userAnswer')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -16,20 +16,12 @@ export default class Answer {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  exercise(answer) {
-    return this.context.Exercise.findOneById(answer.exerciseId)
+  user(userAnswer) {
+    return this.context.User.findOneById(userAnswer.userId)
   }
 
-  answerImages(answer, { skip = 0, limit = 10 }) {
-    return this.context.AnswerImage.collection.find({
-      answerId: answer._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
-  }
-
-  userAnswers(answer, { skip = 0, limit = 10 }) {
-    return this.context.UserAnswer.collection.find({
-      answerId: answer._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  answer(userAnswer) {
+    return this.context.Answer.findOneById(userAnswer.answerId)
   }
 
   async insert(doc) {

@@ -6,6 +6,14 @@ const resolvers = {
 
     exercise(answer, args, { Answer }) {
       return Answer.exercise(answer)
+    },
+
+    answerImages(answer, { skip, limit }, { Answer }) {
+      return Answer.answerImages(answer, { skip, limit })
+    },
+
+    userAnswers(answer, { skip, limit }, { Answer }) {
+      return Answer.userAnswers(answer, { skip, limit })
     }
   },
   Query: {

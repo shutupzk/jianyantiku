@@ -1,29 +1,31 @@
 type ExerciseImage {
-  id: ObjID!
-  text: String!
-  url: String!
-  exercise: Exercise!
-  createdAt: Float!
-  updatedAt: Float!
+	id: ObjID!
+	text: String!
+	image: String!
+	exercise: Exercise!
+	createdAt: Float!
+	updatedAt: Float!
 }
 
 extend type Query {
-  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
-  exerciseImage(id: ObjID!): ExerciseImage
+	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]
+	exerciseImage(id: ObjID!): ExerciseImage
 }
 
 input createExerciseImageinput {
-  text: String!
-  url: String!
+	text: String!
+	image: String!
+	exerciseId: ObjID!
 }
 
 input UpdateExerciseImageInput {
-  text: String
-  url: String
+	text: String
+	image: String
+	exerciseId: ObjID!
 }
 
 extend type Mutation {
-  createExerciseImage(input:createExerciseImageinput!): ExerciseImage
-  updateExerciseImage(id: ObjID!, input: UpdateExerciseImageInput!): ExerciseImage
-  removeExerciseImage(id: ObjID!): Boolean
+	createExerciseImage(input: createExerciseImageinput!): ExerciseImage
+	updateExerciseImage(id: ObjID!, input: UpdateExerciseImageInput!): ExerciseImage
+	removeExerciseImage(id: ObjID!): Boolean
 }

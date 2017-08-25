@@ -16,6 +16,11 @@ export default class Exercise {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
+  section(exercise) {
+    if (!exercise.sectionId) return null
+    return this.context.Section.findOneById(exercise.sectionId)
+  }
+
   officialExamination(exercise) {
     if (!exercise.officialExaminationId) return null
     return this.context.OfficialExamination.findOneById(exercise.officialExaminationId)
@@ -40,6 +45,18 @@ export default class Exercise {
 
   exerciseImages(exercise, { skip = 0, limit = 10 }) {
     return this.context.ExerciseImage.collection.find({
+      exerciseId: exercise._id
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  }
+
+  notes(exercise, { skip = 0, limit = 10 }) {
+    return this.context.Note.collection.find({
+      exerciseId: exercise._id
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  }
+
+  analysiss(exercise, { skip = 0, limit = 10 }) {
+    return this.context.Analysis.collection.find({
       exerciseId: exercise._id
     }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }

@@ -1,0 +1,34 @@
+type Analysis {
+  id: ObjID!
+  content: String!
+  user: User!
+  images: [String!]
+  exercise: Exercise!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  analysiss(skip:Int, limit: Int): [Analysis!]
+  analysis(id: ObjID!): Analysis
+}
+
+input createAnalysisinput {
+  content: String!
+  images: [String!]
+  userId: ObjID!
+  exerciseId: ObjID!
+}
+
+input UpdateAnalysisInput {
+  content: String
+  images: [String!]
+  userId: ObjID
+  exerciseId: ObjID
+}
+
+extend type Mutation {
+  createAnalysis(input:createAnalysisinput!): Analysis
+  updateAnalysis(id: ObjID!, input: UpdateAnalysisInput!): Analysis
+  removeAnalysis(id: ObjID!): Boolean
+}

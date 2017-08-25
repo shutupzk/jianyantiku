@@ -1,0 +1,35 @@
+type Section {
+  id: ObjID!
+  num: Int!
+  name: String!
+  remark: String
+  chapter: Chapter!
+  exercises(skip: Int, limit: Int): [Exercise!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  sections(skip:Int, limit: Int): [Section!]
+  section(id: ObjID!): Section
+}
+
+input createSectioninput {
+  num: Int!
+  name: String!
+  remark: String
+  chapterId: ObjID!
+}
+
+input UpdateSectionInput {
+  num: Int!
+  name: String
+  remark: String
+  chapterId: ObjID
+}
+
+extend type Mutation {
+  createSection(input:createSectioninput!): Section
+  updateSection(id: ObjID!, input: UpdateSectionInput!): Section
+  removeSection(id: ObjID!): Boolean
+}

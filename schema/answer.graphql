@@ -3,7 +3,8 @@ type Answer {
   content: String!
   isAnswer: Boolean!
   exercise: Exercise!
-  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
+  answerImages(skip:Int, limit: Int): [AnswerImage!]
+  userAnswers(skip: Int, limit: Int): [UserAnswer!]
   createdAt: Float!
   updatedAt: Float!
 }
@@ -14,13 +15,15 @@ extend type Query {
 }
 
 input createAnswerinput {
-  name: String!
+  content: String!
   isAnswer: Boolean!
+  exerciseId: ObjID!
 }
 
 input UpdateAnswerInput {
-  name: String
+  content: String
   isAnswer: Boolean
+  exerciseId: ObjID
 }
 
 extend type Mutation {

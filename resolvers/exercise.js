@@ -4,6 +4,10 @@ const resolvers = {
       return exercise._id
     },
 
+    section(exercise, args, { Exercise }) {
+      return Exercise.section(exercise)
+    },
+
     officialExamination(exercise, args, { Exercise }) {
       return Exercise.officialExamination(exercise)
     },
@@ -22,6 +26,14 @@ const resolvers = {
 
     exerciseImages(exercise, { skip, limit }, { Exercise }) {
       return Exercise.exerciseImages(exercise, { skip, limit })
+    },
+
+    notes(exercise, { skip, limit }, { Exercise }) {
+      return Exercise.notes(exercise, { skip, limit })
+    },
+
+    analysiss(exercise, { skip, limit }, { Exercise }) {
+      return Exercise.analysiss(exercise, { skip, limit })
     }
   },
   Query: {

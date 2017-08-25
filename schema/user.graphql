@@ -9,6 +9,7 @@ type User {
   birthday: String
   disabled: Boolean
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
+  userAnswers(skip:Int, limit: Int): [UserAnswer!]
   createdAt: Float!
   updatedAt: Float!
 }

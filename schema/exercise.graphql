@@ -1,32 +1,42 @@
 type Exercise {
-  id: ObjID!
-  content: String!
-  basics: Boolean # 是否是基础
-  hot: Boolean # 是否是高频
-  officialExamination: OfficialExamination
-  mockExamination: MockExamination
-  answers(skip:Int, limit: Int): [Answer!]
-  exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
-  exerciseImages(skip:Int, limit: Int): [ExerciseImage!]
-  createdAt: Float!
-  updatedAt: Float!
+	id: ObjID!
+	content: String!
+	hot: Boolean # 是否是高频
+	section: Section
+	officialExamination: OfficialExamination
+	mockExamination: MockExamination
+	answers(skip: Int, limit: Int): [Answer!]
+	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
+	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]
+	notes(skip: Int, limit: Int): [Note!]
+	analysiss(skip: Int, limit: Int): [Analysis!]
+	createdAt: Float!
+	updatedAt: Float!
 }
 
 extend type Query {
-  exercises(skip:Int, limit: Int): [Exercise!]
-  exercise(id: ObjID!): Exercise
+	exercises(skip: Int, limit: Int): [Exercise!]
+	exercise(id: ObjID!): Exercise
 }
 
 input createExerciseinput {
-  content: String!
+	content: String!
+	hot: Boolean # 是否是高频
+	sectionId: ObjID
+	officialExaminationId: ObjID
+	mockExaminationId: ObjID
 }
 
 input UpdateExerciseInput {
-  content: String
+	content: String!
+	hot: Boolean # 是否是高频
+	sectionId: ObjID
+	officialExaminationId: ObjID
+	mockExaminationId: ObjID
 }
 
 extend type Mutation {
-  createExercise(input:createExerciseinput!): Exercise
-  updateExercise(id: ObjID!, input: UpdateExerciseInput!): Exercise
-  removeExercise(id: ObjID!): Boolean
+	createExercise(input: createExerciseinput!): Exercise
+	updateExercise(id: ObjID!, input: UpdateExerciseInput!): Exercise
+	removeExercise(id: ObjID!): Boolean
 }

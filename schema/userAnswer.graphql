@@ -1,0 +1,28 @@
+type UserAnswer {
+  id: ObjID!
+  user: User!
+  answer: Answer!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userAnswers(skip:Int, limit: Int): [UserAnswer!]
+  userAnswer(id: ObjID!): UserAnswer
+}
+
+input createUserAnswerinput {
+  userId: ObjID!
+  answerId: ObjID!
+}
+
+input UpdateUserAnswerInput {
+  userId: ObjID
+  answerId: ObjID
+}
+
+extend type Mutation {
+  createUserAnswer(input:createUserAnswerinput!): UserAnswer
+  updateUserAnswer(id: ObjID!, input: UpdateUserAnswerInput!): UserAnswer
+  removeUserAnswer(id: ObjID!): Boolean
+}
