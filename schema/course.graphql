@@ -4,7 +4,7 @@ type Course {
   typeId:ObjID!
   content: String!
   url: String
-  courseType: String
+  courseType: CoursesType!
   createdAt: Float!
   updatedAt: Float!
 }
@@ -15,14 +15,14 @@ extend type Query {
 }
 
 input createCourseinput {
-  title: Int!
+  title: String!
   typeId: ObjID!
   content: String!
   url: String
 }
 
 input UpdateCourseInput {
-  title: Int!
+  title: String!
   typeId: ObjID!
   content: String!
   url: String
