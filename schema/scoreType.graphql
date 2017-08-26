@@ -1,0 +1,29 @@
+type ScoreType { #积分类型
+  id: ObjID!
+  code:String! #编码
+  name: String! #积分名称
+  scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  scoreTypes(skip:Int, limit: Int): [ScoreType!]
+  scoreType(id: ObjID!): ScoreType
+}
+
+input createScoreTypeInput {
+  name: String!
+  code:String!
+}
+
+input UpdateScoreTypeInput {
+  code:String
+  name: String
+}
+
+extend type Mutation {
+  createScoreType(input:createScoreTypeInput!): ScoreType
+  updateScoreType(id: ObjID!, input: UpdateScoreTypeInput!): ScoreType
+  removeScoreType(id: ObjID!): Boolean
+}
