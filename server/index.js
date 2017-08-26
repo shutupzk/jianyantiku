@@ -15,6 +15,8 @@ import addModelsToContext from '../model'
 import authenticate from './authenticate'
 import { GRAPHQL_PORT, MONGO_URL } from '../config'
 
+import { initDB } from '../seed'
+
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
 async function startServer() {
@@ -68,11 +70,13 @@ async function startServer() {
   app.listen(GRAPHQL_PORT, () => console.log(`GraphQL server launched, visit http://localhost:${GRAPHQL_PORT}/graphiql`))
 }
 
-startServer()
-  .then(() => {
-    console.log('All systems go')
-  })
-  .catch(e => {
-    console.error('Uncaught error in startup')
-    console.error(e)
-  })
+initDB(MONGO_URL, function() {
+  startServer()
+    .then(() => {
+      console.log('All systems go')
+    })
+    .catch(e => {
+      console.error('Uncaught error in startup')
+      console.error(e)
+    })
+})
