@@ -15,13 +15,18 @@ async function userFromPayload(request, jwtPayload) {
   return request.context.User.findOneById(ObjectId(jwtPayload.userId))
 }
 
-passport.use(new Strategy({
-  jwtFromRequest: ExtractJwt.fromAuthHeader(),
-  secretOrKey: KEY,
-  passReqToCallback: true
-}, (request, jwtPayload, done) => {
+passport.use(
+	new Strategy(
+  {
+    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    secretOrKey: KEY,
+    passReqToCallback: true
+  },
+		(request, jwtPayload, done) => {
   nodeify(userFromPayload(request, jwtPayload), done)
-}))
+}
+	)
+)
 
 export default function addPassport(app) {
   app.use(passport.initialize())
@@ -33,7 +38,7 @@ export default function addPassport(app) {
         throw new Error('Username or password not set on request')
       }
       const user = await req.context.User.collection.findOne({ phone: username })
-      if (!user || !(await bcrypt.compare(password, user.hash))) {
+      if (!user || !await bcrypt.compare(password, user.hash)) {
         throw new Error('User not found matching username/password combination')
       }
       const exp = Math.floor(new Date().getTime() / 1000) + 60 * 60 * 24
