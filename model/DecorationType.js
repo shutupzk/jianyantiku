@@ -44,6 +44,6 @@ export default class DecorationType {
   decorations(decorationType, { skip = 0, limit = 10 }) {
     return this.context.Decoration.collection.find({
       decorationTypeId: decorationType._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).sort({ score: 1 }).skip(skip).limit(limit).toArray()
   }
 }
