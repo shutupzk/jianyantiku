@@ -48,5 +48,4 @@ export default class ScoreRecord {
   scoreType(scoreRecord) {
     return this.context.ScoreType.findOneById(scoreRecord.scoreTypeId)
   }
-
 }
