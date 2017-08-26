@@ -28,21 +28,4 @@ for (let file of files) {
   typeDefs.push(requireGraphQL(`./${file}`))
 }
 
-<<<<<<< HEAD
 export default typeDefs
-=======
-typeDefs.push(requireGraphQL('./user.graphql'))
-typeDefs.push(requireGraphQL('./exercise.graphql'))
-typeDefs.push(requireGraphQL('./answer.graphql'))
-typeDefs.push(requireGraphQL('./exerciseCollect.graphql'))
-typeDefs.push(requireGraphQL('./exerciseImage.graphql'))
-typeDefs.push(requireGraphQL('./answerImage.graphql'))
-typeDefs.push(requireGraphQL('./officialExamination.graphql'))
-typeDefs.push(requireGraphQL('./mockExamination.graphql'))
-typeDefs.push(requireGraphQL('./userAnswer.graphql'))
-typeDefs.push(requireGraphQL('./note.graphql'))
-typeDefs.push(requireGraphQL('./subject.graphql'))
-typeDefs.push(requireGraphQL('./chapter.graphql'))
-typeDefs.push(requireGraphQL('./section.graphql'))
-typeDefs.push(requireGraphQL('./analysis.graphql'))
->>>>>>> 9170fda264b30bd75da0df6556fe68068ea8a29d
