@@ -15,7 +15,6 @@ import addModelsToContext from '../model'
 import authenticate from './authenticate'
 import { GRAPHQL_PORT, MONGO_URL } from '../config'
 
-
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
 async function startServer() {
