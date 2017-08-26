@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
+import moment from 'moment'
 
 export default class ScoreRecord {
   constructor(context) {
@@ -18,19 +19,29 @@ export default class ScoreRecord {
 
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
+    const { User } = this.context
+    User.findOneById(doc.userId).then((user) => {
+      let score = (user.score || 0) + doc.score
+      User.updateById(doc.userId, {score})
+    })
+
     const id = (await this.collection.insertOne(docToInsert)).insertedId
     return id
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }
