@@ -1,0 +1,34 @@
+type UserDayAnswer {
+  id: ObjID!
+  user: User!
+  date: String!
+  totalCount:Int! 
+  correctCount:Int!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userDayAnswers(skip:Int, limit: Int): [UserDayAnswer!]
+  userDayAnswer(id: ObjID!): UserDayAnswer
+}
+
+input createUserDayAnswerinput {
+  user: ObjID!
+  date: String!
+  totalCount:Int! 
+  correctCount:Int!
+}
+
+input UpdateUserDayAnswerInput {
+  user: ObjID
+  date: String
+  totalCount:Int 
+  correctCount:Int
+}
+
+extend type Mutation {
+  createUserDayAnswer(input:createUserDayAnswerinput!): UserDayAnswer
+  updateUserDayAnswer(id: ObjID!, input: UpdateUserDayAnswerInput!): UserDayAnswer
+  removeUserDayAnswer(id: ObjID!): Boolean
+}
