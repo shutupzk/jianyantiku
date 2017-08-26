@@ -14,8 +14,11 @@ const resolvers = {
 
     decorations(user, { skip, limit }, { User }) {
       return User.decorations(user, { skip, limit })
-    }
+    },
 
+    scoreRecords(user, { skip, limit }, { User }) {
+      return User.scoreRecords(user, { skip, limit })
+    }
   },
   Query: {
     users(root, { skip, limit }, { User }) {

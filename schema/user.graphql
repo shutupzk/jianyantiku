@@ -12,6 +12,7 @@ type User {
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   userAnswers(skip:Int, limit: Int): [UserAnswer!]
   decorations(skip:Int, limit: Int): [Decoration!]
+  scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
   createdAt: Float!
   updatedAt: Float!
 }
