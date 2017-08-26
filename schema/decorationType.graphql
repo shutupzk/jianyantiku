@@ -1,5 +1,6 @@
 type DecorationType { #徽章类型
   id: ObjID!
+  code:String! #编码
   name: String! #徽章名称
   remark: String #徽章备注
   decorations(skip:Int, limit: Int): [Decoration!]
@@ -14,10 +15,12 @@ extend type Query {
 
 input createDecorationTypeInput {
   name: String!
+  code:String!
   remark: String
 }
 
 input UpdateDecorationTypeInput {
+  code:String
   name: String
   remark: String
 }

@@ -1,0 +1,28 @@
+type UserHasDecoration {
+  id: ObjID!
+  user: User!
+  decoration: Decoration!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userHasDecorations(skip:Int, limit: Int): [UserHasDecoration!]
+  userHasDecoration(id: ObjID!): UserHasDecoration
+}
+
+input createUserHasDecorationinput {
+  userId: ObjID!
+  decorationId: ObjID!
+}
+
+input UpdateUserHasDecorationInput {
+  userId: ObjID
+  decorationId: ObjID
+}
+
+extend type Mutation {
+  createUserHasDecoration(input:createUserHasDecorationinput!): UserHasDecoration
+  updateUserHasDecoration(id: ObjID!, input: UpdateUserHasDecorationInput!): UserHasDecoration
+  removeUserHasDecoration(id: ObjID!): Boolean
+}
