@@ -12,13 +12,13 @@ extend type Query {
 }
 
 input createExerciseCollectinput {
-  userId: String!
-  exerciseId: String!
+  userId: ObjID!
+  exerciseId: ObjID!
 }
 
 input UpdateExerciseCollectInput {
-  userId: String
-  exerciseId: String
+  userId: ObjID
+  exerciseId: ObjID
 }
 
 extend type Mutation {

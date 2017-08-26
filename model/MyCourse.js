@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class Course {
+export default class MyCourse {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('course')
+    this.collection = context.db.collection('myCourse')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -16,9 +16,12 @@ export default class Course {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  courseType(course) {
-    if (!course.typeId) return null
-    return this.context.CourseType.findOneById(course.typeId)
+  user(myCourse) {
+    return this.context.User.findOneById(myCourse.userId)
+  }
+
+  course(myCourse) {
+    return this.context.Course.findOneById(myCourse.courseId)
   }
 
   async insert(doc) {
