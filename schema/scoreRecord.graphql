@@ -15,7 +15,6 @@ extend type Query {
 
 input createScoreRecordInput {
   score:Int!
-  time: String! 
   scoreTypeId:ObjID
   userId:ObjID
 }
