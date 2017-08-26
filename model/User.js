@@ -31,6 +31,18 @@ export default class User {
     }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
+  async decorations(user, { skip = 0, limit = 10 }) {
+    let userHasDecorations = await this.context.UserHasDecoration.collection.find({userId: user._id}).toArray()
+    let decorationIds = []
+    for (let userHasDecoration of userHasDecorations) {
+      decorationIds.push(userHasDecoration.decorationId)
+    }
+
+    return this.context.Decoration.collection.find({
+      _id: {$in: decorationIds}
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  }
+
   async insert(doc) {
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
     let user = await this.collection.findOne({ phone: doc.phone })

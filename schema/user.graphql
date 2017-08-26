@@ -10,6 +10,7 @@ type User {
   disabled: Boolean
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   userAnswers(skip:Int, limit: Int): [UserAnswer!]
+  decorations(skip:Int, limit: Int): [Decoration!]
   createdAt: Float!
   updatedAt: Float!
 }
