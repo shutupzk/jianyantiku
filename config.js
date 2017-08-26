@@ -4,4 +4,3 @@ export {
   MONGO_URL,
   GRAPHQL_PORT
 }
-test
