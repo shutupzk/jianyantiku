@@ -9,14 +9,14 @@ type Exercise {
 	answers(skip: Int, limit: Int): [Answer!]
 	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
 	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]
-	notes(skip: Int, limit: Int): [Note!]
+	notes(skip: Int, limit: Int,userId:ObjID): [Note!]
 	analysiss(skip: Int, limit: Int): [Analysis!]
 	createdAt: Float!
 	updatedAt: Float!
 }
 
 extend type Query {
-	exercises(skip: Int, limit: Int): [Exercise!]
+	exercises(skip: Int, limit: Int , hot: Boolean): [Exercise!]
 	exercise(id: ObjID!): Exercise
 }
 

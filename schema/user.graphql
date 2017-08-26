@@ -8,6 +8,7 @@ type User {
   wcNickName: String
   birthday: String
   disabled: Boolean
+  rank: Int
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   userAnswers(skip:Int, limit: Int): [UserAnswer!]
   decorations(skip:Int, limit: Int): [Decoration!]
@@ -30,6 +31,7 @@ input signUpInput {
   wcNickName: String
   birthday: String
   openId:String
+  rank:Int
 }
 
 input UpdateUserInput {
@@ -37,6 +39,7 @@ input UpdateUserInput {
   password: String
   disabled: Boolean
   openId: String
+  rank:Int
 }
 
 input UpdatePasswordInput {

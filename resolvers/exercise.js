@@ -32,8 +32,8 @@ const resolvers = {
       return Exercise.exerciseImages(exercise, { skip, limit })
     },
 
-    notes(exercise, { skip, limit }, { Exercise }) {
-      return Exercise.notes(exercise, { skip, limit })
+    notes(exercise, { skip, limit, userId }, { Exercise }) {
+      return Exercise.notes(exercise, { skip, limit, userId })
     },
 
     analysiss(exercise, { skip, limit }, { Exercise }) {
@@ -41,8 +41,8 @@ const resolvers = {
     }
   },
   Query: {
-    exercises(root, { skip, limit }, { Exercise }) {
-      return Exercise.all({ skip, limit })
+    exercises(root, { skip, limit, hot }, { Exercise }) {
+      return Exercise.all({ skip, limit, hot })
     },
 
     exercise(root, { id }, { Exercise }) {

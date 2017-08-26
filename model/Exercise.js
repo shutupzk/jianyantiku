@@ -12,8 +12,14 @@ export default class Exercise {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  all({ skip = 0, limit = 10, hot }) {
+    let options = {}
+    if (hot) {
+      options = {
+        hot
+      }
+    }
+    return this.collection.find(options).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   section(exercise) {
@@ -54,10 +60,19 @@ export default class Exercise {
     }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  notes(exercise, { skip = 0, limit = 10 }) {
-    return this.context.Note.collection.find({
-      exerciseId: exercise._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  notes(exercise, { skip = 0, limit = 10, userId }) {
+    let options = {}
+    if (userId) {
+      options = {
+        exerciseId: exercise._id,
+        userId
+      }
+    } else {
+      options = {
+        exerciseId: exercise._id
+      }
+    }
+    return this.context.Note.collection.find(options).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   analysiss(exercise, { skip = 0, limit = 10 }) {

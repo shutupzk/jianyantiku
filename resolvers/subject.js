@@ -6,6 +6,10 @@ const resolvers = {
 
     chapters(subject, { skip, limit }, { Subject }) {
       return Subject.chapters(subject, { skip, limit })
+    },
+
+    exercises(subject, { skip, limit, hot }, { Subject }) {
+      return Subject.exercises(subject, { skip, limit, hot })
     }
   },
   Query: {
