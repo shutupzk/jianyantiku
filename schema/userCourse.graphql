@@ -1,0 +1,28 @@
+type UserCourse {
+  id: ObjID!
+  user: User!
+  course: Course!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userCourses(skip:Int, limit: Int): [UserCourse!]
+  userCourse(id: ObjID!): UserCourse
+}
+
+input createUserCourseinput {
+  userId: ObjID!
+  courseId: ObjID!
+}
+
+input UpdateUserCourseInput {
+  userId: ObjID!
+  courseId: ObjID!
+}
+
+extend type Mutation {
+  createUserCourse(input:createUserCourseinput!): UserCourse
+  updateUserCourse(id: ObjID!, input: UpdateUserCourseInput!): UserCourse
+  removeUserCourse(id: ObjID!): Boolean
+}
