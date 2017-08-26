@@ -25,10 +25,7 @@ function insertData(db, fn) {
     oldfiles = oldfiles || []
     let files = []
     for (let file of oldfiles) {
-      //   if (file === 'routeOfAdministration.json') {
       files.push(file)
-      //     break
-      //   }
     }
     let len = files.length
     if (len === 0) return fn('there is no seed data')
