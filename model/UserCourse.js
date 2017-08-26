@@ -30,15 +30,46 @@ export default class UserCourse {
       updatedAt: Date.now()
     })
     const id = (await this.collection.insertOne(docToInsert)).insertedId
+
+    const {DecorationType, Decoration, UserHasDecoration} = this.context
+    this.collection.count().then(async(courseCount) => {
+      let decorationTypeId = (await DecorationType.collection.findOne({code: '03'}))._id
+      let decorations = await Decoration.collection.find({
+        decorationTypeId,
+        score: {$lte: courseCount}
+      }).toArray()
+      let userId = doc.userId
+      for (let decoration of decorations) {
+        let decorationId = decoration._id
+        let userHasDecoration = {
+          userId,
+          decorationId,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        }
+        UserHasDecoration.collection.findOneAndUpdate(
+          {
+            userId,
+            decorationId
+          },
+          userHasDecoration,
+          { upsert: true }
+        )
+      }
+    })
+
     return id
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }

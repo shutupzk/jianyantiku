@@ -10,7 +10,12 @@ const resolvers = {
 
     userAnswers(user, { skip, limit }, { User }) {
       return User.userAnswers(user, { skip, limit })
+    },
+
+    decorations(user, { skip, limit }, { User }) {
+      return User.decorations(user, { skip, limit })
     }
+
   },
   Query: {
     users(root, { skip, limit }, { User }) {
