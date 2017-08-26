@@ -1,6 +1,6 @@
 type Decoration { #徽章类型
   id: ObjID!
-  name: String! #徽章名称
+  score: Int! #徽章获取最低数量值
   decorationType:DecorationType!
   createdAt: Float!
   updatedAt: Float!
@@ -13,12 +13,12 @@ extend type Query {
 
 input createDecorationInput {
   decorationTypeId:ObjID!
-  name: String!
+  score: Int!
 }
 
 input UpdateDecorationInput {
   decorationTypeId:ObjID
-  name: String
+  score: Int
 }
 
 extend type Mutation {
