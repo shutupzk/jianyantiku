@@ -4,7 +4,7 @@ type Course {
   typeId:ObjID!
   content: String!
   url: String
-  courseType: CoursesType!
+  courseType: CourseType!
   createdAt: Float!
   updatedAt: Float!
 }

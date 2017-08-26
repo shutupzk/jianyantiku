@@ -1,0 +1,28 @@
+type CourseCollect {
+  id: ObjID!
+  user: User!
+  course: Course!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  courseCollects(skip:Int, limit: Int): [CourseCollect!]
+  courseCollect(id: ObjID!): CourseCollect
+}
+
+input createCourseCollectinput {
+  userId: ObjID!
+  courseId: ObjID!
+}
+
+input UpdateCourseCollectInput {
+  userId: ObjID!
+  courseId: ObjID!
+}
+
+extend type Mutation {
+  createCourseCollect(input:createCourseCollectinput!): CourseCollect
+  updateCourseCollect(id: ObjID!, input: UpdateCourseCollectInput!): CourseCollect
+  removeCourseCollect(id: ObjID!): Boolean
+}
