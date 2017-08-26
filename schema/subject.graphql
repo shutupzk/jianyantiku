@@ -1,0 +1,29 @@
+type Subject {
+  id: ObjID!
+  name: String!
+  remark: String
+  chapters(skip: Int, limit: Int): [Chapter!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  subjects(skip:Int, limit: Int): [Subject!]
+  subject(id: ObjID!): Subject
+}
+
+input createSubjectinput {
+  name: String!
+  remark: String
+}
+
+input UpdateSubjectInput {
+  name: String
+  remark: String
+}
+
+extend type Mutation {
+  createSubject(input:createSubjectinput!): Subject
+  updateSubject(id: ObjID!, input: UpdateSubjectInput!): Subject
+  removeSubject(id: ObjID!): Boolean
+}

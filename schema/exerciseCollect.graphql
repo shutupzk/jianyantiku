@@ -1,6 +1,5 @@
 type ExerciseCollect {
   id: ObjID!
-  content: String!
   user: User!
   exercise: Exercise!
   createdAt: Float!
@@ -13,13 +12,11 @@ extend type Query {
 }
 
 input createExerciseCollectinput {
-  content: String!
   userId: String!
   exerciseId: String!
 }
 
 input UpdateExerciseCollectInput {
-  content: String
   userId: String
   exerciseId: String
 }

@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class Course {
+export default class Subject {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('course')
+    this.collection = context.db.collection('subject')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -16,9 +16,9 @@ export default class Course {
     return this.collection.find().sort({ createdAt: 1 }).skip(skip).limit(limit).toArray()
   }
 
-  chapters(course, { skip = 0, limit = 10 }) {
+  chapters(subject, { skip = 0, limit = 10 }) {
     return this.context.Chapter.collection.find({
-      courseId: course._id
+      subjectId: subject._id
     }).sort({ num: 1 }).skip(skip).limit(limit).toArray()
   }
 

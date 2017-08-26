@@ -16,8 +16,8 @@ export default class Chapter {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  course(chapter) {
-    return this.context.Course.findOneById(chapter.courseId)
+  subject(chapter) {
+    return this.context.Subject.findOneById(chapter.subjectId)
   }
 
   sections(chapter, { skip = 0, limit = 10 }) {
