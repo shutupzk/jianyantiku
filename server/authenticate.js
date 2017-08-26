@@ -16,16 +16,16 @@ async function userFromPayload(request, jwtPayload) {
 }
 
 passport.use(
-	new Strategy(
-  {
-    jwtFromRequest: ExtractJwt.fromAuthHeader(),
-    secretOrKey: KEY,
-    passReqToCallback: true
-  },
-		(request, jwtPayload, done) => {
-  nodeify(userFromPayload(request, jwtPayload), done)
-}
-	)
+  new Strategy(
+    {
+      jwtFromRequest: ExtractJwt.fromAuthHeader(),
+      secretOrKey: KEY,
+      passReqToCallback: true
+    },
+    (request, jwtPayload, done) => {
+      nodeify(userFromPayload(request, jwtPayload), done)
+    }
+  )
 )
 
 export default function addPassport(app) {
