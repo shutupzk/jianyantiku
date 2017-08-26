@@ -22,6 +22,21 @@ export default class Subject {
     }).sort({ num: 1 }).skip(skip).limit(limit).toArray()
   }
 
+  exercises(subject, { skip = 0, limit = 10, hot }) {
+    let options = {}
+    if (hot) {
+      options = {
+        hot,
+        subjectId: subject._id
+      }
+    } else {
+      options = {
+        subjectId: subject._id
+      }
+    }
+    return this.context.Exercise.collection.find(options).sort({ num: 1 }).skip(skip).limit(limit).toArray()
+  }
+
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
       createdAt: Date.now(),

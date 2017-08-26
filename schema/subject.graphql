@@ -3,6 +3,7 @@ type Subject {
   name: String!
   remark: String
   chapters(skip: Int, limit: Int): [Chapter!]
+  exercises(skip: Int, limit: Int, hot:Boolean ): [Exercise!]
   createdAt: Float!
   updatedAt: Float!
 }
