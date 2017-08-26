@@ -13,7 +13,7 @@ import officialExamination from './officialExamination'
 import mockExamination from './mockExamination'
 import userAnswer from './userAnswer'
 import note from './note'
-import course from './course'
+import subject from './subject'
 import chapter from './chapter'
 import section from './section'
 import analysis from './analysis'
@@ -47,7 +47,7 @@ merge(resolvers, officialExamination)
 merge(resolvers, mockExamination)
 merge(resolvers, userAnswer)
 merge(resolvers, note)
-merge(resolvers, course)
+merge(resolvers, subject)
 merge(resolvers, chapter)
 merge(resolvers, section)
 merge(resolvers, analysis)

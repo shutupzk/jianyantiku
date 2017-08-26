@@ -4,8 +4,8 @@ const resolvers = {
       return chapter._id
     },
 
-    course(chapter, args, { Chapter }) {
-      return Chapter.course(chapter)
+    subject(chapter, args, { Chapter }) {
+      return Chapter.subject(chapter)
     },
 
     sections(chapter, { skip, limit }, { Chapter }) {

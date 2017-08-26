@@ -3,7 +3,7 @@ type Chapter {
   num: Int!
   name: String!
   remark: String
-  course: Course!
+  subject: Subject!
   sections(skip:Int, limit: Int): [Section!]
   createdAt: Float!
   updatedAt: Float!
@@ -18,14 +18,14 @@ input createChapterinput {
   num: Int!
   name: String!
   remark: String
-  courseId: ObjID!
+  subjectId: ObjID!
 }
 
 input UpdateChapterInput {
   num: Int!
   name: String
   remark: String
-  courseId: ObjID
+  subjectId: ObjID
 }
 
 extend type Mutation {

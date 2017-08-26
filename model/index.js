@@ -8,7 +8,7 @@ import OfficialExamination from './OfficialExamination'
 import MockExamination from './MockExamination'
 import UserAnswer from './UserAnswer'
 import Note from './Note'
-import Course from './Course'
+import Subject from './Subject'
 import Chapter from './Chapter'
 import Section from './Section'
 import Analysis from './Analysis'
@@ -24,7 +24,7 @@ const models = {
   MockExamination,
   UserAnswer,
   Note,
-  Course,
+  Subject,
   Chapter,
   Section,
   Analysis
