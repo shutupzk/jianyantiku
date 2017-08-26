@@ -8,6 +8,10 @@ const resolvers = {
       return Exercise.section(exercise)
     },
 
+    course(exercise, args, { Exercise }) {
+      return Exercise.course(exercise)
+    },
+
     officialExamination(exercise, args, { Exercise }) {
       return Exercise.officialExamination(exercise)
     },

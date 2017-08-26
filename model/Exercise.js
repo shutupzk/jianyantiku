@@ -21,6 +21,11 @@ export default class Exercise {
     return this.context.Section.findOneById(exercise.sectionId)
   }
 
+  course(exercise) {
+    if (!exercise.courseId) return null
+    return this.context.Course.findOneById(exercise.courseId)
+  }
+
   officialExamination(exercise) {
     if (!exercise.officialExaminationId) return null
     return this.context.OfficialExamination.findOneById(exercise.officialExaminationId)

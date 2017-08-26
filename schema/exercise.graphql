@@ -3,6 +3,7 @@ type Exercise {
 	content: String!
 	hot: Boolean # 是否是高频
 	section: Section
+	course: Course!
 	officialExamination: OfficialExamination
 	mockExamination: MockExamination
 	answers(skip: Int, limit: Int): [Answer!]
@@ -23,6 +24,7 @@ input createExerciseinput {
 	content: String!
 	hot: Boolean # 是否是高频
 	sectionId: ObjID
+	courseId: ObjID!
 	officialExaminationId: ObjID
 	mockExaminationId: ObjID
 }
@@ -31,6 +33,7 @@ input UpdateExerciseInput {
 	content: String!
 	hot: Boolean # 是否是高频
 	sectionId: ObjID
+	courseId: ObjID!
 	officialExaminationId: ObjID
 	mockExaminationId: ObjID
 }
