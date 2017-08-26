@@ -30,10 +30,10 @@ input createExerciseinput {
 }
 
 input UpdateExerciseInput {
-	content: String!
+	content: String
 	hot: Boolean # 是否是高频
 	sectionId: ObjID
-	subjectId: ObjID!
+	subjectId: ObjID
 	officialExaminationId: ObjID
 	mockExaminationId: ObjID
 }
