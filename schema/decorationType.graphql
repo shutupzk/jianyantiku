@@ -1,29 +1,29 @@
-type Course {
+type DecorationType { #徽章类型
   id: ObjID!
-  name: String!
-  remark: String
-  chapters(skip: Int, limit: Int): [Chapter!]
+  name: String! #徽章名称
+  remark: String #徽章备注
+  decorations(skip:Int, limit: Int): [Decoration!]
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  courses(skip:Int, limit: Int): [Course!]
-  course(id: ObjID!): Course
+  decorationTypes(skip:Int, limit: Int): [DecorationType!]
+  decorationType(id: ObjID!): DecorationType
 }
 
-input createCourseinput {
+input createDecorationTypeInput {
   name: String!
   remark: String
 }
 
-input UpdateCourseInput {
+input UpdateDecorationTypeInput {
   name: String
   remark: String
 }
 
 extend type Mutation {
-  createCourse(input:createCourseinput!): Course
-  updateCourse(id: ObjID!, input: UpdateCourseInput!): Course
-  removeCourse(id: ObjID!): Boolean
+  createDecorationType(input:createDecorationTypeInput!): DecorationType
+  updateDecorationType(id: ObjID!, input: UpdateDecorationTypeInput!): DecorationType
+  removeDecorationType(id: ObjID!): Boolean
 }

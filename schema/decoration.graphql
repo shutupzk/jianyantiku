@@ -1,0 +1,28 @@
+type Decoration { #徽章类型
+  id: ObjID!
+  name: String! #徽章名称
+  decorationType:DecorationType!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  decorations(skip:Int, limit: Int): [Decoration!]
+  decoration(id: ObjID!): Decoration
+}
+
+input createDecorationInput {
+  decorationTypeId:ObjID!
+  name: String!
+}
+
+input UpdateDecorationInput {
+  decorationTypeId:ObjID
+  name: String
+}
+
+extend type Mutation {
+  createDecoration(input:createDecorationInput!): Decoration
+  updateDecoration(id: ObjID!, input: UpdateDecorationInput!): Decoration
+  removeDecoration(id: ObjID!): Boolean
+}

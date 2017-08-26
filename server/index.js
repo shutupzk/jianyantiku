@@ -65,11 +65,7 @@ async function startServer() {
     res.send(printSchema(schema))
   })
 
-  app.listen(GRAPHQL_PORT, () =>
-    console.log(
-      `GraphQL server launched, visit http://localhost:${GRAPHQL_PORT}/graphiql`
-    )
-  )
+  app.listen(GRAPHQL_PORT, () => console.log(`GraphQL server launched, visit http://localhost:${GRAPHQL_PORT}/graphiql`))
 }
 
 startServer()
