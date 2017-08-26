@@ -1,4 +1,5 @@
 import fs from 'fs'
+import path from 'path'
 
 function requireGraphQL(name) {
   const filename = require.resolve(name)
@@ -19,19 +20,12 @@ const typeDefs = [
 `
 ]
 
-export default typeDefs
+const filePath = path.join(__dirname, '.')
+const files = fs.readdirSync(filePath)
 
-typeDefs.push(requireGraphQL('./user.graphql'))
-typeDefs.push(requireGraphQL('./exercise.graphql'))
-typeDefs.push(requireGraphQL('./answer.graphql'))
-typeDefs.push(requireGraphQL('./exerciseCollect.graphql'))
-typeDefs.push(requireGraphQL('./exerciseImage.graphql'))
-typeDefs.push(requireGraphQL('./answerImage.graphql'))
-typeDefs.push(requireGraphQL('./officialExamination.graphql'))
-typeDefs.push(requireGraphQL('./mockExamination.graphql'))
-typeDefs.push(requireGraphQL('./userAnswer.graphql'))
-typeDefs.push(requireGraphQL('./note.graphql'))
-typeDefs.push(requireGraphQL('./course.graphql'))
-typeDefs.push(requireGraphQL('./chapter.graphql'))
-typeDefs.push(requireGraphQL('./section.graphql'))
-typeDefs.push(requireGraphQL('./analysis.graphql'))
+for (let file of files) {
+  if (file === 'index.js') continue
+  typeDefs.push(requireGraphQL(`./${file}`))
+}
+
+export default typeDefs
