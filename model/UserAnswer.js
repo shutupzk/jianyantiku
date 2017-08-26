@@ -62,11 +62,11 @@ export default class UserAnswer {
           $or: [
             {
               decorationTypeId: totalTypeId,
-              score: { $lt: totalCount }
+              score: { $lte: totalCount }
             },
             {
               decorationTypeId: correctTypeId,
-              score: { $lt: correctCount }
+              score: { $lte: correctCount }
             }
           ]
         })
