@@ -1,0 +1,29 @@
+type CoursesType {
+  id: ObjID!
+  type: Int!
+  typeName: String!
+  courses:Course
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  coursesTypes(skip:Int, limit: Int): [CoursesType!]
+  coursesType(id: ObjID!): CoursesType
+}
+
+input createCoursesTypeinput {
+  type: Int!
+  typeName: String!
+}
+
+input UpdateCoursesTypeInput {
+  type: Int!
+  typeName: String!
+}
+
+extend type Mutation {
+  createCoursesType(input:createCoursesTypeinput!): Chapter
+  updateCoursesType(id: ObjID!, input: UpdateCoursesTypeInput!): Chapter
+  removeCoursesType(id: ObjID!): Boolean
+}
