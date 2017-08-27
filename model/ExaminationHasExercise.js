@@ -18,12 +18,16 @@ export default class ExaminationHasExercise {
 
   exercise(examinationHasExercise) {
     if (!examinationHasExercise.examinationId) return null
-    return this.context.Examination.findOneById(examinationHasExercise.examinationId)
+    return this.context.Exercise.findOneById(examinationHasExercise.exerciseId)
   }
 
   examination(examinationHasExercise) {
     if (!examinationHasExercise.exerciseId) return null
-    return this.context.Exercise.findOneById(examinationHasExercise.exerciseId)
+    return this.context.Examination.findOneById(examinationHasExercise.examinationId)
+  }
+
+  userAnswer(examinationHasExercise) {
+    return this.context.UserAnswer.collection.findOne({examinationHasExerciseId: examinationHasExercise._id})
   }
 
   async insert(doc) {

@@ -10,6 +10,10 @@ const resolvers = {
 
     exercise(examinationHasExercise, args, { ExaminationHasExercise }) {
       return ExaminationHasExercise.exercise(examinationHasExercise)
+    },
+
+    userAnswer(examinationHasExercise, args, { ExaminationHasExercise }) {
+      return ExaminationHasExercise.userAnswer(examinationHasExercise)
     }
   },
   Query: {

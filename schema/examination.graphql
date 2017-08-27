@@ -1,13 +1,14 @@
-type Examination { #试卷难度
+type Examination { #考试
   id: ObjID!
   user: User!
-  subject: Subject!
+  examinationModel:ExaminationModel
   examinationDifficulty:ExaminationDifficulty
-  examinationType:ExaminationType
+  examinationType: ExaminationType
   startTime:String
   endTime:String
   totalCount:Int #题目总数
   correctCount:Int #题目正确数
+  examinationHasExercises(skip:Int, limit: Int): [ExaminationHasExercise]
   createdAt: Float!
   updatedAt: Float!
 }
@@ -19,13 +20,14 @@ extend type Query {
 
 input createExaminationInput {
   userId: ObjID! 
-  subjectId: ObjID! 
+  examinationTypeId: ObjID!
+  examinationModelId: ObjID
   examinationDifficultyId: ObjID! 
 }
 
 input UpdateExaminationInput {
   userId: ObjID
-  subjectId: ObjID
+  examinationTypeId: ObjID
   examinationDifficultyId: ObjID
   startTime:String
   endTime:String
