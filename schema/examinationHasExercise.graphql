@@ -1,0 +1,28 @@
+type ExaminationHasExercise { #试卷类型
+  id: ObjID!
+  examination:Examination
+  exercise: Exercise
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  examinationHasExercises(skip:Int, limit: Int): [ExaminationHasExercise!]
+  examinationHasExercise(id: ObjID!): ExaminationHasExercise
+}
+
+input createExaminationHasExerciseInput {
+  examinationId: ObjID!
+  exerciseId:ObjID!
+}
+
+input UpdateExaminationHasExerciseInput {
+  examinationId: ObjID!
+  exerciseId:ObjID!
+}
+
+extend type Mutation {
+  createExaminationHasExercise(input:createExaminationHasExerciseInput!): ExaminationHasExercise
+  updateExaminationHasExercise(id: ObjID!, input: UpdateExaminationHasExerciseInput!): ExaminationHasExercise
+  removeExaminationHasExercise(id: ObjID!): Boolean
+}
