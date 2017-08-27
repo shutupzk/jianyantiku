@@ -1,0 +1,28 @@
+type ExaminationType { #试卷类型
+  id: ObjID!
+  code:String! #
+  name: String! #试卷类型
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  examinationTypes(skip:Int, limit: Int): [ExaminationType!]
+  examinationType(id: ObjID!): ExaminationType
+}
+
+input createExaminationTypeInput {
+  name: String!
+  code:String!
+}
+
+input UpdateExaminationTypeInput {
+  code:String
+  name: String
+}
+
+extend type Mutation {
+  createExaminationType(input:createExaminationTypeInput!): ExaminationType
+  updateExaminationType(id: ObjID!, input: UpdateExaminationTypeInput!): ExaminationType
+  removeExaminationType(id: ObjID!): Boolean
+}

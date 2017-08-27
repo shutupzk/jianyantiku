@@ -1,0 +1,37 @@
+type ExaminationDifficulty { #试卷难度
+  id: ObjID!
+  code: Int!  #编码 1，2，3
+  name: String! #名称 易、中、难
+  easyCount: Int! #简单题目数
+  midCount: Int! #中难度题目
+  hardCount: Int! #难题目
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  examinationDifficultys(skip:Int, limit: Int): [ExaminationDifficulty!]
+  examinationDifficulty(id: ObjID!): ExaminationDifficulty
+}
+
+input createExaminationDifficultyInput {
+  code: Int! 
+  name: String! #名称 易、中、难
+  easyCount: Int! #简单题目数
+  midCount: Int! #中难度题目
+  hardCount: Int! #难题目
+}
+
+input UpdateExaminationDifficultyInput {
+  code: Int
+  name: String
+  easyCount: Int
+  midCount: Int 
+  hardCount: Int
+}
+
+extend type Mutation {
+  createExaminationDifficulty(input:createExaminationDifficultyInput!): ExaminationDifficulty
+  updateExaminationDifficulty(id: ObjID!, input: UpdateExaminationDifficultyInput!): ExaminationDifficulty
+  removeExaminationDifficulty(id: ObjID!): Boolean
+}

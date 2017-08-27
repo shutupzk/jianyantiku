@@ -1,0 +1,40 @@
+type Examination { #试卷难度
+  id: ObjID!
+  user: User!
+  subject: Subject!
+  examinationDifficulty:ExaminationDifficulty
+  examinationType:ExaminationType
+  startTime:String
+  endTime:String
+  totalCount:Int #题目总数
+  correctCount:Int #题目正确数
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  examinations(skip:Int, limit: Int): [Examination!]
+  examination(id: ObjID!): Examination
+}
+
+input createExaminationInput {
+  userId: ObjID! 
+  subjectId: ObjID! 
+  examinationDifficultyId: ObjID! 
+}
+
+input UpdateExaminationInput {
+  userId: ObjID
+  subjectId: ObjID
+  examinationDifficultyId: ObjID
+  startTime:String
+  endTime:String
+  totalCount:Int
+  correctCount:Int
+}
+
+extend type Mutation {
+  createExamination(input:createExaminationInput!): Examination
+  updateExamination(id: ObjID!, input: UpdateExaminationInput!): Examination
+  removeExamination(id: ObjID!): Boolean
+}

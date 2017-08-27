@@ -2,6 +2,7 @@ type UserAnswer {
   id: ObjID!
   user: User!
   answer: Answer!
+  extendamination:Extendamination
   createdAt: Float!
   updatedAt: Float!
 }
@@ -14,11 +15,13 @@ extend type Query {
 input createUserAnswerinput {
   userId: ObjID!
   answerId: ObjID!
+  extendaminationId:ObjID
 }
 
 input UpdateUserAnswerInput {
   userId: ObjID
   answerId: ObjID
+  extendaminationId:ObjID
 }
 
 extend type Mutation {

@@ -1,0 +1,34 @@
+type ExaminationmModel { #试卷模板
+  id: ObjID!
+  name: String! #试卷名称
+  subject:Subject! #试卷所在科目
+  difficulty:Int! #难度
+  exercises(skip:Int, limit: Int): Exercise
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  examinationmModels(skip:Int, limit: Int): [ExaminationmModel!]
+  examinationmModel(id: ObjID!): ExaminationmModel
+}
+
+input createExaminationmModelInput {
+  name: String! 
+  subjectId:ObjID! 
+  difficulty:Int!
+  exerciseIds:[ObjID!]
+}
+
+input UpdateExaminationmModelInput {
+  name: String
+  subjectId:ObjID
+  difficulty:Int
+  exerciseIds:[ObjID]
+}
+
+extend type Mutation {
+  createExaminationmModel(input:createExaminationmModelInput!): ExaminationmModel
+  updateExaminationmModel(id: ObjID!, input: UpdateExaminationmModelInput!): ExaminationmModel
+  removeExaminationmModel(id: ObjID!): Boolean
+}
