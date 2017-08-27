@@ -1,7 +1,7 @@
 type ExaminationHasExercise { #试卷类型
   id: ObjID!
-  examination:Examination
-  exercise: Exercise
+  examination:Examination!
+  exercise: Exercise!
   createdAt: Float!
   updatedAt: Float!
 }
