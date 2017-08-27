@@ -29,6 +29,9 @@ export default class ExerciseCollect {
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
+    const {userId, exerciseId} = doc
+    let has = await this.collection.findOne({userId, exerciseId})
+    if (has) throw new Error('请勿重复收藏')
     const id = (await this.collection.insertOne(docToInsert)).insertedId
     return id
   }
