@@ -30,11 +30,14 @@ export default class User {
       .toArray()
   }
 
-  userAnswers(user, { skip = 0, limit = 10, isAnswer }) {
+  userAnswers(user, { skip = 0, limit = 10, isAnswer, subjectId }) {
     let ops = {
       userId: user._id
     }
-    if (isAnswer) ops.isAnswer = isAnswer
+    if (isAnswer === false || isAnswer === true) ops.isAnswer = isAnswer
+    if (subjectId) {
+      ops.subjectId = subjectId
+    }
     return this.context.UserAnswer.collection.find(ops).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
