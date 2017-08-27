@@ -17,6 +17,7 @@ export default class Analysis {
   }
 
   user(analysis) {
+    if (!analysis.userId) return null
     return this.context.User.findOneById(analysis.userId)
   }
 
