@@ -4,8 +4,8 @@ const resolvers = {
       return officialExamination._id
     },
 
-    exercise(officialExamination, { skip, limit }, { OfficialExamination }) {
-      return OfficialExamination.exercise(officialExamination, { skip, limit })
+    exercises(officialExamination, { skip, limit }, { OfficialExamination }) {
+      return OfficialExamination.exercises(officialExamination, { skip, limit })
     }
   },
   Query: {

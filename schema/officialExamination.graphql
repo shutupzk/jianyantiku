@@ -3,7 +3,7 @@ type OfficialExamination {
   title: String!
   address: String #地址
   date: String
-  exercise(skip:Int, limit: Int): [Exercise!]
+  exercises(skip:Int, limit: Int): [Exercise!]
   createdAt: Float!
   updatedAt: Float!
 }

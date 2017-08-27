@@ -16,8 +16,10 @@ export default class OfficialExamination {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  exercise(officialExamination) {
-    return this.context.Exercise.findOneById(officialExamination.exerciseId)
+  exercises(officialExamination, { skip = 0, limit = 10 }) {
+    return this.context.Exercise.collection.find({
+      officialExaminationId: officialExamination._id
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {
