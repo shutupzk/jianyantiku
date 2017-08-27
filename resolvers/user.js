@@ -18,6 +18,10 @@ const resolvers = {
 
     scoreRecords(user, { skip, limit }, { User }) {
       return User.scoreRecords(user, { skip, limit })
+    },
+
+    examinations(user, { skip, limit }, { User }) {
+      return User.examinations(user, { skip, limit })
     }
   },
   Query: {

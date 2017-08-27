@@ -69,6 +69,17 @@ export default class User {
       .toArray()
   }
 
+  examinations(user, { skip = 0, limit = 10 }) {
+    return this.context.Examination.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   async insert(doc) {
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
     let user = await this.collection.findOne({ phone: doc.phone })
