@@ -46,10 +46,10 @@ async function initExercise(context) {
             if (count === 1) continue
             let answers = []
             let exerciseNum = RedCellData[7]
+            if (!RedCellData[8]) continue
             let exerciseContent = RedCellData[8].substring(RedCellData[8].indexOf('．') + 1).trim()
             let isAnswer = RedCellData[14]
             let analysis = RedCellData[15]
-
             for (let j = 9; j < 14; j++) {
               answers.push(replaceStr(RedCellData[j]))
             }
@@ -63,8 +63,8 @@ async function initExercise(context) {
               createdAt: Date.now(),
               updatedAt: Date.now()
             }
-            Exercise.collection.findOneAndUpdate({ num: exerciseNum }, exerciseInsert, { upsert: true })
-            let exerciseHas = await Exercise.collection.findOne({ num: exerciseNum })
+            await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId }, exerciseInsert, { upsert: true })
+            let exerciseHas = await Exercise.collection.findOne({ num: exerciseNum, subjectId, sectionId })
             if (exerciseHas) {
               for (let k = 0; k < answers.length; k++) {
                 if (k + 1 === isAnswer) {
@@ -73,7 +73,9 @@ async function initExercise(context) {
                   await Answer.insert({ content: answers[k], isAnswer: false, exerciseId: exerciseHas._id })
                 }
               }
-              Analysis.insert({ content: analysis, exerciseId: exerciseHas._id })
+              if (analysis && analysis.trim()) {
+                await Analysis.insert({ content: analysis, exerciseId: exerciseHas._id })
+              }
             }
           }
         }
