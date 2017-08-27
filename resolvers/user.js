@@ -7,6 +7,9 @@ const resolvers = {
     exerciseCollects(user, { skip, limit }, { User }) {
       return User.exerciseCollects(user, { skip, limit })
     },
+    courseCollects(user, { skip, limit }, { User }) {
+      return User.courseCollects(user, { skip, limit })
+    },
 
     userAnswers(user, { skip, limit, isAnswer, subjectId }, { User }) {
       return User.userAnswers(user, { skip, limit, isAnswer, subjectId })

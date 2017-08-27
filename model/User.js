@@ -30,6 +30,17 @@ export default class User {
       .toArray()
   }
 
+  courseCollects(user, { skip = 0, limit = 10 }) {
+    return this.context.CourseCollect.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   userAnswers(user, { skip = 0, limit = 10, isAnswer, subjectId }) {
     let ops = {
       userId: user._id
