@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class ExaminationmModel {
+export default class ExaminationModel {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('examinationmModel')
+    this.collection = context.db.collection('examinationModel')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -14,6 +14,17 @@ export default class ExaminationmModel {
 
   all({ skip = 0, limit = 10 }) {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  }
+
+  exercises(examinationmModel, { skip = 0, limit = 10 }) {
+    return this.context.Exercise.collection
+      .find({
+        _id: { $in: examinationmModel.exerciseIds }
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async insert(doc) {
@@ -26,11 +37,14 @@ export default class ExaminationmModel {
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }

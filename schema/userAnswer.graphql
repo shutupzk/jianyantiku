@@ -4,6 +4,7 @@ type UserAnswer {
   user: User!
   answer: Answer!
   subject: Subject!
+  examinationHasExercise: ExaminationHasExercise!
   createdAt: Float!
   updatedAt: Float!
 }
