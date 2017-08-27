@@ -29,6 +29,9 @@ export default class CourseCollect {
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
+    const {userId, courseId} = doc
+    let has = await this.collection.findOne({userId, courseId})
+    if (has) throw new Error('请勿重复收藏')
     const id = (await this.collection.insertOne(docToInsert)).insertedId
     return id
   }
