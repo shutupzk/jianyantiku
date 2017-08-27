@@ -12,13 +12,15 @@ export default class Course {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  all({ skip = 0, limit = 10, hot }) {
+    let ops = {}
+    if (hot) ops.hot = hot
+    return this.collection.find(ops).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   courseType(course) {
-    if (!course.typeId) return null
-    return this.context.CourseType.findOneById(course.typeId)
+    if (!course.courseTypeId) return null
+    return this.context.CourseType.findOneById(course.courseTypeId)
   }
 
   async insert(doc) {

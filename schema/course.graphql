@@ -1,35 +1,46 @@
 type Course {
   id: ObjID!
   title: String!
-  typeId:ObjID!
+  abstract: String
   content: String!
   url: String
   courseType: CourseType!
+  date: String
+  hot: Boolean
+  teacher: String
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  courses(skip:Int, limit: Int): [Course!]
+  courses(skip:Int, limit: Int, hot: Boolean): [Course!]
   course(id: ObjID!): Course
 }
 
 input createCourseinput {
   title: String!
-  typeId: ObjID!
+  courseTypeId: ObjID!
   content: String!
-  url: String
+  date: String!
+  hot: Boolean
+  url: String!
+  teacher: String
+  abstract: String
 }
 
 input UpdateCourseInput {
-  title: String!
-  typeId: ObjID!
-  content: String!
+  title: String
+  courseTypeId: ObjID
+  content: String
+  date: String
+  hot: Boolean
   url: String
+  teacher: String
+  abstract: String
 }
 
 extend type Mutation {
-  createCourse(input:createCourseinput!): Chapter
-  updateCourse(id: ObjID!, input: UpdateCourseInput!): Chapter
+  createCourse(input:createCourseinput!): Course
+  updateCourse(id: ObjID!, input: UpdateCourseInput!): Course
   removeCourse(id: ObjID!): Boolean
 }

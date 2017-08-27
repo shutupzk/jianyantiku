@@ -8,8 +8,8 @@ const resolvers = {
       return Examination.user(examination)
     },
 
-    subject(examination, input, { Examination }) {
-      return Examination.subject(examination)
+    examinationModel(examination, input, { Examination }) {
+      return Examination.examinationModel(examination)
     },
 
     examinationDifficulty(examination, input, { Examination }) {
@@ -18,6 +18,10 @@ const resolvers = {
 
     examinationType(examination, input, { Examination }) {
       return Examination.examinationType(examination)
+    },
+
+    examinationHasExercises(examination, { skip, limit }, { Examination }) {
+      return Examination.examinationHasExercises(examination, { skip, limit })
     }
   },
   Query: {
