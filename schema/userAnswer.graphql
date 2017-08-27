@@ -16,14 +16,12 @@ input createUserAnswerinput {
   isAnswer: Boolean!
   userId: ObjID!
   answerId: ObjID!
-  extendaminationId:ObjID
 }
 
 input UpdateUserAnswerInput {
   isAnswer: Boolean!
   userId: ObjID
   answerId: ObjID
-  extendaminationId:ObjID
 }
 
 extend type Mutation {
