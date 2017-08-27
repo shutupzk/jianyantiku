@@ -3,7 +3,6 @@ type UserAnswer {
   isAnswer: Boolean!
   user: User!
   answer: Answer!
-  extendamination:Extendamination
   createdAt: Float!
   updatedAt: Float!
 }
