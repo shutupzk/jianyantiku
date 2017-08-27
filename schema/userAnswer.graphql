@@ -3,6 +3,7 @@ type UserAnswer {
   isAnswer: Boolean!
   user: User!
   answer: Answer!
+  subject: Subject!
   createdAt: Float!
   updatedAt: Float!
 }
@@ -16,13 +17,15 @@ input createUserAnswerinput {
   isAnswer: Boolean!
   userId: ObjID!
   answerId: ObjID!
+  subjectId: ObjID!
   examinationHasExerciseId: ObjID
 }
 
 input UpdateUserAnswerInput {
-  isAnswer: Boolean!
+  isAnswer: Boolean
   userId: ObjID
   answerId: ObjID
+  subjectId: ObjID
   examinationHasExerciseId: ObjID
 }
 
