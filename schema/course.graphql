@@ -1,16 +1,19 @@
 type Course {
   id: ObjID!
   title: String!
+  abstract: String
   content: String!
   url: String
   courseType: CourseType!
   date: String
+  hot: Boolean
+  teacher: String
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  courses(skip:Int, limit: Int): [Course!]
+  courses(skip:Int, limit: Int, hot: Boolean): [Course!]
   course(id: ObjID!): Course
 }
 
@@ -19,7 +22,10 @@ input createCourseinput {
   courseTypeId: ObjID!
   content: String!
   date: String!
-  url: String
+  hot: Boolean
+  url: String!
+  teacher: String
+  abstract: String
 }
 
 input UpdateCourseInput {
@@ -27,7 +33,10 @@ input UpdateCourseInput {
   courseTypeId: ObjID
   content: String
   date: String
+  hot: Boolean
   url: String
+  teacher: String
+  abstract: String
 }
 
 extend type Mutation {
