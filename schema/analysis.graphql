@@ -1,7 +1,7 @@
 type Analysis {
   id: ObjID!
   content: String!
-  user: User!
+  user: User
   images: [String!]
   exercise: Exercise!
   createdAt: Float!
@@ -16,7 +16,7 @@ extend type Query {
 input createAnalysisinput {
   content: String!
   images: [String!]
-  userId: ObjID!
+  userId: ObjID
   exerciseId: ObjID!
 }
 

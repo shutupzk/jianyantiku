@@ -1,6 +1,7 @@
 type Exercise {
 	id: ObjID!
 	content: String!
+	num: Int!
 	hot: Boolean # 是否是高频
 	difficulty: Int # 难度系数
 	section: Section
@@ -23,6 +24,7 @@ extend type Query {
 
 input createExerciseinput {
 	content: String!
+	num: Int!
 	hot: Boolean # 是否是高频
 	difficulty: Int # 难度系数
 	sectionId: ObjID
@@ -33,6 +35,7 @@ input createExerciseinput {
 
 input UpdateExerciseInput {
 	content: String
+	num: Int!
 	hot: Boolean # 是否是高频
 	difficulty: Int # 难度系数
 	sectionId: ObjID

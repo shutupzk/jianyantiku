@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "babel-node server/index.js",
-    "init":"babel-node initSeed.js"
+    "init": "babel-node initSeed.js"
   },
   "devDependencies": {
     "babel-cli": "^6.24.0",
@@ -55,6 +55,7 @@
     "lodash": "^4.17.4",
     "mongo-find-by-ids": "^1.0.0",
     "mongodb": "^2.2.25",
+    "node-xlsx": "^0.10.0",
     "nodeify": "^1.0.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",

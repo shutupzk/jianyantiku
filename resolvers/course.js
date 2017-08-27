@@ -9,8 +9,8 @@ const resolvers = {
     }
   },
   Query: {
-    courses(root, { skip, limit }, { Course }) {
-      return Course.all({ skip, limit })
+    courses(root, { skip, limit, hot }, { Course }) {
+      return Course.all({ skip, limit, hot })
     },
 
     course(root, { id }, { Course }) {
