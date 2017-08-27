@@ -17,8 +17,8 @@ export default class Course {
   }
 
   courseType(course) {
-    if (!course.typeId) return null
-    return this.context.CourseType.findOneById(course.typeId)
+    if (!course.courseTypeId) return null
+    return this.context.CourseType.findOneById(course.courseTypeId)
   }
 
   async insert(doc) {

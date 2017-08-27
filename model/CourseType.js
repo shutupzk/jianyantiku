@@ -18,7 +18,7 @@ export default class CourseType {
 
   courses(courseType, { skip = 0, limit = 10 }) {
     return this.context.Course.collection.find({
-      typeId: courseType._id
+      courseTypeId: courseType._id
     }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
