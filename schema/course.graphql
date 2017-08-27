@@ -1,7 +1,6 @@
 type Course {
   id: ObjID!
   title: String!
-  typeId:ObjID!
   content: String!
   url: String
   courseType: CourseType!
@@ -16,14 +15,14 @@ extend type Query {
 
 input createCourseinput {
   title: String!
-  typeId: ObjID!
+  courseTypeId: ObjID!
   content: String!
   url: String
 }
 
 input UpdateCourseInput {
   title: String!
-  typeId: ObjID!
+  courseTypeId: ObjID!
   content: String!
   url: String
 }
