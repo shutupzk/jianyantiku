@@ -16,7 +16,7 @@ extend type Query {
 input createAnalysisinput {
   content: String!
   images: [String!]
-  userId: ObjID!
+  userId: ObjID
   exerciseId: ObjID!
 }
 
