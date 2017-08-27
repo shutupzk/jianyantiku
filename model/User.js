@@ -20,33 +20,50 @@ export default class User {
   }
 
   exerciseCollects(user, { skip = 0, limit = 10 }) {
-    return this.context.ExerciseCollect.collection.find({
-      userId: user._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.ExerciseCollect.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
-  userAnswers(user, { skip = 0, limit = 10 }) {
-    return this.context.UserAnswer.collection.find({
+  userAnswers(user, { skip = 0, limit = 10, isAnswer }) {
+    let ops = {
       userId: user._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }
+    if (isAnswer) ops.isAnswer = isAnswer
+    return this.context.UserAnswer.collection.find(ops).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async decorations(user, { skip = 0, limit = 10 }) {
-    let userHasDecorations = await this.context.UserHasDecoration.collection.find({userId: user._id}).toArray()
+    let userHasDecorations = await this.context.UserHasDecoration.collection.find({ userId: user._id }).toArray()
     let decorationIds = []
     for (let userHasDecoration of userHasDecorations) {
       decorationIds.push(userHasDecoration.decorationId)
     }
 
-    return this.context.Decoration.collection.find({
-      _id: {$in: decorationIds}
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.Decoration.collection
+      .find({
+        _id: { $in: decorationIds }
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   scoreRecords(user, { skip = 0, limit = 10 }) {
-    return this.context.ScoreRecord.collection.find({
-      userId: user._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.ScoreRecord.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async insert(doc) {

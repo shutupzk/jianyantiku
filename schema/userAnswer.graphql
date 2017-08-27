@@ -1,5 +1,6 @@
 type UserAnswer {
   id: ObjID!
+  isAnswer: Boolean!
   user: User!
   answer: Answer!
   extendamination:Extendamination
@@ -13,12 +14,14 @@ extend type Query {
 }
 
 input createUserAnswerinput {
+  isAnswer: Boolean!
   userId: ObjID!
   answerId: ObjID!
   extendaminationId:ObjID
 }
 
 input UpdateUserAnswerInput {
+  isAnswer: Boolean!
   userId: ObjID
   answerId: ObjID
   extendaminationId:ObjID

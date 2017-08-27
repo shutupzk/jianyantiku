@@ -11,7 +11,7 @@ type User {
   rank: Int
   score: Int #积分
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
-  userAnswers(skip:Int, limit: Int): [UserAnswer!]
+  userAnswers(skip:Int, limit: Int, error: Boolean): [UserAnswer!]
   decorations(skip:Int, limit: Int): [Decoration!]
   scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
   createdAt: Float!
