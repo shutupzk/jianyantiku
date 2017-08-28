@@ -8,6 +8,12 @@ export default class ExaminationDifficulty {
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
+  examinationModels(examinationDifficulty, { skip = 0, limit = 10 }) {
+    return this.context.ExaminationModel.collection.find({
+      examinationDifficultyId: examinationDifficulty._id
+    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+  }
+
   findOneById(id) {
     return this.loader.load(id)
   }
@@ -26,11 +32,14 @@ export default class ExaminationDifficulty {
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }

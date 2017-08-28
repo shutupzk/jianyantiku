@@ -27,6 +27,11 @@ export default class ExaminationModel {
       .toArray()
   }
 
+  examinationdifficulty(examinationmModel) {
+    if (!examinationmModel.examinationdifficultyId) return null
+    return this.context.Examinationdifficulty.findOneById(examinationmModel.examinationdifficultyId)
+  }
+
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
       createdAt: Date.now(),

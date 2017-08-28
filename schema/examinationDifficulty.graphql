@@ -5,6 +5,7 @@ type ExaminationDifficulty { #试卷难度
   easyCount: Int! #简单题目数
   midCount: Int! #中难度题目
   hardCount: Int! #难题目
+  examinationModels(skip:Int, limit: Int): [ExaminationModel]
   createdAt: Float!
   updatedAt: Float!
 }

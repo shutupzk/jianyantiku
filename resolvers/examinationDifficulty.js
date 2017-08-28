@@ -2,6 +2,10 @@ const resolvers = {
   ExaminationDifficulty: {
     id(examinationDifficulty) {
       return examinationDifficulty._id
+    },
+
+    examinationModels(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
+      return ExaminationDifficulty.examinationModels(examinationDifficulty, { skip, limit })
     }
   },
   Query: {

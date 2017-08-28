@@ -4,7 +4,11 @@ const resolvers = {
       return examinationModel._id
     },
 
-    exercises(examinationModel, { skip, limit }, {ExaminationModel}) {
+    examinationdifficulty(examinationModel, input, { ExaminationModel }) {
+      return ExaminationModel.examinationdifficulty(examinationModel)
+    },
+
+    exercises(examinationModel, { skip, limit }, { ExaminationModel }) {
       return ExaminationModel.exercises(examinationModel, { skip, limit })
     }
   },
