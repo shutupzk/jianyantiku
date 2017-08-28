@@ -1,7 +1,6 @@
 type ExaminationModel { #试卷模板
   id: ObjID!
   name: String! #试卷名称
-  subject:Subject! #试卷所在科目
   examinationdifficulty: ExaminationDifficulty! #难度
   exercises(skip:Int, limit: Int): [Exercise]
   createdAt: Float!
@@ -15,14 +14,12 @@ extend type Query {
 
 input createExaminationModelInput {
   name: String! 
-  subjectId:ObjID! 
   examinationdifficultyId:ObjID!
   exerciseIds:[ObjID!]
 }
 
 input UpdateExaminationModelInput {
   name: String
-  subjectId:ObjID
   examinationdifficultyId:ObjID
   exerciseIds:[ObjID]
 }
