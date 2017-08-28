@@ -45,6 +45,7 @@ function insertData(db, fn) {
 function insertOneCollection(db, fileName, fn) {
   let docs = require('./data/' + fileName)
   let name = fileName.replace('.json', '')
+  if (!docs || !docs.length || docs.length === 0) return fn()
   console.log('create collectios : ' + name)
   for (let i = 0; i < docs.length; i++) {
     for (let key in docs[i]) {
