@@ -38,6 +38,16 @@ const resolvers = {
       return Examination.findOneById(id)
     },
 
+    async submitExamination(root, { id, userAnswers = [] }, { Examination, UserAnswer }) {
+      if (userAnswers.length > 0) {
+        for (let input of userAnswers) {
+          await UserAnswer.insert(input)
+        }
+      }
+      await Examination.updateById(id, { submit: true })
+      return Examination.findOneById(id)
+    },
+
     async updateExamination(root, { id, input }, { Examination }) {
       await Examination.updateById(id, input)
       return Examination.findOneById(id)

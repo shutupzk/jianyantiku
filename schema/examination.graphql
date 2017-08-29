@@ -1,42 +1,52 @@
 type Examination { #考试
   id: ObjID!
   user: User!
-  examinationModel:ExaminationModel
-  examinationDifficulty:ExaminationDifficulty
+  examinationModel: ExaminationModel
+  examinationDifficulty: ExaminationDifficulty
   examinationType: ExaminationType
-  startTime:String
-  endTime:String
-  totalCount:Int #题目总数
-  correctCount:Int #题目正确数
-  examinationHasExercises(skip:Int, limit: Int): [ExaminationHasExercise]
+  startTime: String
+  endTime: String
+  totalCount: Int #题目总数
+  correctCount: Int #题目正确数
+  submit: Boolean
+  examinationHasExercises(skip: Int, limit: Int): [ExaminationHasExercise]
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  examinations(skip:Int, limit: Int): [Examination!]
+  examinations(skip: Int, limit: Int): [Examination!]
   examination(id: ObjID!): Examination
 }
 
 input createExaminationInput {
-  userId: ObjID! 
+  userId: ObjID!
   examinationTypeId: ObjID!
   examinationModelId: ObjID
-  examinationDifficultyId: ObjID! 
+  examinationDifficultyId: ObjID!
 }
 
 input UpdateExaminationInput {
   userId: ObjID
   examinationTypeId: ObjID
   examinationDifficultyId: ObjID
-  startTime:String
-  endTime:String
-  totalCount:Int
-  correctCount:Int
+  startTime: String
+  endTime: String
+  totalCount: Int
+  correctCount: Int
+}
+
+input examUserAnswerinput {
+  isAnswer: Boolean!
+  userId: ObjID!
+  answerId: ObjID!
+  subjectId: ObjID!
+  examinationHasExerciseId: ObjID!
 }
 
 extend type Mutation {
-  createExamination(input:createExaminationInput!): Examination
+  createExamination(input: createExaminationInput!): Examination
+  submitExamination(id: ObjID!, userAnswers: [examUserAnswerinput!]): Examination
   updateExamination(id: ObjID!, input: UpdateExaminationInput!): Examination
   removeExamination(id: ObjID!): Boolean
 }
