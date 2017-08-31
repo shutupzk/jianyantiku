@@ -72,7 +72,7 @@ async function startServer() {
   app.listen(GRAPHQL_PORT, () => console.log(`GraphQL server launched, visit http://localhost:${GRAPHQL_PORT}/graphiql`))
 }
 
-initDB(MONGO_URL, function() {
+// initDB(MONGO_URL, function() {
   startServer()
     .then(() => {
       console.log('All systems go')
@@ -81,4 +81,4 @@ initDB(MONGO_URL, function() {
       console.error('Uncaught error in startup')
       console.error(e)
     })
-})
+// })
