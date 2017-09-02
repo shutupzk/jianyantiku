@@ -23,18 +23,11 @@ export default class Subject {
   }
 
   exercises(subject, { skip = 0, limit = 10, hot }) {
-    let options = {}
+    let options = { subjectId: subject._id }
     if (hot) {
-      options = {
-        hot,
-        subjectId: subject._id
-      }
-    } else {
-      options = {
-        subjectId: subject._id
-      }
+      options.hot = hot
     }
-    return this.context.Exercise.collection.find(options).sort({ num: 1 }).skip(skip).limit(limit).toArray()
+    return this.context.Exercise.collection.find(options).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

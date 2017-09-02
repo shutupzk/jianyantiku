@@ -23,7 +23,7 @@ export default class Section {
   exercises(section, { skip = 0, limit = 10 }) {
     return this.context.Exercise.collection.find({
       sectionId: section._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

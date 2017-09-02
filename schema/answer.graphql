@@ -1,5 +1,6 @@
 type Answer {
   id: ObjID!
+  num: Int
   content: String!
   isAnswer: Boolean!
   exercise: Exercise!

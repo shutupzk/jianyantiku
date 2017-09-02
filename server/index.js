@@ -73,12 +73,12 @@ async function startServer() {
 }
 
 // initDB(MONGO_URL, function() {
-  startServer()
-    .then(() => {
-      console.log('All systems go')
-    })
-    .catch(e => {
-      console.error('Uncaught error in startup')
-      console.error(e)
-    })
+startServer()
+  .then(() => {
+    console.log('All systems go')
+  })
+  .catch(e => {
+    console.error('Uncaught error in startup')
+    console.error(e)
+  })
 // })

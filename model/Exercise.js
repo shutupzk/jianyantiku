@@ -19,7 +19,7 @@ export default class Exercise {
         hot
       }
     }
-    return this.collection.find(options).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find(options).skip(skip).limit(limit).toArray()
   }
 
   section(exercise) {
