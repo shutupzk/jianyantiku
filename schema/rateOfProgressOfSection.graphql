@@ -1,0 +1,32 @@
+type RateOfProgressOfSection {
+  id: ObjID!
+  user: User!
+  section: Section!
+  current: Int!
+  count: Int!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  rateOfProgressOfSections(skip:Int, limit: Int): [RateOfProgressOfSection!]
+  rateOfProgressOfSection(id: ObjID!): RateOfProgressOfSection
+}
+
+input createRateOfProgressOfSectioninput {
+  userId: ObjID!
+  sectionId: ObjID!
+  current: Int
+}
+
+input UpdateRateOfProgressOfSectionInput {
+  userId: ObjID
+  sectionId: ObjID
+  current: Int
+}
+
+extend type Mutation {
+  createRateOfProgressOfSection(input:createRateOfProgressOfSectioninput!): RateOfProgressOfSection
+  updateRateOfProgressOfSection(id: ObjID!, input: UpdateRateOfProgressOfSectionInput!): RateOfProgressOfSection
+  removeRateOfProgressOfSection(id: ObjID!): Boolean
+}
