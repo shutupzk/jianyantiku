@@ -12,8 +12,8 @@ const resolvers = {
       return Section.exercises(section, { skip, limit })
     },
 
-    rateOfProgressOfSection(section, { skip, limit, userId }, { Section }) {
-      return Section.rateOfProgressOfSection(section, { skip, limit, userId })
+    rateOfProgressOfSection(section, { userId }, { Section }) {
+      return Section.rateOfProgressOfSection(section, { userId })
     }
   },
   Query: {
