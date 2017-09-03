@@ -1,9 +1,9 @@
 {
   "apps" : [{
-    "name"        : "hospital-xianlin-server",
+    "name"        : "jianyantiku-api",
     "script"      : "server/index.js",
     "watch"       : false,
     "log_date_format": "YYYY-MM-DD HH:mm:ss",
-    "exec_interpreter" : "./node_modules/babel-cli/bin/babel-node.js"
+    "exec_interpreter" : "babel-node"
   }]
 }
