@@ -5,7 +5,7 @@ type Section {
   remark: String
   chapter: Chapter!
   exercises(skip: Int, limit: Int): [Exercise!]
-  rateOfProgressOfSection(skip: Int, limit: Int, userId: ObjID!): [RateOfProgressOfSection!]
+  rateOfProgressOfSection(userId: ObjID!): RateOfProgressOfSection
   createdAt: Float!
   updatedAt: Float!
 }
