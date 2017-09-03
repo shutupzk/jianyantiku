@@ -45,7 +45,7 @@ export default class Exercise {
   answers(exercise, { skip = 0, limit = 10 }) {
     return this.context.Answer.collection.find({
       exerciseId: exercise._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).skip(skip).limit(limit).toArray()
   }
 
   exerciseCollects(exercise, { skip = 0, limit = 10 }) {
