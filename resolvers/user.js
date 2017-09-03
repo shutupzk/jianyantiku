@@ -25,6 +25,10 @@ const resolvers = {
 
     examinations(user, { skip, limit }, { User }) {
       return User.examinations(user, { skip, limit })
+    },
+
+    rateOfProgressOfSections(user, { skip, limit }, { User }) {
+      return User.rateOfProgressOfSections(user, { skip, limit })
     }
   },
   Query: {

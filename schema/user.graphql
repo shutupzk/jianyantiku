@@ -16,6 +16,7 @@ type User {
   decorations(skip:Int, limit: Int): [Decoration!]
   scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
   examinations(skip:Int, limit: Int): [Examination]
+  rateOfProgressOfSections(skip:Int, limit: Int): [RateOfProgressOfSection!]
   createdAt: Float!
   updatedAt: Float!
 }

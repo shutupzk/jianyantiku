@@ -10,6 +10,10 @@ const resolvers = {
 
     exercises(section, { skip, limit }, { Section }) {
       return Section.exercises(section, { skip, limit })
+    },
+
+    rateOfProgressOfSections(section, { skip, limit, userId }, { Section }) {
+      return Section.rateOfProgressOfSections(section, { skip, limit, userId })
     }
   },
   Query: {
