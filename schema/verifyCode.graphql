@@ -1,0 +1,28 @@
+type VerifyCode {
+    id:ObjID!
+    phone:String! #手机号
+    verifyCode:String! #验证码
+    valid:Boolean! #是否有效
+    seconds:Int #有效期,秒
+    overdue:Float! #过期时间
+    createdAt: Float! #发送时间
+}
+
+extend type Query {
+  verifyCodes(lastCreatedAt: Float, skip:Int, limit: Int): [VerifyCode!]
+  verifyCode(id:ObjID!): VerifyCode
+}
+
+input CreateVerifyCodeInput {
+  phone: String!
+}
+
+input checkVerifyCodeInput {
+  phone: String!,
+  code : String!
+}
+
+extend type Mutation {
+  createVerifyCode(input:CreateVerifyCodeInput!): VerifyCode
+  checkVerifyCode(input:checkVerifyCodeInput!): VerifyCode
+}
