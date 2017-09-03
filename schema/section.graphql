@@ -32,4 +32,5 @@ extend type Mutation {
   createSection(input:createSectioninput!): Section
   updateSection(id: ObjID!, input: UpdateSectionInput!): Section
   removeSection(id: ObjID!): Boolean
+  removeSectionExercise(id: ObjID!): Boolean
 }

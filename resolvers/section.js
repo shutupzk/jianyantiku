@@ -34,6 +34,16 @@ const resolvers = {
 
     removeSection(root, { id }, { Section }) {
       return Section.removeById(id)
+    },
+
+    async removeSectionExercise(root, { id }, { Section, Exercise, Answer }) {
+      let exercises = await Exercise.collection.find({ sectionId: id }).toArray()
+      let exerciseIds = []
+      for (let exercise of exercises) {
+        exerciseIds.push(exercise._id)
+      }
+      await Answer.collection.remove({ exerciseId: { $in: exerciseIds } })
+      return Exercise.collection.remove({ sectionId: id })
     }
   }
 }
