@@ -1,7 +1,7 @@
 type Answer {
   id: ObjID!
   num: Int
-  content: String!
+  content: String
   isAnswer: Boolean!
   exercise: Exercise!
   answerImages(skip:Int, limit: Int): [AnswerImage!]
