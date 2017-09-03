@@ -31,12 +31,13 @@ const resolvers = {
       const id = await UserAnswer.insert(input)
       const answer = await Answer.findOneById(input.answerId)
       const exercise = await Exercise.findOneById(answer.exerciseId)
-      const { sectionId } = exercise
+      const { sectionId, num } = exercise
       const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId })
-      let current = 1
+      let current = num
       if (rateOfProgressOfSection) {
-        current = rateOfProgressOfSection.current + 1
-        await RateOfProgressOfSection.updateById(rateOfProgressOfSection._id, { current })
+        if (num > rateOfProgressOfSection.current) {
+          await RateOfProgressOfSection.updateById(rateOfProgressOfSection._id, { current })
+        }
       } else {
         await RateOfProgressOfSection.insert({ userId, sectionId, current })
       }
