@@ -30,6 +30,7 @@ export default function myRouter(app) {
 
 function replaceStr(str) {
   if (!str) return null
+  str = str + ''
   str = str.trim()
   let match = str.match(/^[A-Z]+[．、.]/)
   if (!match) return str.trim()
@@ -48,6 +49,7 @@ function getInsertId(upsertResult) {
 }
 
 function trimExerciseContent(str) {
+  str = str + ''
   str = str.trim()
   let match = str.match(/^[0-9]+[．、.]/)
   if (!match) {
@@ -150,8 +152,10 @@ async function insertAnalysis(context, { exerciseId, RedCellData }) {
   if (RedCellData.length < 16) return
   let analysiss = []
   for (let j = 15; j < RedCellData.length; j++) {
-    if (RedCellData[j] && RedCellData[j].trim()) {
-      analysiss.push(RedCellData[j].trim())
+    if (RedCellData[j]) {
+      let content = RedCellData[j] + ''
+      content = content.trim()
+      analysiss.push(content)
     }
   }
   if (analysiss.length === 0) return
