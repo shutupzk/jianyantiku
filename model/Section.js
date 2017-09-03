@@ -16,6 +16,10 @@ export default class Section {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
+  count(section) {
+    return this.context.Exercise.collection.count({ sectionId: section._id })
+  }
+
   chapter(section) {
     return this.context.Chapter.findOneById(section.chapterId)
   }

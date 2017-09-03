@@ -8,6 +8,10 @@ const resolvers = {
       return Section.chapter(section)
     },
 
+    count(section, args, { Section }) {
+      return Section.count(section)
+    },
+
     exercises(section, { skip, limit }, { Section }) {
       return Section.exercises(section, { skip, limit })
     },

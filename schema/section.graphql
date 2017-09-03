@@ -3,6 +3,7 @@ type Section {
   num: Int!
   name: String!
   remark: String
+  count: Int!
   chapter: Chapter!
   exercises(skip: Int, limit: Int): [Exercise!]
   rateOfProgressOfSection(userId: ObjID!): RateOfProgressOfSection
