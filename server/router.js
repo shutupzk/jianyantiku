@@ -155,7 +155,9 @@ async function insertAnalysis(context, { exerciseId, RedCellData }) {
     if (RedCellData[j]) {
       let content = RedCellData[j] + ''
       content = content.trim()
-      analysiss.push(content)
+      if (content) {
+        analysiss.push(content)
+      }
     }
   }
   if (analysiss.length === 0) return
