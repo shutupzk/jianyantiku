@@ -26,10 +26,9 @@ export default class Section {
     }).skip(skip).limit(limit).toArray()
   }
 
-  rateOfProgressOfSections(section, { skip = 0, limit = 10, userId }) {
-    let ops = { sectionId: section._id }
-    if (userId) ops.userId = userId
-    return this.context.RateOfProgressOfSection.collection.find(ops).skip(skip).limit(limit).toArray()
+  rateOfProgressOfSection(section, { skip = 0, limit = 10, userId }) {
+    let ops = { sectionId: section._id, userId }
+    return this.context.RateOfProgressOfSection.collection.findOne(ops)
   }
 
   async insert(doc) {
