@@ -23,7 +23,7 @@ export default class Chapter {
   sections(chapter, { skip = 0, limit = 10 }) {
     return this.context.Section.collection.find({
       chapterId: chapter._id
-    }).sort({ num: 1 }).skip(skip).limit(limit).toArray()
+    }).sort({ num: 1 }).toArray()
   }
 
   async insert(doc) {

@@ -19,7 +19,7 @@ export default class Subject {
   chapters(subject, { skip = 0, limit = 10 }) {
     return this.context.Chapter.collection.find({
       subjectId: subject._id
-    }).sort({ num: 1 }).skip(skip).limit(limit).toArray()
+    }).sort({ num: 1 }).toArray()
   }
 
   exercises(subject, { skip = 0, limit = 10, hot }) {
