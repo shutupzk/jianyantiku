@@ -13,7 +13,7 @@ export default class Subject {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: 1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find().toArray()
   }
 
   chapters(subject, { skip = 0, limit = 10 }) {
