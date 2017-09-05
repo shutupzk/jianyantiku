@@ -31,8 +31,8 @@ export default function myRouter(app) {
   })
 
   app.get('/updateExerciseDiff', async (req, res) => {
-    const { Exercise } = req.context
-    await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
+    // const { Exercise } = req.context
+    // await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
     res.json({ code: '200', message: 'ok' })
   })
 }
