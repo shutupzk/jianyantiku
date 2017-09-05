@@ -29,6 +29,12 @@ export default function myRouter(app) {
     res.json({ code: '200', message: 'ok' })
     await initSectionExercise(req.context)
   })
+
+  app.get('/updateExerciseDiff', async (req, res) => {
+    const { Exercise } = req.context
+    await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
+    res.json({ code: '200', message: 'ok' })
+  })
 }
 
 function replaceStr(str) {
