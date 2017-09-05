@@ -1,0 +1,28 @@
+type SubjectWithDiffculty {
+  id: ObjID!
+  subject: Subject!
+  examinationDifficulty: ExaminationDifficulty!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  subjectWithDiffcultys(skip:Int, limit: Int): [SubjectWithDiffculty!]
+  subjectWithDiffculty(id: ObjID!): SubjectWithDiffculty
+}
+
+input createSubjectWithDiffcultyinput {
+  subjectId: ObjID!
+  examinationDifficultyId: ObjID!
+}
+
+input UpdateSubjectWithDiffcultyInput {
+  subjectId: ObjID
+  examinationDifficultyId: ObjID
+}
+
+extend type Mutation {
+  createSubjectWithDiffculty(input:createSubjectWithDiffcultyinput!): SubjectWithDiffculty
+  updateSubjectWithDiffculty(id: ObjID!, input: UpdateSubjectWithDiffcultyInput!): SubjectWithDiffculty
+  removeSubjectWithDiffculty(id: ObjID!): Boolean
+}

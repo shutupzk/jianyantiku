@@ -2,9 +2,6 @@ type ExaminationDifficulty { #试卷难度
   id: ObjID!
   code: Int!  #编码 1，2，3
   name: String! #名称 易、中、难
-  easyCount: Int! #简单题目数
-  midCount: Int! #中难度题目
-  hardCount: Int! #难题目
   examinationModels(skip:Int, limit: Int): [ExaminationModel]
   createdAt: Float!
   updatedAt: Float!
@@ -18,17 +15,11 @@ extend type Query {
 input createExaminationDifficultyInput {
   code: Int! 
   name: String! #名称 易、中、难
-  easyCount: Int! #简单题目数
-  midCount: Int! #中难度题目
-  hardCount: Int! #难题目
 }
 
 input UpdateExaminationDifficultyInput {
   code: Int
   name: String
-  easyCount: Int
-  midCount: Int 
-  hardCount: Int
 }
 
 extend type Mutation {

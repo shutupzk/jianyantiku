@@ -1,18 +1,21 @@
 import xlsx from 'node-xlsx'
 import fs from 'fs'
+import { ObjectId } from 'mongodb'
 // import path from 'path'
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
 export default function myRouter(app) {
   app.all('/upload', upload.single('files'), async function(req, res, next) {
+    const examinationDifficultyId = req.query.examinationDifficultyId
+    if (!examinationDifficultyId) return res.json('参数错误')
     if (req.file) {
       try {
         let newFile = req.file.destination + req.file.originalname
         let oldFile = req.file.path
         fs.renameSync(oldFile, newFile)
         req.context.filePath = newFile
-        await initExercise(req.context, res)
+        await initSectionExercise(req.context, examinationDifficultyId, res)
       } catch (e) {
         console.log(e)
         res.send('文件上传失败')
@@ -24,7 +27,7 @@ export default function myRouter(app) {
 
   app.get('/initModel', async (req, res) => {
     res.json({ code: '200', message: 'ok' })
-    await initExercise(req.context)
+    await initSectionExercise(req.context)
   })
 }
 
@@ -58,10 +61,10 @@ function trimExerciseContent(str) {
   return str.replace(match[0], '').trim()
 }
 
-async function initExercise(context, res) {
+async function initSectionExercise(context, examinationDifficultyId, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
-  let { Subject, Chapter, Section } = context
+  let { Subject, Chapter, Section, SubjectWithDiffculty } = context
   let subjectName = RedCellDatas[1][0]
   let chapterNum = RedCellDatas[1][1]
   let chapterName = RedCellDatas[1][2]
@@ -82,6 +85,18 @@ async function initExercise(context, res) {
 
   let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { name: subjectName, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
   let subjectId = getInsertId(subjectResult)
+
+  examinationDifficultyId = ObjectId(examinationDifficultyId)
+
+  let examinationDifficulty = {
+    subjectId,
+    examinationDifficultyId,
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  }
+
+  await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, examinationDifficulty, { upsert: true })
+
   let chapterResult = await Chapter.collection.findOneAndUpdate(
     { num: chapterNum, subjectId },
     { name: chapterName, num: chapterNum, subjectId, createdAt: Date.now(), updatedAt: Date.now() },
@@ -95,12 +110,12 @@ async function initExercise(context, res) {
   )
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
-    await insertExercise(context, { subjectId, sectionId, RedCellDatas })
+    await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId })
   }
   res.send('文件上传成功')
 }
 
-async function insertExercise(context, { subjectId, sectionId, RedCellDatas }) {
+async function insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId }) {
   const { Exercise } = context
   let count = 0
   for (let RedCellData of RedCellDatas) {
@@ -116,10 +131,11 @@ async function insertExercise(context, { subjectId, sectionId, RedCellDatas }) {
       num: exerciseNum,
       subjectId,
       sectionId,
+      examinationDifficultyId,
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    let upsertResult = await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId }, exerciseInsert, { upsert: true })
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId, examinationDifficultyId }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData })
     await insertAnalysis(context, { exerciseId, RedCellData })
