@@ -25,6 +25,28 @@ export default function myRouter(app) {
     }
   })
 
+  app.all('/uploadReal', upload.single('files'), async function(req, res, next) {
+    console.log('uploadReal')
+    const examinationDifficultyId = req.query.examinationDifficultyId
+    let year = req.query.year
+    if (!examinationDifficultyId || !year) return res.json('参数错误')
+    year = year * 1
+    if (req.file) {
+      try {
+        let newFile = req.file.destination + req.file.originalname
+        let oldFile = req.file.path
+        fs.renameSync(oldFile, newFile)
+        req.context.filePath = newFile
+        await initRealExercise(req.context, examinationDifficultyId, year, res)
+      } catch (e) {
+        console.log(e)
+        res.send('文件上传失败')
+      }
+    } else {
+      res.send('文件上传失败')
+    }
+  })
+
   app.get('/initModel', async (req, res) => {
     res.json({ code: '200', message: 'ok' })
     await initSectionExercise(req.context)
@@ -33,6 +55,12 @@ export default function myRouter(app) {
   app.get('/updateExerciseDiff', async (req, res) => {
     // const { Exercise } = req.context
     // await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
+    res.json({ code: '200', message: 'ok' })
+  })
+
+  app.get('/updateExerciseType', async (req, res) => {
+    const { Exercise } = req.context
+    await Exercise.collection.updateMany({}, { $set: { type: '01' } })
     res.json({ code: '200', message: 'ok' })
   })
 }
@@ -65,6 +93,15 @@ function trimExerciseContent(str) {
     return str.trim()
   }
   return str.replace(match[0], '').trim()
+}
+
+async function initRealExercise(context, examinationDifficultyId, year, res) {
+  const filePath = context.filePath
+  let RedCellDatas = xlsx.parse(filePath)[0].data
+  console.log(RedCellDatas)
+  if (!year) return res.send('年份不能为空!')
+  await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, year })
+  res.send('文件上传成功')
 }
 
 async function initSectionExercise(context, examinationDifficultyId, res) {
@@ -121,6 +158,36 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   res.send('文件上传成功')
 }
 
+async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, year }) {
+  const { Exercise, YearExerciseList } = context
+  examinationDifficultyId = ObjectId(examinationDifficultyId)
+  let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate(
+    { examinationDifficultyId, year },
+    { examinationDifficultyId, year, createdAt: Date.now(), updatedAt: Date.now() },
+    { upsert: true }
+  )
+  const yearExerciseListId = getInsertId(yearExerciseListResult)
+  let num = 0
+  for (let RedCellData of RedCellDatas) {
+    if (!RedCellData[0]) continue
+    num++
+    let exerciseContent = trimExerciseContent(RedCellData[0])
+    let exerciseInsert = {
+      content: exerciseContent,
+      num,
+      examinationDifficultyId,
+      yearExerciseListId,
+      type: '02',
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    }
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02' }, exerciseInsert, { upsert: true })
+    const exerciseId = getInsertId(upsertResult)
+    await insertAnswers(context, { exerciseId, RedCellData, begin: 1 })
+    await insertAnalysis(context, { exerciseId, RedCellData, begin: 7 })
+  }
+}
+
 async function insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId }) {
   const { Exercise } = context
   let count = 0
@@ -138,21 +205,22 @@ async function insertExercise(context, { subjectId, sectionId, RedCellDatas, exa
       subjectId,
       sectionId,
       examinationDifficultyId,
+      type: '01',
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    let upsertResult = await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId, examinationDifficultyId }, exerciseInsert, { upsert: true })
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId, examinationDifficultyId, type: '01' }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData })
     await insertAnalysis(context, { exerciseId, RedCellData })
   }
 }
 
-async function insertAnswers(context, { exerciseId, RedCellData }) {
+async function insertAnswers(context, { exerciseId, RedCellData, begin = 9 }) {
   const { Answer } = context
-  let isAnswer = RedCellData[14]
+  let isAnswer = RedCellData[begin + 5]
   let answers = []
-  for (let j = 9; j < 14; j++) {
+  for (let j = begin; j < begin + 5; j++) {
     answers.push(replaceStr(RedCellData[j]))
   }
   for (let k = 0; k < answers.length; k++) {
@@ -169,11 +237,11 @@ async function insertAnswers(context, { exerciseId, RedCellData }) {
   }
 }
 
-async function insertAnalysis(context, { exerciseId, RedCellData }) {
+async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15 }) {
   const { Analysis } = context
-  if (RedCellData.length < 16) return
+  if (RedCellData.length < begin + 1) return
   let analysiss = []
-  for (let j = 15; j < RedCellData.length; j++) {
+  for (let j = begin; j < RedCellData.length; j++) {
     if (RedCellData[j]) {
       let content = RedCellData[j] + ''
       content = content.trim()

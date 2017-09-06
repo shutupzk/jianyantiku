@@ -1,0 +1,32 @@
+type YearExerciseList {
+  id: ObjID!
+  title: String
+  year: Int
+  examinationDifficulty: ExaminationDifficulty
+  exercises(skip: Int, limit: Int): [Exercise!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  yearExerciseLists(skip: Int, limit: Int): [YearExerciseList!]
+  yearExerciseList(id: ObjID!): YearExerciseList
+}
+
+input createYearExerciseListinput {
+  title: String
+  year: Int
+  examinationDifficultyId: ObjID!
+}
+
+input UpdateYearExerciseListInput {
+  title: String
+  year: Int
+  subjectWithDiffcultyId: ObjID
+}
+
+extend type Mutation {
+  createYearExerciseList(input: createYearExerciseListinput!): YearExerciseList
+  updateYearExerciseList(id: ObjID!, input: UpdateYearExerciseListInput!): YearExerciseList
+  removeYearExerciseList(id: ObjID!): Boolean
+}

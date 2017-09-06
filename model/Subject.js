@@ -22,6 +22,12 @@ export default class Subject {
     }).sort({ num: 1 }).toArray()
   }
 
+  subjectWithDiffcultys(subject, { skip = 0, limit = 10 }) {
+    return this.context.SubjectWithDiffculty.collection.find({
+      subjectId: subject._id
+    }).toArray()
+  }
+
   exercises(subject, { skip = 0, limit = 10, hot }) {
     let options = { subjectId: subject._id }
     if (hot) {

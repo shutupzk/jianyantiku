@@ -12,8 +12,8 @@ const resolvers = {
       return Exercise.subject(exercise)
     },
 
-    officialExamination(exercise, args, { Exercise }) {
-      return Exercise.officialExamination(exercise)
+    yearExerciseList(exercise, args, { Exercise }) {
+      return Exercise.yearExerciseList(exercise)
     },
 
     mockExamination(exercise, args, { Exercise }) {

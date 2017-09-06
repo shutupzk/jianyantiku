@@ -10,6 +10,10 @@ const resolvers = {
 
     exercises(subject, { skip, limit, hot }, { Subject }) {
       return Subject.exercises(subject, { skip, limit, hot })
+    },
+
+    subjectWithDiffcultys(subject, { skip, limit, hot }, { Subject }) {
+      return Subject.subjectWithDiffcultys(subject, { skip, limit, hot })
     }
   },
   Query: {

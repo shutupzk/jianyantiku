@@ -6,6 +6,14 @@ const resolvers = {
 
     examinationModels(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
       return ExaminationDifficulty.examinationModels(examinationDifficulty, { skip, limit })
+    },
+
+    subjectWithDiffcultys(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
+      return ExaminationDifficulty.subjectWithDiffcultys(examinationDifficulty, { skip, limit })
+    },
+
+    yearExerciseLists(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
+      return ExaminationDifficulty.yearExerciseLists(examinationDifficulty, { skip, limit })
     }
   },
   Query: {

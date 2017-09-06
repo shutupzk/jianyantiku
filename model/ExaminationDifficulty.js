@@ -14,6 +14,18 @@ export default class ExaminationDifficulty {
     }).skip(skip).limit(limit).toArray()
   }
 
+  subjectWithDiffcultys(examinationDifficulty, { skip = 0, limit = 10 }) {
+    return this.context.SubjectWithDiffculty.collection.find({
+      examinationDifficultyId: examinationDifficulty._id
+    }).skip(skip).limit(limit).toArray()
+  }
+
+  yearExerciseLists(examinationDifficulty, { skip = 0, limit = 10 }) {
+    return this.context.YearExerciseList.collection.find({
+      examinationDifficultyId: examinationDifficulty._id
+    }).skip(skip).limit(limit).toArray()
+  }
+
   findOneById(id) {
     return this.loader.load(id)
   }

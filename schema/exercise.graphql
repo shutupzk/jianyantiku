@@ -5,9 +5,10 @@ type Exercise {
 	hot: Boolean # 是否是高频
 	difficulty: Int # 难度系数
 	section: Section
-	subject: Subject!
-	officialExamination: OfficialExamination
+	subject: Subject
+	yearExerciseList: YearExerciseList
 	mockExamination: MockExamination
+	type: String! #01: 02: 真题
 	answers(skip: Int, limit: Int): [Answer!]
 	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
 	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]
@@ -28,8 +29,9 @@ input createExerciseinput {
 	hot: Boolean # 是否是高频
 	difficulty: Int # 难度系数
 	sectionId: ObjID
-	subjectId: ObjID!
-	officialExaminationId: ObjID
+	subjectId: ObjID
+	type: String!
+	yearExerciseListId: ObjID
 	mockExaminationId: ObjID
 }
 
@@ -40,7 +42,8 @@ input UpdateExerciseInput {
 	difficulty: Int # 难度系数
 	sectionId: ObjID
 	subjectId: ObjID
-	officialExaminationId: ObjID
+	type: String
+	yearExerciseListId: ObjID
 	mockExaminationId: ObjID
 }
 

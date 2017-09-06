@@ -32,9 +32,9 @@ export default class Exercise {
     return this.context.Subject.findOneById(exercise.subjectId)
   }
 
-  officialExamination(exercise) {
-    if (!exercise.officialExaminationId) return null
-    return this.context.OfficialExamination.findOneById(exercise.officialExaminationId)
+  yearExerciseList(exercise) {
+    if (!exercise.yearExerciseListId) return null
+    return this.context.YearExerciseList.findOneById(exercise.yearExerciseListId)
   }
 
   mockExamination(exercise) {
