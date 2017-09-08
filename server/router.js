@@ -98,7 +98,6 @@ function trimExerciseContent(str) {
 async function initRealExercise(context, examinationDifficultyId, year, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
-  console.log(RedCellDatas)
   if (!year) return res.send('年份不能为空!')
   await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, year })
   res.send('文件上传成功')
@@ -216,9 +215,24 @@ async function insertExercise(context, { subjectId, sectionId, RedCellDatas, exa
   }
 }
 
+function formatAnswer(str) {
+  if (!str) return 0
+  str = str.toString().trim()
+  let match = str.match(/^[0-9]*$/)
+  if (match) {
+    return str * 1
+  }
+  let keys = { A: 1, B: 2, C: 3, D: 4, E: 5 }
+  match = str.match(/[A-E]/)
+  if (match) {
+    return keys[match[0]]
+  }
+  return 0
+}
+
 async function insertAnswers(context, { exerciseId, RedCellData, begin = 9 }) {
   const { Answer } = context
-  let isAnswer = RedCellData[begin + 5]
+  let isAnswer = formatAnswer(RedCellData[begin + 5])
   let answers = []
   for (let j = begin; j < begin + 5; j++) {
     answers.push(replaceStr(RedCellData[j]))

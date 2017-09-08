@@ -20,6 +20,10 @@ const resolvers = {
       return Exercise.mockExamination(exercise)
     },
 
+    examinationDifficulty(exercise, args, { Exercise }) {
+      return Exercise.examinationDifficulty(exercise)
+    },
+
     answers(exercise, { skip, limit }, { Exercise }) {
       return Exercise.answers(exercise, { skip, limit })
     },
@@ -41,8 +45,8 @@ const resolvers = {
     }
   },
   Query: {
-    exercises(root, { skip, limit, hot }, { Exercise }) {
-      return Exercise.all({ skip, limit, hot })
+    exercises(root, { skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId }, { Exercise }) {
+      return Exercise.all({ skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId })
     },
 
     exercise(root, { id }, { Exercise }) {

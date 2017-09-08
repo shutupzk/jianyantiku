@@ -12,14 +12,27 @@ export default class Exercise {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10, hot }) {
+  async all({ skip = 0, limit = 10, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, sectionId, chapterId }) {
     let options = {}
-    if (hot) {
-      options = {
-        hot
+    if (hot) options.hot = hot
+    if (type) options.type = type
+    if (examinationDifficultyId) options.examinationDifficultyId = examinationDifficultyId
+    if (yearExerciseListId) options.yearExerciseListId = yearExerciseListId
+    if (subjectId) options.subjectId = subjectId
+    if (chapterId) {
+      let sectionIds = []
+      let sections = await this.context.Section.collection.find({ chapterId }).toArray()
+      for (let section of sections) {
+        sectionIds.push(section._id)
       }
+      options.sectionId = { $in: sectionIds }
     }
-    return this.collection.find(options).skip(skip).limit(limit).toArray()
+    if (sectionId) options.sectionId = sectionId
+    return this.collection
+      .find(options)
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   section(exercise) {
@@ -42,22 +55,41 @@ export default class Exercise {
     return this.context.MockExamination.findOneById(exercise.mockExaminationId)
   }
 
+  examinationDifficulty(exercise) {
+    if (!exercise.examinationDifficultyId) return null
+    return this.context.ExaminationDifficulty.findOneById(exercise.examinationDifficultyId)
+  }
+
   answers(exercise, { skip = 0, limit = 10 }) {
-    return this.context.Answer.collection.find({
-      exerciseId: exercise._id
-    }).skip(skip).limit(limit).toArray()
+    return this.context.Answer.collection
+      .find({
+        exerciseId: exercise._id
+      })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   exerciseCollects(exercise, { skip = 0, limit = 10 }) {
-    return this.context.ExerciseCollect.collection.find({
-      exerciseId: exercise._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.ExerciseCollect.collection
+      .find({
+        exerciseId: exercise._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   exerciseImages(exercise, { skip = 0, limit = 10 }) {
-    return this.context.ExerciseImage.collection.find({
-      exerciseId: exercise._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.ExerciseImage.collection
+      .find({
+        exerciseId: exercise._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   notes(exercise, { skip = 0, limit = 10, userId }) {
@@ -72,13 +104,23 @@ export default class Exercise {
         exerciseId: exercise._id
       }
     }
-    return this.context.Note.collection.find(options).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.Note.collection
+      .find(options)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   analysiss(exercise, { skip = 0, limit = 10 }) {
-    return this.context.Analysis.collection.find({
-      exerciseId: exercise._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.Analysis.collection
+      .find({
+        exerciseId: exercise._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async insert(doc) {
@@ -91,11 +133,14 @@ export default class Exercise {
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }
