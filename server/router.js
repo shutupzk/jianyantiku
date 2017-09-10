@@ -107,6 +107,8 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
   let { Subject, Chapter, Section, SubjectWithDiffculty } = context
+  let subjectTitle = RedCellDatas[0][0].toString().trim()
+  if (subjectTitle !== '科目') return res.send('文件第一行必须为 标题 （科目，章序号，章 、、、）')
   let subjectName = RedCellDatas[1][0]
   let chapterNum = RedCellDatas[1][1]
   let chapterName = RedCellDatas[1][2]
