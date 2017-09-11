@@ -33,7 +33,7 @@ export default class Chapter {
   }
 
   async sections(chapter, { skip = 0, limit = 10, examinationDifficultyId }) {
-    let ops = {subjectId: chapter._id}
+    let ops = {chapterId: chapter._id}
     if (examinationDifficultyId) {
       const deffuculties = await this.context.SectionWithDiffculty.collection
         .find({
