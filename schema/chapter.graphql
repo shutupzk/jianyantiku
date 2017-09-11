@@ -4,7 +4,7 @@ type Chapter {
   name: String!
   remark: String
   subject: Subject!
-  sections(skip:Int, limit: Int): [Section!]
+  sections(skip:Int, limit: Int, examinationDifficultyId: ObjID): [Section!]
   createdAt: Float!
   updatedAt: Float!
 }

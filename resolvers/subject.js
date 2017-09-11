@@ -4,8 +4,8 @@ const resolvers = {
       return subject._id
     },
 
-    chapters(subject, { skip, limit }, { Subject }) {
-      return Subject.chapters(subject, { skip, limit })
+    chapters(subject, { skip, limit, examinationDifficultyId }, { Subject }) {
+      return Subject.chapters(subject, { skip, limit, examinationDifficultyId })
     },
 
     exercises(subject, { skip, limit, hot }, { Subject }) {

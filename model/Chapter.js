@@ -21,7 +21,7 @@ export default class Chapter {
         .toArray()
       let ids = []
       for (let deffuculty of deffuculties) {
-        ids.push(deffuculty.sectionId)
+        ids.push(deffuculty.chapterId)
       }
       return this.collection.find({ _id: { $in: ids } }).toArray()
     }
@@ -32,10 +32,21 @@ export default class Chapter {
     return this.context.Subject.findOneById(chapter.subjectId)
   }
 
-  sections(chapter, { skip = 0, limit = 10 }) {
-    return this.context.Section.collection.find({
-      chapterId: chapter._id
-    }).sort({ num: 1 }).toArray()
+  async sections(chapter, { skip = 0, limit = 10, examinationDifficultyId }) {
+    let ops = {subjectId: chapter._id}
+    if (examinationDifficultyId) {
+      const deffuculties = await this.context.SectionWithDiffculty.collection
+        .find({
+          examinationDifficultyId
+        })
+        .toArray()
+      let ids = []
+      for (let deffuculty of deffuculties) {
+        ids.push(deffuculty.sectionId)
+      }
+      ops._id = {$in: ids}
+    }
+    return this.context.Section.collection.find(ops).sort({ num: 1 }).toArray()
   }
 
   async insert(doc) {

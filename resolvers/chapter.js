@@ -8,8 +8,8 @@ const resolvers = {
       return Chapter.subject(chapter)
     },
 
-    sections(chapter, { skip, limit }, { Chapter }) {
-      return Chapter.sections(chapter, { skip, limit })
+    sections(chapter, { skip, limit, examinationDifficultyId }, { Chapter }) {
+      return Chapter.sections(chapter, { skip, limit, examinationDifficultyId })
     }
   },
   Query: {

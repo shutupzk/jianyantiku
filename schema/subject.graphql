@@ -2,7 +2,7 @@ type Subject {
   id: ObjID!
   name: String!
   remark: String
-  chapters(skip: Int, limit: Int): [Chapter!]
+  chapters(skip: Int, limit: Int, examinationDifficultyId: ObjID): [Chapter!]
   exercises(skip: Int, limit: Int, hot:Boolean ): [Exercise!]
   subjectWithDiffcultys(skip:Int, limit: Int): [SubjectWithDiffculty]
   createdAt: Float!

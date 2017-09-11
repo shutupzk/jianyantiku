@@ -28,11 +28,22 @@ export default class Subject {
     return this.collection.find().toArray()
   }
 
-  chapters(subject, { skip = 0, limit = 10 }) {
+  async chapters(subject, { skip = 0, limit = 10, examinationDifficultyId }) {
+    let ops = {subjectId: subject._id}
+    if (examinationDifficultyId) {
+      const deffuculties = await this.context.ChapterWithDiffculty.collection
+        .find({
+          examinationDifficultyId
+        })
+        .toArray()
+      let ids = []
+      for (let deffuculty of deffuculties) {
+        ids.push(deffuculty.chapterId)
+      }
+      ops._id = {$in: ids}
+    }
     return this.context.Chapter.collection
-      .find({
-        subjectId: subject._id
-      })
+      .find(ops)
       .sort({ num: 1 })
       .toArray()
   }
