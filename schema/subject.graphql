@@ -4,13 +4,13 @@ type Subject {
   remark: String
   chapters(skip: Int, limit: Int): [Chapter!]
   exercises(skip: Int, limit: Int, hot:Boolean ): [Exercise!]
-  subjectWithDiffcultys(skip:Int, limit: Int, examinationDifficultyId: ObjID): [SubjectWithDiffculty]
+  subjectWithDiffcultys(skip:Int, limit: Int): [SubjectWithDiffculty]
   createdAt: Float!
   updatedAt: Float!
 }
 
 extend type Query {
-  subjects(skip:Int, limit: Int): [Subject!]
+  subjects(skip:Int, limit: Int, examinationDifficultyId: ObjID): [Subject!]
   subject(id: ObjID!): Subject
 }
 
