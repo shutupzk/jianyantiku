@@ -12,20 +12,37 @@ export default class Subject {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
+  async all({ skip = 0, limit = 10, examinationDifficultyId }) {
+    if (examinationDifficultyId) {
+      const deffuculties = this.context.SubjectWithDiffculty.collection
+        .find({
+          examinationDifficultyId
+        })
+        .toArray()
+      let subjectIds = []
+      for (let deffuculty of deffuculties) {
+        subjectIds.push(deffuculty.subjectId)
+      }
+      return this.collection.find({ _id: { $in: subjectIds } }).toArray()
+    }
     return this.collection.find().toArray()
   }
 
   chapters(subject, { skip = 0, limit = 10 }) {
-    return this.context.Chapter.collection.find({
-      subjectId: subject._id
-    }).sort({ num: 1 }).toArray()
+    return this.context.Chapter.collection
+      .find({
+        subjectId: subject._id
+      })
+      .sort({ num: 1 })
+      .toArray()
   }
 
   subjectWithDiffcultys(subject, { skip = 0, limit = 10 }) {
-    return this.context.SubjectWithDiffculty.collection.find({
-      subjectId: subject._id
-    }).toArray()
+    return this.context.SubjectWithDiffculty.collection
+      .find({
+        subjectId: subject._id
+      })
+      .toArray()
   }
 
   exercises(subject, { skip = 0, limit = 10, hot }) {
@@ -33,7 +50,11 @@ export default class Subject {
     if (hot) {
       options.hot = hot
     }
-    return this.context.Exercise.collection.find(options).skip(skip).limit(limit).toArray()
+    return this.context.Exercise.collection
+      .find(options)
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async insert(doc) {
@@ -46,11 +67,14 @@ export default class Subject {
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }

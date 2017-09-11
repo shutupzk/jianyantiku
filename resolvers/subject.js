@@ -17,8 +17,8 @@ const resolvers = {
     }
   },
   Query: {
-    subjects(root, { skip, limit }, { Subject }) {
-      return Subject.all({ skip, limit })
+    subjects(root, { skip, limit, examinationDifficultyId }, { Subject }) {
+      return Subject.all({ skip, limit, examinationDifficultyId })
     },
 
     subject(root, { id }, { Subject }) {
