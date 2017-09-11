@@ -28,7 +28,9 @@ export default class Section {
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  count(section) {
+  count(section, { examinationDifficultyId }) {
+    let ops = { sectionId: section._id }
+    if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
     return this.context.Exercise.collection.count({ sectionId: section._id })
   }
 
@@ -36,10 +38,10 @@ export default class Section {
     return this.context.Chapter.findOneById(section.chapterId)
   }
 
-  exercises(section, { skip = 0, limit = 10 }) {
-    return this.context.Exercise.collection.find({
-      sectionId: section._id
-    }).skip(skip).limit(limit).toArray()
+  exercises(section, { skip = 0, limit = 10, examinationDifficultyId }) {
+    let ops = { sectionId: section._id }
+    if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
+    return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).toArray()
   }
 
   rateOfProgressOfSection(section, { skip = 0, limit = 10, userId }) {

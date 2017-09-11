@@ -8,12 +8,12 @@ const resolvers = {
       return Section.chapter(section)
     },
 
-    count(section, args, { Section }) {
-      return Section.count(section)
+    count(section, { examinationDifficultyId }, { Section }) {
+      return Section.count(section, { examinationDifficultyId })
     },
 
-    exercises(section, { skip, limit }, { Section }) {
-      return Section.exercises(section, { skip, limit })
+    exercises(section, { skip, limit, examinationDifficultyId }, { Section }) {
+      return Section.exercises(section, { skip, limit, examinationDifficultyId })
     },
 
     rateOfProgressOfSection(section, { userId }, { Section }) {

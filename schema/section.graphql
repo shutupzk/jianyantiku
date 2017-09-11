@@ -3,9 +3,9 @@ type Section {
   num: Int!
   name: String!
   remark: String
-  count: Int!
+  count(examinationDifficultyId: ObjID): Int!
   chapter: Chapter!
-  exercises(skip: Int, limit: Int): [Exercise!]
+  exercises(skip: Int, limit: Int, examinationDifficultyId: ObjID): [Exercise!]
   rateOfProgressOfSection(userId: ObjID!): RateOfProgressOfSection
   createdAt: Float!
   updatedAt: Float!
