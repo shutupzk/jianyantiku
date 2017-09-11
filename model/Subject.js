@@ -14,7 +14,7 @@ export default class Subject {
 
   async all({ skip = 0, limit = 10, examinationDifficultyId }) {
     if (examinationDifficultyId) {
-      const deffuculties = this.context.SubjectWithDiffculty.collection
+      const deffuculties = await this.context.SubjectWithDiffculty.collection
         .find({
           examinationDifficultyId
         })
