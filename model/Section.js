@@ -31,7 +31,7 @@ export default class Section {
   count(section, { examinationDifficultyId }) {
     let ops = { sectionId: section._id }
     if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
-    return this.context.Exercise.collection.count({ sectionId: section._id })
+    return this.context.Exercise.collection.count(ops)
   }
 
   chapter(section) {
