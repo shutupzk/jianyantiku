@@ -3,7 +3,7 @@ type UserAnswer {
   isAnswer: Boolean!
   user: User!
   answer: Answer!
-  subject: Subject!
+  subject: Subject
   examinationHasExercise: ExaminationHasExercise!
   createdAt: Float!
   updatedAt: Float!
@@ -18,7 +18,7 @@ input createUserAnswerinput {
   isAnswer: Boolean!
   userId: ObjID!
   answerId: ObjID!
-  subjectId: ObjID!
+  subjectId: ObjID
   examinationHasExerciseId: ObjID
 }
 
