@@ -3,6 +3,7 @@ type RateOfProgressOfSection {
   user: User!
   section: Section!
   current: Int!
+  examinationDifficulty: ExaminationDifficulty!
   count: Int!
   createdAt: Float!
   updatedAt: Float!

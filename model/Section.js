@@ -44,8 +44,9 @@ export default class Section {
     return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).toArray()
   }
 
-  rateOfProgressOfSection(section, { skip = 0, limit = 10, userId }) {
+  rateOfProgressOfSection(section, { skip = 0, limit = 10, userId, examinationDifficultyId }) {
     let ops = { sectionId: section._id, userId }
+    if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
     return this.context.RateOfProgressOfSection.collection.findOne(ops)
   }
 
