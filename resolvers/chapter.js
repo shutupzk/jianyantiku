@@ -13,8 +13,8 @@ const resolvers = {
     }
   },
   Query: {
-    chapters(root, { skip, limit }, { Chapter }) {
-      return Chapter.all({ skip, limit })
+    chapters(root, { skip, limit, examinationDifficultyId }, { Chapter }) {
+      return Chapter.all({ skip, limit, examinationDifficultyId })
     },
 
     chapter(root, { id }, { Chapter }) {

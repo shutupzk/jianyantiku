@@ -10,7 +10,7 @@ type Chapter {
 }
 
 extend type Query {
-  chapters(skip:Int, limit: Int): [Chapter!]
+  chapters(skip:Int, limit: Int, examinationDifficultyId: ObjID): [Chapter!]
   chapter(id: ObjID!): Chapter
 }
 

@@ -21,8 +21,8 @@ const resolvers = {
     }
   },
   Query: {
-    sections(root, { skip, limit }, { Section }) {
-      return Section.all({ skip, limit })
+    sections(root, { skip, limit, examinationDifficultyId }, { Section }) {
+      return Section.all({ skip, limit, examinationDifficultyId })
     },
 
     section(root, { id }, { Section }) {

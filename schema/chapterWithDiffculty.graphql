@@ -1,0 +1,28 @@
+type ChapterWithDiffculty {
+  id: ObjID!
+  chapter: Subject!
+  examinationDifficulty: ExaminationDifficulty!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  chapterWithDiffcultys(skip:Int, limit: Int): [ChapterWithDiffculty!]
+  chapterWithDiffculty(id: ObjID!): ChapterWithDiffculty
+}
+
+input createChapterWithDiffcultyinput {
+  chapterId: ObjID!
+  examinationDifficultyId: ObjID!
+}
+
+input UpdateChapterWithDiffcultyInput {
+  chapterId: ObjID
+  examinationDifficultyId: ObjID
+}
+
+extend type Mutation {
+  createChapterWithDiffculty(input:createChapterWithDiffcultyinput!): ChapterWithDiffculty
+  updateChapterWithDiffculty(id: ObjID!, input: UpdateChapterWithDiffcultyInput!): ChapterWithDiffculty
+  removeChapterWithDiffculty(id: ObjID!): Boolean
+}

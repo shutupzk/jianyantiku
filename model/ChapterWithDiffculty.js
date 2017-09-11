@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class Chapter {
+export default class ChapterWithDiffculty {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('chapter')
+    this.collection = context.db.collection('chapterWithDiffculty')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -12,30 +12,16 @@ export default class Chapter {
     return this.loader.load(id)
   }
 
-  async all({ skip = 0, limit = 10, examinationDifficultyId }) {
-    if (examinationDifficultyId) {
-      const deffuculties = await this.context.ChapterWithDiffculty.collection
-        .find({
-          examinationDifficultyId
-        })
-        .toArray()
-      let ids = []
-      for (let deffuculty of deffuculties) {
-        ids.push(deffuculty.sectionId)
-      }
-      return this.collection.find({ _id: { $in: ids } }).toArray()
-    }
-    return this.collection.find().skip(skip).limit(limit).toArray()
+  all({ skip = 0, limit = 10 }) {
+    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  subject(chapter) {
-    return this.context.Subject.findOneById(chapter.subjectId)
+  chapter(chapterWithDiffculty) {
+    return this.context.Chapter.findOneById(chapterWithDiffculty.chapterId)
   }
 
-  sections(chapter, { skip = 0, limit = 10 }) {
-    return this.context.Section.collection.find({
-      chapterId: chapter._id
-    }).sort({ num: 1 }).toArray()
+  examinationDifficulty(chapterWithDiffculty) {
+    return this.context.ExaminationDifficulty.findOneById(chapterWithDiffculty.examinationDifficultyId)
   }
 
   async insert(doc) {

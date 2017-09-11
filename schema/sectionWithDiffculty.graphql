@@ -1,0 +1,28 @@
+type SectionWithDiffculty {
+  id: ObjID!
+  section: Subject!
+  examinationDifficulty: ExaminationDifficulty!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  sectionWithDiffcultys(skip:Int, limit: Int): [SectionWithDiffculty!]
+  sectionWithDiffculty(id: ObjID!): SectionWithDiffculty
+}
+
+input createSectionWithDiffcultyinput {
+  sectionId: ObjID!
+  examinationDifficultyId: ObjID!
+}
+
+input UpdateSectionWithDiffcultyInput {
+  sectionId: ObjID
+  examinationDifficultyId: ObjID
+}
+
+extend type Mutation {
+  createSectionWithDiffculty(input:createSectionWithDiffcultyinput!): SectionWithDiffculty
+  updateSectionWithDiffculty(id: ObjID!, input: UpdateSectionWithDiffcultyInput!): SectionWithDiffculty
+  removeSectionWithDiffculty(id: ObjID!): Boolean
+}

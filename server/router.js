@@ -59,8 +59,22 @@ export default function myRouter(app) {
   })
 
   app.get('/updateExerciseType', async (req, res) => {
-    const { Exercise } = req.context
-    await Exercise.collection.updateMany({}, { $set: { type: '01' } })
+    // const { Exercise } = req.context
+    // await Exercise.collection.updateMany({}, { $set: { type: '01' } })
+    res.json({ code: '200', message: 'ok' })
+  })
+
+  app.get('/initCAndSDiffcult', async (req, res) => {
+    const { Exercise, Section, SectionWithDiffculty, ChapterWithDiffculty } = req.context
+    let exercises = await Exercise.collection.find().toArray()
+    for (let exercise of exercises) {
+      const { examinationDifficultyId, sectionId } = exercise
+      if (!sectionId || !examinationDifficultyId) continue
+      await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+      const section = await Section.findOneById(sectionId)
+      const { chapterId } = section
+      await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    }
     res.json({ code: '200', message: 'ok' })
   })
 }
@@ -106,7 +120,7 @@ async function initRealExercise(context, examinationDifficultyId, year, res) {
 async function initSectionExercise(context, examinationDifficultyId, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
-  let { Subject, Chapter, Section, SubjectWithDiffculty } = context
+  let { Subject, Chapter, Section, SubjectWithDiffculty, SectionWithDiffculty, ChapterWithDiffculty } = context
   let subjectTitle = RedCellDatas[0][0].toString().trim()
   if (subjectTitle !== '科目') return res.send('文件第一行必须为 标题 （科目，章序号，章 、、、）')
   let subjectName = RedCellDatas[1][0]
@@ -132,14 +146,14 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
 
   examinationDifficultyId = ObjectId(examinationDifficultyId)
 
-  let examinationDifficulty = {
+  let subjectWithDiffculty = {
     subjectId,
     examinationDifficultyId,
     createdAt: Date.now(),
     updatedAt: Date.now()
   }
 
-  await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, examinationDifficulty, { upsert: true })
+  await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, subjectWithDiffculty, { upsert: true })
 
   let chapterResult = await Chapter.collection.findOneAndUpdate(
     { num: chapterNum, subjectId },
@@ -154,6 +168,8 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   )
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
+    await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
     await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId })
   }
   res.send('文件上传成功')

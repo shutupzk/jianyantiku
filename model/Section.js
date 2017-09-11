@@ -12,7 +12,19 @@ export default class Section {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
+  async all({ skip = 0, limit = 10, examinationDifficultyId }) {
+    if (examinationDifficultyId) {
+      const deffuculties = await this.context.SectionWithDiffculty.collection
+        .find({
+          examinationDifficultyId
+        })
+        .toArray()
+      let ids = []
+      for (let deffuculty of deffuculties) {
+        ids.push(deffuculty.sectionId)
+      }
+      return this.collection.find({ _id: { $in: ids } }).toArray()
+    }
     return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
   }
 

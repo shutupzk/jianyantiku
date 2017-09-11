@@ -12,7 +12,7 @@ type Section {
 }
 
 extend type Query {
-  sections(skip:Int, limit: Int): [Section!]
+  sections(skip:Int, limit: Int, examinationDifficultyId: ObjID): [Section!]
   section(id: ObjID!): Section
 }
 
