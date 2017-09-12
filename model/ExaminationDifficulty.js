@@ -20,8 +20,8 @@ export default class ExaminationDifficulty {
     }).skip(skip).limit(limit).toArray()
   }
 
-  yearExerciseLists(examinationDifficulty, { skip = 0, limit = 10 }) {
-    return this.context.YearExerciseList.collection.find({
+  yearExerciseTypes(examinationDifficulty, { skip = 0, limit = 10 }) {
+    return this.context.YearExerciseType.collection.find({
       examinationDifficultyId: examinationDifficulty._id
     }).skip(skip).limit(limit).toArray()
   }

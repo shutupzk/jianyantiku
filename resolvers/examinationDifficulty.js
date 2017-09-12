@@ -12,8 +12,8 @@ const resolvers = {
       return ExaminationDifficulty.subjectWithDiffcultys(examinationDifficulty, { skip, limit })
     },
 
-    yearExerciseLists(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
-      return ExaminationDifficulty.yearExerciseLists(examinationDifficulty, { skip, limit })
+    yearExerciseTypes(examinationDifficulty, { skip, limit }, { ExaminationDifficulty }) {
+      return ExaminationDifficulty.yearExerciseTypes(examinationDifficulty, { skip, limit })
     }
   },
   Query: {

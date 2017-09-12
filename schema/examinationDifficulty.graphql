@@ -4,6 +4,7 @@ type ExaminationDifficulty { #试卷难度
   name: String! #名称 易、中、难
   examinationModels(skip:Int, limit: Int): [ExaminationModel]
   subjectWithDiffcultys(skip:Int, limit: Int): [SubjectWithDiffculty]
+  yearExerciseTypes(skip:Int, limit: Int): [YearExerciseType]
   createdAt: Float!
   updatedAt: Float!
 }
