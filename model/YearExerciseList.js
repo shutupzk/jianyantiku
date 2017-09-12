@@ -30,7 +30,6 @@ export default class YearExerciseList {
       .find({
         yearExerciseListId: yearExerciseList._id
       })
-      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
