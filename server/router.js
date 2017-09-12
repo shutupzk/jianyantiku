@@ -81,6 +81,9 @@ export default function myRouter(app) {
   app.get('/initYearExerciseType', async (req, res) => {
     // const { YearExerciseList, YearExerciseType } = req.context
     // let yearExerciseLists = await YearExerciseList.collection.find().toArray()
+    // for (let obj of yearExerciseLists) {
+    //   YearExerciseType
+    // }
     res.json({ code: '200', message: 'ok' })
   })
 }

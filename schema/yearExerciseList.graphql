@@ -16,13 +16,13 @@ extend type Query {
 input createYearExerciseListinput {
   title: String
   year: Int
-  examinationDifficultyId: ObjID!
+  yearExerciseTypeId: ObjID!
 }
 
 input UpdateYearExerciseListInput {
   title: String
   year: Int
-  subjectWithDiffcultyId: ObjID
+  yearExerciseTypeId: ObjID
 }
 
 extend type Mutation {
