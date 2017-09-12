@@ -2,7 +2,7 @@ type YearExerciseList {
   id: ObjID!
   title: String
   year: Int
-  examinationDifficulty: ExaminationDifficulty
+  yearExerciseType: YearExerciseType
   exercises(skip: Int, limit: Int): [Exercise!]
   createdAt: Float!
   updatedAt: Float!

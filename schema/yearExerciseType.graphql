@@ -1,0 +1,29 @@
+type YearExerciseType {
+  id: ObjID!
+  name: String! #名称 易、中、难
+  examinationDifficulty: ExaminationDifficulty
+  yearExerciseLists(skip:Int, limit: Int): [YearExerciseList]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  yearExerciseTypes(skip: Int, limit: Int): [YearExerciseType!]
+  yearExerciseType(id: ObjID!): YearExerciseType
+}
+
+input createYearExerciseTypeinput {
+  name: String
+  examinationDifficultyId: ObjID!
+}
+
+input UpdateYearExerciseTypeInput {
+  name: String
+  subjectWithDiffcultyId: ObjID
+}
+
+extend type Mutation {
+  createYearExerciseType(input: createYearExerciseTypeinput!): YearExerciseType
+  updateYearExerciseType(id: ObjID!, input: UpdateYearExerciseTypeInput!): YearExerciseType
+  removeYearExerciseType(id: ObjID!): Boolean
+}

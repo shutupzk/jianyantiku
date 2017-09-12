@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class YearExerciseList {
+export default class YearExerciseType {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('yearExerciseList')
+    this.collection = context.db.collection('yearExerciseType')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -21,14 +21,14 @@ export default class YearExerciseList {
       .toArray()
   }
 
-  yearExerciseType(yearExerciseList) {
-    return this.context.YearExerciseType.findOneById(yearExerciseList.yearExerciseTypeId)
+  examinationDifficulty(yearExerciseType) {
+    return this.context.ExaminationDifficulty.findOneById(yearExerciseType.examinationDifficultyId)
   }
 
-  exercises(yearExerciseList, { skip = 0, limit = 10 }) {
-    return this.context.Exercise.collection
+  yearExerciseLists(yearExerciseType, { skip = 0, limit = 10 }) {
+    return this.context.YearExerciseList.collection
       .find({
-        yearExerciseListId: yearExerciseList._id
+        yearExerciseTypeId: yearExerciseType._id
       })
       .skip(skip)
       .limit(limit)

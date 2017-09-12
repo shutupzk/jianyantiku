@@ -4,8 +4,8 @@ const resolvers = {
       return yearExerciseList._id
     },
 
-    examinationDifficulty(yearExerciseList, args, { YearExerciseList }) {
-      return YearExerciseList.examinationDifficulty(yearExerciseList)
+    yearExerciseType(yearExerciseList, args, { YearExerciseList }) {
+      return YearExerciseList.yearExerciseType(yearExerciseList)
     },
 
     exercises(yearExerciseList, { skip, limit }, { YearExerciseList }) {

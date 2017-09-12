@@ -65,16 +65,22 @@ export default function myRouter(app) {
   })
 
   app.get('/initCAndSDiffcult', async (req, res) => {
-    const { Exercise, Section, SectionWithDiffculty, ChapterWithDiffculty } = req.context
-    let exercises = await Exercise.collection.find().toArray()
-    for (let exercise of exercises) {
-      const { examinationDifficultyId, sectionId } = exercise
-      if (!sectionId || !examinationDifficultyId) continue
-      await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
-      const section = await Section.findOneById(sectionId)
-      const { chapterId } = section
-      await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
-    }
+    // const { Exercise, Section, SectionWithDiffculty, ChapterWithDiffculty } = req.context
+    // let exercises = await Exercise.collection.find().toArray()
+    // for (let exercise of exercises) {
+    //   const { examinationDifficultyId, sectionId } = exercise
+    //   if (!sectionId || !examinationDifficultyId) continue
+    //   await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    //   const section = await Section.findOneById(sectionId)
+    //   const { chapterId } = section
+    //   await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    // }
+    res.json({ code: '200', message: 'ok' })
+  })
+
+  app.get('/initYearExerciseType', async (req, res) => {
+    // const { YearExerciseList, YearExerciseType } = req.context
+    // let yearExerciseLists = await YearExerciseList.collection.find().toArray()
     res.json({ code: '200', message: 'ok' })
   })
 }
