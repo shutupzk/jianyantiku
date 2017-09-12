@@ -1,5 +1,6 @@
 type YearExerciseType {
   id: ObjID!
+  code: String
   name: String! #名称 易、中、难
   examinationDifficulty: ExaminationDifficulty
   yearExerciseLists(skip:Int, limit: Int): [YearExerciseList]
@@ -13,11 +14,13 @@ extend type Query {
 }
 
 input createYearExerciseTypeinput {
+  code: String
   name: String
   examinationDifficultyId: ObjID!
 }
 
 input UpdateYearExerciseTypeInput {
+  code: String
   name: String
   subjectWithDiffcultyId: ObjID
 }
