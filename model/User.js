@@ -110,6 +110,7 @@ export default class User {
     delete doc.password
     const docToInsert = Object.assign({}, doc, {
       hash,
+      score: 10,
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
