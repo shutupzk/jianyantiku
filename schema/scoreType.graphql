@@ -1,7 +1,8 @@
 type ScoreType { #积分类型
   id: ObjID!
   code:String! #编码
-  name: String! #积分名称
+  name: String! #累型名称
+  score: Int!
   scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
   createdAt: Float!
   updatedAt: Float!
@@ -15,11 +16,13 @@ extend type Query {
 input createScoreTypeInput {
   name: String!
   code:String!
+  score: Int!
 }
 
 input UpdateScoreTypeInput {
   code:String
   name: String
+  score: Int
 }
 
 extend type Mutation {
