@@ -28,8 +28,9 @@ export default function myRouter(app) {
   app.all('/uploadReal', upload.single('files'), async function(req, res, next) {
     console.log('uploadReal')
     const examinationDifficultyId = req.query.examinationDifficultyId
+    const yearExerciseTypeId = req.query.yearExerciseTypeId
     let year = req.query.year
-    if (!examinationDifficultyId || !year) return res.json('参数错误')
+    if (!examinationDifficultyId || !yearExerciseTypeId || !year) return res.json('参数错误')
     year = year * 1
     if (req.file) {
       try {
@@ -37,7 +38,7 @@ export default function myRouter(app) {
         let oldFile = req.file.path
         fs.renameSync(oldFile, newFile)
         req.context.filePath = newFile
-        await initRealExercise(req.context, examinationDifficultyId, year, res)
+        await initRealExercise(req.context, examinationDifficultyId, yearExerciseTypeId, year, res)
       } catch (e) {
         console.log(e)
         res.send('文件上传失败')
@@ -118,11 +119,11 @@ function trimExerciseContent(str) {
   return str.replace(match[0], '').trim()
 }
 
-async function initRealExercise(context, examinationDifficultyId, year, res) {
+async function initRealExercise(context, examinationDifficultyId, yearExerciseTypeId, year, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
   if (!year) return res.send('年份不能为空!')
-  await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, year })
+  await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year })
   res.send('文件上传成功')
 }
 
@@ -184,12 +185,13 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   res.send('文件上传成功')
 }
 
-async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, year }) {
+async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year }) {
   const { Exercise, YearExerciseList } = context
   examinationDifficultyId = ObjectId(examinationDifficultyId)
+  yearExerciseTypeId = ObjectId(yearExerciseTypeId)
   let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate(
-    { examinationDifficultyId, year },
-    { examinationDifficultyId, year, createdAt: Date.now(), updatedAt: Date.now() },
+    { yearExerciseTypeId, year },
+    { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() },
     { upsert: true }
   )
   const yearExerciseListId = getInsertId(yearExerciseListResult)
