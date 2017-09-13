@@ -27,6 +27,7 @@ export default class Analysis {
 
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
+      adopt: '0',
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
