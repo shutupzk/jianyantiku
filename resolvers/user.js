@@ -29,6 +29,18 @@ const resolvers = {
 
     rateOfProgressOfSections(user, { skip, limit }, { User }) {
       return User.rateOfProgressOfSections(user, { skip, limit })
+    },
+
+    userSigns(user, { skip, limit }, { User }) {
+      return User.userSigns(user, { skip, limit })
+    },
+
+    userShares(user, { skip, limit }, { User }) {
+      return User.userShares(user, { skip, limit })
+    },
+
+    userInvitations(user, { skip, limit }, { User }) {
+      return User.userInvitations(user, { skip, limit })
     }
   },
   Query: {

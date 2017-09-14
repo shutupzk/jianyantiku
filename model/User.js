@@ -112,6 +112,39 @@ export default class User {
       .toArray()
   }
 
+  userSigns(user, { skip = 0, limit = 10 }) {
+    return this.context.UserSign.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
+  userShares(user, { skip = 0, limit = 10 }) {
+    return this.context.UserShare.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
+  userInvitations(user, { skip = 0, limit = 10 }) {
+    return this.context.UserInvitation.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   async insert(doc) {
     const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
