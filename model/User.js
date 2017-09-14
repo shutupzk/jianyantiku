@@ -80,7 +80,7 @@ export default class User {
   }
 
   scoreRecords(user, { skip = 0, limit = 10 }) {
-    return ScoreRecord.collection
+    return this.context.ScoreRecord.collection
       .find({
         userId: user._id
       })
