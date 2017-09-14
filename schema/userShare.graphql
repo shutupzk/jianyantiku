@@ -14,6 +14,7 @@ extend type Query {
 
 input createUserShareinput {
   userId: ObjID!
+  type: String! # '01': 朋友圈， 02：微信好友，03：微博
 }
 
 input UpdateUserShareInput {
