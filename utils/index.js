@@ -10,7 +10,7 @@ export const md5 = str => {
 }
 
 export const checkPhoneNumber = phone => {
-  const r = /(1([3578][0-9]))\d{8}/
+  const r = /(1([34578][0-9]))\d{8}/
   return r.test(phone) && phone.length === 11
 }
 
