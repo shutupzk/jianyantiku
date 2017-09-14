@@ -16,7 +16,12 @@ export default class User {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection
+      .find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   exerciseCollects(user, { skip = 0, limit = 10 }) {
@@ -49,7 +54,12 @@ export default class User {
     if (subjectId) {
       ops.subjectId = subjectId
     }
-    return this.context.UserAnswer.collection.find(ops).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.context.UserAnswer.collection
+      .find(ops)
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async decorations(user, { skip = 0, limit = 10 }) {
@@ -70,7 +80,7 @@ export default class User {
   }
 
   scoreRecords(user, { skip = 0, limit = 10 }) {
-    return this.context.ScoreRecord.collection
+    return ScoreRecord.collection
       .find({
         userId: user._id
       })
@@ -103,6 +113,7 @@ export default class User {
   }
 
   async insert(doc) {
+    const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
     let user = await this.collection.findOne({ phone: doc.phone })
     if (user) throw new Error('手机号已被注册')
@@ -114,8 +125,17 @@ export default class User {
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
-    const id = (await this.collection.insertOne(docToInsert)).insertedId
-    return id
+    const userId = (await this.collection.insertOne(docToInsert)).insertedId
+
+    const invitationUser = await UserInvitation.findOne({ phone: doc.phone })
+    const scoreTypeId = (await ScoreType.collection.findOne({ code: '10' }))._id
+    const count = await ScoreRecord.collection.count({ userId: invitationUser.userId, scoreTypeId })
+    if (count < 5) {
+      ScoreRecord.autoInsert({ userId: invitationUser.userId, code: '10' })
+    }
+
+    ScoreRecord.autoInsert({ userId, code: '2' })
+    return userId
   }
 
   async updateById(id, doc) {

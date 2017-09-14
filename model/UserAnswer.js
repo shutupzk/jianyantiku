@@ -14,7 +14,12 @@ export default class UserAnswer {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection
+      .find()
+      .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   user(userAnswer) {
@@ -30,7 +35,7 @@ export default class UserAnswer {
   }
 
   async insert(doc) {
-    const { Answer, UserDayAnswer, Decoration, DecorationType, UserHasDecoration } = this.context
+    const { Answer, UserDayAnswer, Decoration, DecorationType, UserHasDecoration, ScoreRecord } = this.context
     const docToInsert = Object.assign({}, doc, {
       createdAt: Date.now(),
       updatedAt: Date.now()
@@ -47,6 +52,9 @@ export default class UserAnswer {
         let totalCount = exit.totalCount + 1
         let correctCount = exit.correctCount + correct
         await UserDayAnswer.updateById(exit._id, { totalCount, correctCount })
+        if (totalCount === 100) {
+          ScoreRecord.autoInsert({ userId, code: '3' })
+        }
       } else {
         await UserDayAnswer.insert({ userId, totalCount: 1, correctCount: 1, date })
       }

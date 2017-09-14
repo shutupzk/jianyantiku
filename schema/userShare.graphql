@@ -1,0 +1,27 @@
+type UserShare {
+  id: ObjID!
+  user: User!
+  date: String!
+  type: String! # '01': 朋友圈， 02：微信好友，03：微博
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userShares(skip:Int, limit: Int): [UserShare!]
+  userShare(id: ObjID!): UserShare
+}
+
+input createUserShareinput {
+  userId: ObjID!
+}
+
+input UpdateUserShareInput {
+  userId: ObjID
+}
+
+extend type Mutation {
+  createUserShare(input:createUserShareinput!): UserShare
+  updateUserShare(id: ObjID!, input: UpdateUserShareInput!): UserShare
+  removeUserShare(id: ObjID!): Boolean
+}

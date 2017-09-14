@@ -1,0 +1,28 @@
+type UserInvitation {
+  id: ObjID!
+  user: User!
+  phone: String!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userInvitations(skip:Int, limit: Int): [UserInvitation!]
+  userInvitation(id: ObjID!): UserInvitation
+}
+
+input createUserInvitationinput {
+  userId: ObjID!
+  phone: String!
+}
+
+input UpdateUserInvitationInput {
+  userId: ObjID
+  phone: String
+}
+
+extend type Mutation {
+  createUserInvitation(input:createUserInvitationinput!): UserInvitation
+  updateUserInvitation(id: ObjID!, input: UpdateUserInvitationInput!): UserInvitation
+  removeUserInvitation(id: ObjID!): Boolean
+}

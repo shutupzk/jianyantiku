@@ -18,7 +18,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createUserDayAnswer(root, { input }, { UserDayAnswer}) {
+    async createUserDayAnswer(root, { input }, { UserDayAnswer }) {
       const id = await UserDayAnswer.insert(input)
       return UserDayAnswer.findOneById(id)
     },

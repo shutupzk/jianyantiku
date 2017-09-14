@@ -2,7 +2,7 @@ type User {
   id: ObjID!
   phone: String!
   avatar: String
-  name: String!
+  name: String
   sex: String # 0: 女 1：男
   openId: String #微信用户的openid
   wcNickName: String
@@ -30,8 +30,8 @@ input signUpInput {
   phone: String!
   password: String!
   avatar: String
-  name: String!
-  sex: String! # 0: 女 1：男
+  name: String
+  sex: String # 0: 女 1：男
   openId: String #微信用户的openid
   wcNickName: String
   birthday: String

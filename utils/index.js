@@ -50,6 +50,17 @@ export const createTransactionNo = () => {
   return date + sss + r1 + r2 + r3 + r4
 }
 
+export const getInsertId = (upsertResult) => {
+  const { lastErrorObject, value } = upsertResult
+  let insertId
+  if (value) {
+    insertId = value._id
+  } else {
+    insertId = lastErrorObject.upserted
+  }
+  return insertId
+}
+
 function secondsFormat(str, length) {
   if (str.length >= length) {
     return str

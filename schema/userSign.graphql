@@ -1,0 +1,27 @@
+type UserSign {
+  id: ObjID!
+  user: User!
+  date: String! #'YYYY-MM-DD'
+  count: Int!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userSigns(skip:Int, limit: Int): [UserSign!]
+  userSign(id: ObjID!): UserSign
+}
+
+input createUserSigninput {
+  userId: ObjID!
+}
+
+input UpdateUserSignInput {
+  userId: ObjID
+}
+
+extend type Mutation {
+  createUserSign(input:createUserSigninput!): UserSign
+  updateUserSign(id: ObjID!, input: UpdateUserSignInput!): UserSign
+  removeUserSign(id: ObjID!): Boolean
+}

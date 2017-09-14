@@ -33,6 +33,25 @@ export default class ScoreRecord {
     return id
   }
 
+  async autoInsert({ userId, code }) {
+    const scoreType = await this.context.ScoreType.collection.findOne({code})
+    const { id, score } = scoreType
+    const docToInsert = {
+      score,
+      scoreTypeId: id,
+      userId,
+      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    }
+    const rId = (await this.collection.insertOne(docToInsert)).insertedId
+    const { User } = this.context
+    User.findOneById(userId).then((user) => {
+      User.updateById(userId, {score: (user.score || 0) + score})
+    })
+    return rId
+  }
+
   async updateById(id, doc) {
     const ret = await this.collection.update(
       { _id: id },
