@@ -26,11 +26,30 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createUserAnswer(root, { input }, { UserAnswer, Answer, Exercise, RateOfProgressOfSection }) {
+    async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection }) {
       const { userId } = input
-      const id = await UserAnswer.insert(input)
       const answer = await Answer.findOneById(input.answerId)
-      const exercise = await Exercise.findOneById(answer.exerciseId)
+      const { exerciseId } = answer
+      const exercise = await Exercise.findOneById(exerciseId)
+      const { type } = exercise
+      const user = await User.findOneById(userId)
+      let { score, scoreUsed } = user
+      if (type === '01') {
+        const answers = await Answer.collection.find({ exerciseId }).toArray()
+        let answerIds = []
+        for (let doc of answers) {
+          answerIds.push(doc._id)
+        }
+        const count = await UserAnswer.collection.count({ answerId: { $in: answerIds } })
+        if (count === 0) {
+          if (scoreUsed > score || score === scoreUsed) {
+            throw new Error('您的积分不足')
+          }
+          scoreUsed++
+        }
+      }
+      const id = await UserAnswer.insert(input)
+      User.updateById(userId, { scoreUsed })
       const { sectionId, num, examinationDifficultyId } = exercise
       const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId })
       let current = num
