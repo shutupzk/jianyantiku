@@ -36,12 +36,19 @@ export default class Analysis {
   }
 
   async updateById(id, doc) {
+    const { ScoreRecord } = this.context
+    const { adopt } = doc
+    const analysis = await this.findOneById(id)
     const ret = await this.collection.update({ _id: id }, {
       $set: Object.assign({}, doc, {
         updatedAt: Date.now()
       })
     })
     this.loader.clear(id)
+    if (adopt === '1' && analysis.adopt === '0') {
+      const { userId } = analysis
+      ScoreRecord.autoInsert({ userId, code: '11' })
+    }
     return ret
   }
 
