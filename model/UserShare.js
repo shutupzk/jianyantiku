@@ -36,7 +36,7 @@ export default class UserShare {
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
-    let lastShare = await this.collection.find({ userId, date, type })
+    let lastShare = await this.collection.findOne({ userId, date, type })
     if (!lastShare) {
       ScoreRecord.autoInsert({ userId, code: '4' })
     }
