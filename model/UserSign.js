@@ -35,7 +35,7 @@ export default class UserSign {
     let yesterday = moment()
       .add(-1, 'days')
       .format('YYYY-MM-DD')
-    let lastSign = await this.collection.find({ userId, date: yesterday })
+    let lastSign = await this.collection.findOne({ userId, date: yesterday })
     if (lastSign) {
       if (count === 30) {
         count = 1
@@ -51,7 +51,7 @@ export default class UserSign {
     })
     let upsertResult = await this.collection.findOneAndUpdate({ userId, date }, docToInsert, { upsert: true })
     const { value } = upsertResult
-    if (value) {
+    if (!value) {
       ScoreRecord.autoInsert({ userId, code: '5' })
       if (count === 5) {
         ScoreRecord.autoInsert({ userId, code: '6' })
