@@ -160,7 +160,7 @@ export default class User {
     })
     const userId = (await this.collection.insertOne(docToInsert)).insertedId
 
-    const invitationUser = await UserInvitation.findOne({ phone: doc.phone })
+    const invitationUser = await UserInvitation.collection.findOne({ phone: doc.phone })
     const scoreTypeId = (await ScoreType.collection.findOne({ code: '10' }))._id
     const count = await ScoreRecord.collection.count({ userId: invitationUser.userId, scoreTypeId })
     if (count < 5) {
