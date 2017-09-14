@@ -35,10 +35,10 @@ export default class ScoreRecord {
 
   async autoInsert({ userId, code }) {
     const scoreType = await this.context.ScoreType.collection.findOne({code})
-    const { id, score } = scoreType
+    const { _id, score } = scoreType
     const docToInsert = {
       score,
-      scoreTypeId: id,
+      scoreTypeId: _id,
       userId,
       date: moment().format('YYYY-MM-DD HH:mm:ss'),
       createdAt: Date.now(),
