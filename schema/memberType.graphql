@@ -1,0 +1,37 @@
+type MemberType { #积分类型
+  id: ObjID!
+  code:String! #编码
+  name: String! #会员名称
+  level: Int! #等级
+  price: Float! #价格
+  long: Int! #时长 （月为单位）
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  memberTypes(skip:Int, limit: Int): [MemberType!]
+  memberType(id: ObjID!): MemberType
+}
+
+input createMemberTypeInput {
+  code:String! #编码
+  name: String! #会员名称
+  level: Int! #等级
+  price: Float! #价格
+  long: Int! #时长 （月为单位）
+}
+
+input UpdateMemberTypeInput {
+  code:String #编码
+  name: String #会员名称
+  level: Int #等级
+  price: Float #价格
+  long: Int #时长 （月为单位）
+}
+
+extend type Mutation {
+  createMemberType(input:createMemberTypeInput!): MemberType
+  updateMemberType(id: ObjID!, input: UpdateMemberTypeInput!): MemberType
+  removeMemberType(id: ObjID!): Boolean
+}

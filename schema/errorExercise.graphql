@@ -1,0 +1,36 @@
+type ErrorExercise {
+  id: ObjID!
+  user: User!
+  exercise: Exercise!
+  content: String!
+  images: [String!]
+  adopt: String #'-1': 被否认， 0 : 待确认， 1：被采纳
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  errorExercises(skip:Int, limit: Int): [ErrorExercise!]
+  errorExercise(id: ObjID!): ErrorExercise
+}
+
+input createErrorExerciseinput {
+  userId: ObjID!
+  exerciseId: ObjID!
+  content: String!
+  images: [String]
+}
+
+input UpdateErrorExerciseInput {
+  userId: ObjID
+  exerciseId: ObjID
+  content: String!
+  images: [String]
+  adopt: String #'-1': 被否认， 0 : 待确认， 1：被采纳
+}
+
+extend type Mutation {
+  createErrorExercise(input:createErrorExerciseinput!): ErrorExercise
+  updateErrorExercise(id: ObjID!, input: UpdateErrorExerciseInput!): ErrorExercise
+  removeErrorExercise(id: ObjID!): Boolean
+}
