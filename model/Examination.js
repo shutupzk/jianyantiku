@@ -34,7 +34,7 @@ export default class Examination {
       .find({
         examinationId: examination._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -45,7 +45,7 @@ export default class Examination {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

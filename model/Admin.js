@@ -1,10 +1,10 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 
-export default class SectionWithDiffculty {
+export default class Admin {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('sectionWithDiffculty')
+    this.collection = context.db.collection('admin')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -13,15 +13,16 @@ export default class SectionWithDiffculty {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection
+      .find()
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
-  section(sectionWithDiffculty) {
-    return this.context.Section.findOneById(sectionWithDiffculty.sectionId)
-  }
-
-  examinationDifficulty(sectionWithDiffculty) {
-    return this.context.ExaminationDifficulty.findOneById(sectionWithDiffculty.examinationDifficultyId)
+  exercise(admin) {
+    return this.context.Exercise.findOneById(admin.exerciseId)
   }
 
   async insert(doc) {
@@ -34,11 +35,14 @@ export default class SectionWithDiffculty {
   }
 
   async updateById(id, doc) {
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     return ret
   }

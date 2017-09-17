@@ -40,7 +40,7 @@ export default class VerifyCode {
       .find({
         createdAt: { $gt: lastCreatedAt }
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

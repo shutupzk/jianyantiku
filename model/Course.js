@@ -15,7 +15,7 @@ export default class Course {
   all({ skip = 0, limit = 10, hot }) {
     let ops = {}
     if (hot) ops.hot = hot
-    return this.collection.find(ops).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find(ops).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   courseType(course) {

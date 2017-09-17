@@ -13,7 +13,7 @@ export default class Answer {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   exercise(answer) {
@@ -23,13 +23,13 @@ export default class Answer {
   answerImages(answer, { skip = 0, limit = 10 }) {
     return this.context.AnswerImage.collection.find({
       answerId: answer._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   userAnswers(answer, { skip = 0, limit = 10 }) {
     return this.context.UserAnswer.collection.find({
       answerId: answer._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

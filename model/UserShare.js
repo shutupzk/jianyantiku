@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 import moment from 'moment'
-import { getInsertId } from '../utils'
+// import { getInsertId } from '../utils'
 
 export default class UserShare {
   constructor(context) {
@@ -17,7 +17,7 @@ export default class UserShare {
   all({ skip = 0, limit = 10 }) {
     return this.collection
       .find()
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

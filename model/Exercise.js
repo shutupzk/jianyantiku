@@ -75,7 +75,7 @@ export default class Exercise {
       .find({
         exerciseId: exercise._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -86,7 +86,7 @@ export default class Exercise {
       .find({
         exerciseId: exercise._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -106,7 +106,7 @@ export default class Exercise {
     }
     return this.context.Note.collection
       .find(options)
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -117,7 +117,7 @@ export default class Exercise {
       .find({
         exerciseId: exercise._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

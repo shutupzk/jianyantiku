@@ -1,10 +1,11 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
+import moment from 'moment'
 
-export default class ExaminationModel {
+export default class Payment {
   constructor(context) {
     this.context = context
-    this.collection = context.db.collection('examinationModel')
+    this.collection = context.db.collection('payment')
     this.loader = new DataLoader(ids => findByIds(this.collection, ids))
   }
 
@@ -13,30 +14,31 @@ export default class ExaminationModel {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
-  }
-
-  exercises(examinationmModel, { skip = 0, limit = 10 }) {
-    return this.context.Exercise.collection
-      .find({
-        _id: { $in: examinationmModel.exerciseIds }
-      })
+    return this.collection
+      .find()
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
   }
 
-  examinationdifficulty(examinationmModel) {
-    if (!examinationmModel.examinationdifficultyId) return null
-    return this.context.Examinationdifficulty.findOneById(examinationmModel.examinationdifficultyId)
+  user(payment) {
+    return this.context.User.findOneById(payment.userId)
   }
 
   async insert(doc) {
+    const { ScoreRecord } = this.context
+    const { userId, type } = doc
+    let date = moment().format('YYYY-MM-DD')
     const docToInsert = Object.assign({}, doc, {
+      date,
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
+    let lastShare = await this.collection.findOne({ userId, date, type })
+    if (!lastShare) {
+      ScoreRecord.autoInsert({ userId, code: '4' })
+    }
     const id = (await this.collection.insertOne(docToInsert)).insertedId
     return id
   }

@@ -15,7 +15,7 @@ export default class MemberType {
   all({ skip = 0, limit = 10 }) {
     return this.collection
       .find()
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()

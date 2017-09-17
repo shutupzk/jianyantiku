@@ -13,13 +13,13 @@ export default class CourseType {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   courses(courseType, { skip = 0, limit = 10 }) {
     return this.context.Course.collection.find({
       courseTypeId: courseType._id
-    }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray()
+    }).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   async insert(doc) {

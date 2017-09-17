@@ -1,0 +1,26 @@
+type Admin {
+  id: ObjID!
+  username: String
+  password: String #加密密码
+}
+
+extend type Query {
+  admins(lastCreatedAt: Float, skip: Int, limit: Int): [Admin!]
+  admin(id: ObjID!): Admin
+}
+
+input createAdminInput {
+  username: String
+  password: String
+}
+
+input updateAdminInput {
+  username: String
+  password: String
+}
+
+extend type Mutation {
+  createAdmin(input: createAdminInput): Admin
+  removeAdmin(id: ObjID!): Boolean
+  updateAdmin(id: ObjID!, input: updateAdminInput): Admin
+}

@@ -18,7 +18,7 @@ export default class User {
   all({ skip = 0, limit = 10 }) {
     return this.collection
       .find()
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -29,7 +29,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -40,7 +40,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -56,7 +56,7 @@ export default class User {
     }
     return this.context.UserAnswer.collection
       .find(ops)
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -73,7 +73,7 @@ export default class User {
       .find({
         _id: { $in: decorationIds }
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -84,7 +84,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -95,7 +95,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -106,7 +106,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -117,7 +117,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -128,7 +128,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
@@ -139,7 +139,7 @@ export default class User {
       .find({
         userId: user._id
       })
-      .sort({ createdAt: -1 })
+      .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
       .toArray()
