@@ -45,13 +45,20 @@ export default class Examination {
   }
 
   all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection
+      .find()
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
-      endTime: moment().add(1, 'hours').format('YYYY-MM-DD HH:mm:ss'),
+      endTime: moment()
+        .add(1, 'hours')
+        .format('YYYY-MM-DD HH:mm:ss'),
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
@@ -64,11 +71,17 @@ export default class Examination {
       let count = await this.context.Exercise.collection.count()
       if (count <= 1) {
         await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: count } })
-        let exercises = await this.context.Exercise.collection.find().project({ _id: 1 }).toArray()
+        let exercises = await this.context.Exercise.collection
+          .find()
+          .project({ _id: 1 })
+          .toArray()
         for (let exercise of exercises) exerciseIds.push(exercise._id)
       } else {
         await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: 100 } })
-        let exercises = await this.context.Exercise.collection.find().project({_id: 1}).toArray()
+        let exercises = await this.context.Exercise.collection
+          .find({ type: '01' })
+          .project({ _id: 1 })
+          .toArray()
         getRadmom(exercises, exerciseIds)
       }
     }
