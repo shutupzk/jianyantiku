@@ -15,7 +15,7 @@ type User {
   courseCollects(skip:Int, limit: Int): [CourseCollect!]
   userAnswers(skip:Int, limit: Int, isAnswer: Boolean, subjectId: ObjID): [UserAnswer!]
   decorations(skip:Int, limit: Int): [Decoration!]
-  scoreRecords(skip:Int, limit: Int): [ScoreRecord!]
+  scoreRecords(skip:Int, limit: Int, date: String): [ScoreRecord!]
   examinations(skip:Int, limit: Int): [Examination]
   rateOfProgressOfSections(skip:Int, limit: Int): [RateOfProgressOfSection!]
   userSigns(skip:Int, limit: Int): [UserSign!]

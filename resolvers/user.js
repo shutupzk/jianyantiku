@@ -19,8 +19,8 @@ const resolvers = {
       return User.decorations(user, { skip, limit })
     },
 
-    scoreRecords(user, { skip, limit }, { User }) {
-      return User.scoreRecords(user, { skip, limit })
+    scoreRecords(user, { skip, limit, date }, { User }) {
+      return User.scoreRecords(user, { skip, limit, date })
     },
 
     examinations(user, { skip, limit }, { User }) {

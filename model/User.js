@@ -79,11 +79,11 @@ export default class User {
       .toArray()
   }
 
-  scoreRecords(user, { skip = 0, limit = 10 }) {
+  scoreRecords(user, { skip = 0, limit = 10, date }) {
+    let ops = { userId: user._id }
+    if (date) ops.date = date
     return this.context.ScoreRecord.collection
-      .find({
-        userId: user._id
-      })
+      .find(ops)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
