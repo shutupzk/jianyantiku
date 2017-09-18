@@ -19,7 +19,7 @@ export default class ScoreRecord {
 
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
-      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      date: moment().format('YYYY-MM-DD'),
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
@@ -40,7 +40,7 @@ export default class ScoreRecord {
       score,
       scoreTypeId: _id,
       userId,
-      date: moment().format('YYYY-MM-DD HH:mm:ss'),
+      date: moment().format('YYYY-MM-DD'),
       createdAt: Date.now(),
       updatedAt: Date.now()
     }

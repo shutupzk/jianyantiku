@@ -1,7 +1,7 @@
 type ScoreRecord { #积分记录
   id: ObjID!
   score:Int! #积分数
-  time: String! #积分时间
+  date: String! #积分时间
   scoreType:ScoreType
   user:User
   createdAt: Float!
@@ -21,7 +21,7 @@ input createScoreRecordInput {
 
 input UpdateScoreRecordInput {
   score:Int 
-  time: String 
+  date: String 
   scoreTypeId:ObjID
   userId:ObjID
 }

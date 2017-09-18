@@ -1,3 +1,4 @@
+import moment from 'moment'
 const resolvers = {
   ScoreRecord: {
     id(scoreRecord) {
@@ -10,6 +11,10 @@ const resolvers = {
 
     scoreType(scoreRecord, args, { ScoreRecord }) {
       return ScoreRecord.scoreType(scoreRecord)
+    },
+
+    date(scoreRecord) {
+      return moment(scoreRecord.date).format('YYYY-MM-DD')
     }
 
   },
