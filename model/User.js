@@ -193,6 +193,75 @@ export default class User {
     return ret
   }
 
+  async updateByPhone(phone, doc) {
+    let updateSet = {
+      updatedAt: Date.now()
+    }
+    // 忘记密码
+    if (!doc.password) {
+      if (!doc.newPassword) throw new Error('修改密码不能为空')
+      if (!doc.verifyCode) throw new Error('验证码不能为空')
+
+      // 验证验证码
+      let verifyData = await this.context.VerifyCode.collection.findOne({
+        phone: phone,
+        verifyCode: doc.verifyCode
+      })
+      if (!verifyData) throw new Error('验证码验证失败')
+      if (!verifyData.valid) {
+        throw new Error('验证码已经失效')
+      }
+      if (verifyData.overdue < Date.now()) {
+        throw new Error('验证码已过期')
+      }
+      await this.context.VerifyCode.collection.update(
+        { _id: verifyData._id },
+        {
+          $set: Object.assign({}, doc, {
+            valid: false
+          })
+        }
+      )
+
+      let user = await this.collection.findOne({ phone: phone })
+      // 修改密码
+      const newHash = await bcrypt.hash(doc.newPassword, SALT_ROUNDS)
+      delete doc.newPassword
+      delete doc.verifyCode
+      updateSet.hash = newHash
+      await this.collection.update(
+        { phone: phone },
+        {
+          $set: Object.assign({}, doc, updateSet)
+        }
+      )
+      this.loader.clear(user._id)
+      return user._id
+    } else {
+      // 修改密码
+      if (!doc.newPassword) throw new Error('修改密码不能为空')
+      if (!doc.password) throw new Error('原始密码不能为空')
+      // 验证用户和原始密码
+      let user = await this.collection.findOne({ phone: phone })
+      if (!user || !await bcrypt.compare(doc.password, user.hash)) {
+        throw new Error('User not found matching username/password combination')
+      }
+      // 修改成新设置的密码
+      const hash = await bcrypt.hash(doc.newPassword, SALT_ROUNDS)
+      delete doc.newPassword
+      delete doc.password
+      updateSet.hash = hash
+      await this.collection.update(
+        { phone: phone },
+        {
+          $set: Object.assign({}, doc, updateSet)
+        }
+      )
+      this.loader.clear(user._id)
+      return user._id
+    }
+  }
+
   async removeById(id) {
     const ret = this.collection.remove({ _id: id })
     this.loader.clear(id)
