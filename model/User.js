@@ -81,7 +81,7 @@ export default class User {
 
   scoreRecords(user, { skip = 0, limit = 10, date }) {
     let ops = { userId: user._id }
-    if (date) ops.deptName = { $regex: date, $options: 'i' }
+    if (date) ops.date = { $regex: date, $options: 'i' }
     return this.context.ScoreRecord.collection
       .find(ops)
       .sort({ _id: -1 })
