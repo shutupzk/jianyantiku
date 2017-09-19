@@ -61,6 +61,7 @@
     "nodeify": "^1.0.1",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
+    "qiniu": "^7.0.8",
     "request": "^2.51.0",
     "request-promise": "^4.2.0",
     "underscore": "^1.7.0"
