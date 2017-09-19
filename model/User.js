@@ -15,10 +15,14 @@ export default class User {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
+  all({ skip = 0, limit = 10, keyword, sort = { _id: -1 } }) {
+    let ops = {}
+    if (keyword) {
+      ops['$or'] = [{ phone: { $regex: keyword, $options: 'i' } }, { name: { $regex: keyword, $options: 'i' } }]
+    }
     return this.collection
-      .find()
-      .sort({ _id: -1 })
+      .find(ops)
+      .sort(sort)
       .skip(skip)
       .limit(limit)
       .toArray()
