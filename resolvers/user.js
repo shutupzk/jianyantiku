@@ -41,6 +41,18 @@ const resolvers = {
 
     userInvitations(user, { skip, limit }, { User }) {
       return User.userInvitations(user, { skip, limit })
+    },
+
+    countCourseCollect(user, args, { User }) {
+      return User.countCourseCollect(user)
+    },
+
+    countUserAnswer(user, args, { User }) {
+      return User.countUserAnswer(user)
+    },
+
+    countRightUserAnswer(user, args, { User }) {
+      return User.countRightUserAnswer(user)
     }
   },
   Query: {

@@ -11,6 +11,9 @@ type User {
   rank: Int
   score: Int #积分
   scoreUsed: Float #使用积分
+  countCourseCollect: Int
+  countUserAnswer: Int
+  countRightUserAnswer: Int
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   courseCollects(skip:Int, limit: Int): [CourseCollect!]
   userAnswers(skip:Int, limit: Int, isAnswer: Boolean, subjectId: ObjID): [UserAnswer!]

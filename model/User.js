@@ -145,6 +145,21 @@ export default class User {
       .toArray()
   }
 
+  countCourseCollect(user) {
+    const { CourseCollect } = this.context
+    return CourseCollect.collection.count({ userId: user._id })
+  }
+
+  countUserAnswer(user) {
+    const { UserAnswer } = this.context
+    return UserAnswer.collection.count({ userId: user._id })
+  }
+
+  countRightUserAnswer(user) {
+    const { UserAnswer } = this.context
+    return UserAnswer.collection.count({ userId: user._id, isAnswer: true })
+  }
+
   async insert(doc) {
     const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
