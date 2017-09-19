@@ -94,7 +94,7 @@ export default function myRouter(app) {
     for (let user of users) {
       let countUserAnswer = await UserAnswer.collection.count({ userId: user._id })
       let countRightUserAnswer = await UserAnswer.collection.count({ userId: user._id, isAnswer: true })
-      await User.updateById(user.id, { countUserAnswer, countRightUserAnswer })
+      await User.updateById(user._id, { countUserAnswer, countRightUserAnswer })
     }
     res.json({ code: '200', message: 'ok' })
   })
