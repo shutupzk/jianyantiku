@@ -29,7 +29,7 @@ type User {
 }
 
 extend type Query {
-  users(skip:Int, limit: Int): [User!]
+  users(skip:Int, limit: Int, sort: String): [User!]
   user(id: ObjID!): User
 }
 

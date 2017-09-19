@@ -56,8 +56,8 @@ const resolvers = {
     // }
   },
   Query: {
-    users(root, { skip, limit }, { User }) {
-      return User.all({ skip, limit })
+    users(root, { skip, limit, sort }, { User }) {
+      return User.all({ skip, limit, sort })
     },
 
     user(root, { id }, { User }) {

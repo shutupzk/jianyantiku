@@ -15,7 +15,9 @@ export default class User {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10, keyword, sort = { _id: -1 } }) {
+  all({ skip = 0, limit = 10, keyword, sort }) {
+    if (!sort) sort = { _id: -1 }
+    sort = JSON.parse(sort)
     let ops = {}
     if (keyword) {
       ops['$or'] = [{ phone: { $regex: keyword, $options: 'i' } }, { name: { $regex: keyword, $options: 'i' } }]
