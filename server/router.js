@@ -2,10 +2,20 @@ import xlsx from 'node-xlsx'
 import fs from 'fs'
 import { ObjectId } from 'mongodb'
 // import path from 'path'
+import qiniu from 'qiniu'
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
 export default function myRouter(app) {
+  app.all('/qiniu/fileUploadToken', (req, res) => {
+    let key = req.query.key || req.body.key || null
+    if (!key) return res.json({ code: 'err', data: {}, msg: '缺少参数 key ' })
+    const accessKey = 'zuEkahFX8kQ9V7gIEHybe8eeCiS57t2D61Eddp-O'
+    const secretKey = 'PiuPXx8-MsZKW0-BYI6VDGA1samxSAiRYoFsoUeB'
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+    let putPolicy = new qiniu.rs.PutPolicy({ scope: 'wenrun:' + key })
+    res.json({ token: putPolicy.uploadToken(mac), expires: putPolicy.expires })
+  })
   app.all('/upload', upload.single('files'), async function(req, res, next) {
     const examinationDifficultyId = req.query.examinationDifficultyId
     if (!examinationDifficultyId) return res.json('参数错误')
