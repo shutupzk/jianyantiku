@@ -47,6 +47,10 @@ export default class UserAnswer {
       let date = moment().format('YYYY-MM-DD')
       let userId = doc.userId
       let correct = answer.isAnswer ? 1 : 0
+      const { User } = this.context
+      User.findOneById(userId).then((user) => {
+        User.updateById(userId, {countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct})
+      })
       let exit = await UserDayAnswer.collection.findOne({ date, userId })
       if (exit) {
         let totalCount = exit.totalCount + 1

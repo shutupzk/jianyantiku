@@ -87,6 +87,17 @@ export default function myRouter(app) {
     // }
     res.json({ code: '200', message: 'ok' })
   })
+
+  app.get('/initUserExerciseCount', async (req, res) => {
+    const { User, UserAnswer } = req.context
+    let users = await User.collection.find().toArray()
+    for (let user of users) {
+      let countUserAnswer = await UserAnswer.collection.count({ userId: user._id })
+      let countRightUserAnswer = await UserAnswer.collection.count({ userId: user._id, isAnswer: true })
+      await User.updateById(user.id, { countUserAnswer, countRightUserAnswer })
+    }
+    res.json({ code: '200', message: 'ok' })
+  })
 }
 
 function replaceStr(str) {
@@ -178,8 +189,16 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   )
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
-    await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
-    await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    await ChapterWithDiffculty.collection.findOneAndUpdate(
+      { examinationDifficultyId, chapterId },
+      { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() },
+      { upsert: true }
+    )
+    await SectionWithDiffculty.collection.findOneAndUpdate(
+      { examinationDifficultyId, sectionId },
+      { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() },
+      { upsert: true }
+    )
     await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId })
   }
   res.send('文件上传成功')

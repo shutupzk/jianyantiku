@@ -45,15 +45,15 @@ const resolvers = {
 
     countCourseCollect(user, args, { User }) {
       return User.countCourseCollect(user)
-    },
-
-    countUserAnswer(user, args, { User }) {
-      return User.countUserAnswer(user)
-    },
-
-    countRightUserAnswer(user, args, { User }) {
-      return User.countRightUserAnswer(user)
     }
+
+    // countUserAnswer(user, args, { User }) {
+    //   return User.countUserAnswer(user)
+    // },
+
+    // countRightUserAnswer(user, args, { User }) {
+    //   return User.countRightUserAnswer(user)
+    // }
   },
   Query: {
     users(root, { skip, limit }, { User }) {
