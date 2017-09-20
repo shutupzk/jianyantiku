@@ -4,7 +4,7 @@ type Course {
   abstract: String
   content: String!
   url: String
-  courseType: CourseType!
+  type: String! #image, video
   date: String
   hot: Boolean
   teacher: String
@@ -19,7 +19,7 @@ extend type Query {
 
 input createCourseinput {
   title: String!
-  courseTypeId: ObjID!
+  type: String!
   content: String!
   date: String!
   hot: Boolean

@@ -2,10 +2,6 @@ const resolvers = {
   Course: {
     id(course) {
       return course._id
-    },
-
-    courseType(course, args, { Course }) {
-      return Course.courseType(course)
     }
   },
   Query: {
