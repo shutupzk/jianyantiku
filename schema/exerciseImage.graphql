@@ -1,6 +1,6 @@
 type ExerciseImage {
 	id: ObjID!
-	text: String!
+	text: String
 	image: String!
 	exercise: Exercise!
 	createdAt: Float!
@@ -13,7 +13,7 @@ extend type Query {
 }
 
 input createExerciseImageinput {
-	text: String!
+	text: String
 	image: String!
 	exerciseId: ObjID!
 }
@@ -26,6 +26,7 @@ input UpdateExerciseImageInput {
 
 extend type Mutation {
 	createExerciseImage(input: createExerciseImageinput!): ExerciseImage
+	createExerciseImages(inputs: [createExerciseImageinput!]!): Exercise
 	updateExerciseImage(id: ObjID!, input: UpdateExerciseImageInput!): ExerciseImage
 	removeExerciseImage(id: ObjID!): Boolean
 }

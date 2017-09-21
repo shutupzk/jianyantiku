@@ -18,9 +18,18 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createExerciseImage(root, { input }, { ExerciseImage, Patient }) {
+    async createExerciseImage(root, { input }, { ExerciseImage }) {
       const id = await ExerciseImage.insert(input)
       return ExerciseImage.findOneById(id)
+    },
+
+    async createExerciseImages(root, { inputs }, { ExerciseImage, Exercise }) {
+      const { exerciseId } = inputs[0]
+      await ExerciseImage.collection.deleteMany({ exerciseId })
+      for (let input of inputs) {
+        await ExerciseImage.insert(input)
+      }
+      return Exercise.findOneById(exerciseId)
     },
 
     async updateExerciseImage(root, { id, input }, { ExerciseImage }) {
