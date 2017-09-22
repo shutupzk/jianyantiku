@@ -100,29 +100,29 @@ export default function myRouter(app) {
   })
 
   app.get('/initUserExerciseCount', async (req, res) => {
-    const { User, UserAnswer } = req.context
-    let users = await User.collection.find().toArray()
-    for (let user of users) {
-      let countUserAnswer = await UserAnswer.collection.count({ userId: user._id })
-      let countRightUserAnswer = await UserAnswer.collection.count({ userId: user._id, isAnswer: true })
-      await User.updateById(user._id, { countUserAnswer, countRightUserAnswer })
-    }
+    // const { User, UserAnswer } = req.context
+    // let users = await User.collection.find().toArray()
+    // for (let user of users) {
+    //   let countUserAnswer = await UserAnswer.collection.count({ userId: user._id })
+    //   let countRightUserAnswer = await UserAnswer.collection.count({ userId: user._id, isAnswer: true })
+    //   await User.updateById(user._id, { countUserAnswer, countRightUserAnswer })
+    // }
     res.json({ code: '200', message: 'ok' })
   })
 
   app.get('/initYearExamType', async (req, res) => {
-    const { YearHasType, Exercise } = req.context
-    const yearExamTypeId = ObjectId('59c481c7f1182b07d2c310b5')
-    const yearExerciseListId = ObjectId('59b575bca335d65c4e0a5355')
+    // const { YearHasType, Exercise } = req.context
+    // const yearExamTypeId = ObjectId('59c481c7f1182b07d2c310b5')
+    // const yearExerciseListId = ObjectId('59b575bca335d65c4e0a5355')
 
-    let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
-      { yearExerciseListId, yearExamTypeId },
-      { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
-      { upsert: true }
-    )
-    const yearHasTypeId = getInsertId(yearHasTypeResult)
+    // let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
+    //   { yearExerciseListId, yearExamTypeId },
+    //   { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
+    //   { upsert: true }
+    // )
+    // const yearHasTypeId = getInsertId(yearHasTypeResult)
 
-    await Exercise.collection.update({}, { $set: { yearHasTypeId, yearExamTypeId } })
+    // await Exercise.collection.update({}, { $set: { yearHasTypeId, yearExamTypeId } })
     res.json({ code: '200', message: 'ok' })
   })
 }
@@ -266,7 +266,7 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02' }, exerciseInsert, { upsert: true })
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02', yearHasTypeId }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData, begin: 1 })
     await insertAnalysis(context, { exerciseId, RedCellData, begin: 7 })
