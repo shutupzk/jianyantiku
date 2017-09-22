@@ -132,7 +132,7 @@ export default function myRouter(app) {
     let userAnswers = await UserAnswer.collection.find({}).toArray()
     for (let userAnswer of userAnswers) {
       const { answerId } = userAnswer
-      let answer = await Answer.collection.findOne({answerId})
+      let answer = await Answer.collection.findOne({ _id: answerId })
       const { exerciseId } = answer
       await UserAnswer.updateById(userAnswer._id, { exerciseId })
     }
