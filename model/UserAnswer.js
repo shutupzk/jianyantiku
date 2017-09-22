@@ -34,9 +34,16 @@ export default class UserAnswer {
     return this.context.ExaminationHasExercise.findOneById(userAnswer.examinationHasExerciseId)
   }
 
+  exercise(userAnswer) {
+    return this.context.Exercise.findOneById(userAnswer.exerciseId)
+  }
+
   async insert(doc) {
     const { Answer, UserDayAnswer, Decoration, DecorationType, UserHasDecoration, ScoreRecord } = this.context
+    const answer = await Answer.findByIds(doc.answerId)
+    const { exerciseId } = answer
     const docToInsert = Object.assign({}, doc, {
+      exerciseId,
       createdAt: Date.now(),
       updatedAt: Date.now()
     })

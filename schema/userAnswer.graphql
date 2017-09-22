@@ -3,6 +3,7 @@ type UserAnswer {
   isAnswer: Boolean!
   user: User!
   answer: Answer!
+  exercise: Exercise!
   subject: Subject
   examinationHasExercise: ExaminationHasExercise!
   createdAt: Float!

@@ -126,6 +126,18 @@ export default function myRouter(app) {
     await Exercise.collection.update({ type: '01' }, { $set: { yearHasTypeId: null } })
     res.json({ code: '200', message: 'ok' })
   })
+
+  app.get('/initUserAnswer', async (req, res) => {
+    const { UserAnswer, Answer } = req.context
+    let userAnswers = await UserAnswer.collection.find({}).toArray()
+    for (let userAnswer of userAnswers) {
+      const { answerId } = userAnswer
+      let answer = await Answer.collection.find({answerId})
+      const { exerciseId } = answer
+      await UserAnswer.updateById(userAnswer._id, { exerciseId })
+    }
+    res.json({ code: '200', message: 'ok' })
+  })
 }
 
 function replaceStr(str) {
