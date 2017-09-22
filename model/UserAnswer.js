@@ -40,7 +40,7 @@ export default class UserAnswer {
 
   async insert(doc) {
     const { Answer, UserDayAnswer, Decoration, DecorationType, UserHasDecoration, ScoreRecord } = this.context
-    const answer = await Answer.findByIds(doc.answerId)
+    const answer = await Answer.findOneById(doc.answerId)
     const { exerciseId } = answer
     const docToInsert = Object.assign({}, doc, {
       exerciseId,
