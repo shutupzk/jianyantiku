@@ -74,7 +74,7 @@ export default class Subject {
   }
 
   errorCount(subject, {userId}) {
-    let options = { subjectId: subject._id, userId }
+    let options = { subjectId: subject._id, userId, isAnswer: false }
     return this.context.UserAnswer.collection.count(options)
   }
 
