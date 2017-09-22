@@ -134,8 +134,12 @@ export default function myRouter(app) {
       const { answerId } = userAnswer
       console.log(userAnswer)
       let answer = await Answer.findOneById(answerId)
-      const { exerciseId } = answer
-      await UserAnswer.updateById(userAnswer._id, { exerciseId })
+      if (answer) {
+        const { exerciseId } = answer
+        await UserAnswer.updateById(userAnswer._id, { exerciseId })
+      } else {
+        await UserAnswer.removeById(userAnswer._id)
+      }
     }
     res.json({ code: '200', message: 'ok' })
   })
