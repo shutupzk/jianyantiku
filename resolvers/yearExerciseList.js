@@ -10,6 +10,10 @@ const resolvers = {
 
     exercises(yearExerciseList, { skip, limit }, { YearExerciseList }) {
       return YearExerciseList.exercises(yearExerciseList, { skip, limit })
+    },
+
+    yearHasTypes(yearExerciseList, { skip, limit }, { YearExerciseList }) {
+      return YearExerciseList.yearHasTypes(yearExerciseList, { skip, limit })
     }
   },
   Query: {

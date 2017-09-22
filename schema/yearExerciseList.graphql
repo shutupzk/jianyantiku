@@ -4,6 +4,7 @@ type YearExerciseList {
   year: Int
   yearExerciseType: YearExerciseType
   exercises(skip: Int, limit: Int): [Exercise!]
+  yearHasTypes(skip: Int, limit: Int): [YearHasType!]
   createdAt: Float!
   updatedAt: Float!
 }

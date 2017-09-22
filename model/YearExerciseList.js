@@ -35,6 +35,16 @@ export default class YearExerciseList {
       .toArray()
   }
 
+  yearHasTypes(yearExerciseList, { skip = 0, limit = 10 }) {
+    return this.context.YearHasType.collection
+      .find({
+        yearExerciseListId: yearExerciseList._id
+      })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
       createdAt: Date.now(),
