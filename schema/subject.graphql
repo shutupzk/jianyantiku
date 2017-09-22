@@ -4,6 +4,8 @@ type Subject {
   remark: String
   chapters(skip: Int, limit: Int, examinationDifficultyId: ObjID): [Chapter!]
   exercises(skip: Int, limit: Int, hot:Boolean ): [Exercise!]
+  hotCount: Int
+  errorCount(userId: ObjID!): Int
   subjectWithDiffcultys(skip:Int, limit: Int): [SubjectWithDiffculty]
   createdAt: Float!
   updatedAt: Float!

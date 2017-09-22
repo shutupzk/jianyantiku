@@ -14,6 +14,14 @@ const resolvers = {
 
     subjectWithDiffcultys(subject, { skip, limit, hot }, { Subject }) {
       return Subject.subjectWithDiffcultys(subject, { skip, limit, hot })
+    },
+
+    hotCount(subject, args, { Subject }) {
+      return Subject.hotCount(subject)
+    },
+
+    errorCount(subject, { userId }, { Subject }) {
+      return Subject.errorCount(subject, { userId })
     }
   },
   Query: {

@@ -29,7 +29,7 @@ export default class Subject {
   }
 
   async chapters(subject, { skip = 0, limit = 10, examinationDifficultyId }) {
-    let ops = {subjectId: subject._id}
+    let ops = { subjectId: subject._id }
     if (examinationDifficultyId) {
       const deffuculties = await this.context.ChapterWithDiffculty.collection
         .find({
@@ -40,7 +40,7 @@ export default class Subject {
       for (let deffuculty of deffuculties) {
         ids.push(deffuculty.chapterId)
       }
-      ops._id = {$in: ids}
+      ops._id = { $in: ids }
     }
     return this.context.Chapter.collection
       .find(ops)
@@ -66,6 +66,16 @@ export default class Subject {
       .skip(skip)
       .limit(limit)
       .toArray()
+  }
+
+  hotCount(subject) {
+    let options = { subjectId: subject._id, hot: true }
+    return this.context.Exercise.collection.count(options)
+  }
+
+  errorCount(subject, {userId}) {
+    let options = { subjectId: subject._id, userId }
+    return this.context.UserAnswer.collection.count(options)
   }
 
   async insert(doc) {
