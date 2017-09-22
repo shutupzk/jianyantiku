@@ -7,8 +7,10 @@ type Exercise {
 	section: Section
 	subject: Subject
 	yearExerciseList: YearExerciseList
+	yearHasType: YearHasType
 	mockExamination: MockExamination
 	examinationDifficulty: ExaminationDifficulty
+	yearExamType: YearExamType
 	type: String! #01: 02: 真题
 	answers(skip: Int, limit: Int): [Answer!]
 	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
@@ -20,7 +22,7 @@ type Exercise {
 }
 
 extend type Query {
-	exercises(skip: Int, limit: Int , hot: Boolean, type: String, examinationDifficultyId: ObjID, yearExerciseListId: ObjID, subjectId: ObjID, sectionId: ObjID, chapterId: ObjID): [Exercise!]
+	exercises(skip: Int, limit: Int , hot: Boolean, type: String, examinationDifficultyId: ObjID, yearExerciseListId: ObjID, subjectId: ObjID, sectionId: ObjID, chapterId: ObjID, yearExamTypeId: ObjID): [Exercise!]
 	exercise(id: ObjID!): Exercise
 }
 
@@ -33,6 +35,7 @@ input createExerciseinput {
 	subjectId: ObjID
 	type: String!
 	yearExerciseListId: ObjID
+	yearHasTypeId: ObjID
 	mockExaminationId: ObjID
 	examinationDifficultyId: ObjID
 }
@@ -46,6 +49,7 @@ input UpdateExerciseInput {
 	subjectId: ObjID
 	type: String
 	yearExerciseListId: ObjID
+	yearHasTypeId: ObjID
 	mockExaminationId: ObjID
 	examinationDifficultyId: ObjID
 }

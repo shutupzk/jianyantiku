@@ -1,0 +1,29 @@
+type YearHasType {
+  id: ObjID!
+  yearExamType: YearExamType!
+  yearExerciseList: YearExerciseList!
+  exercises(skip: Int, limit: Int): [Exercise!]
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  yearHasTypes(skip:Int, limit: Int): [YearHasType!]
+  yearHasType(id: ObjID!): YearHasType
+}
+
+input createYearHasTypeinput {
+  yearExamTypeId: ObjID!
+  yearExerciseListId: ObjID!
+}
+
+input UpdateYearHasTypeInput {
+  yearExamTypeId: ObjID!
+  yearExerciseListId: ObjID!
+}
+
+extend type Mutation {
+  createYearHasType(input:createYearHasTypeinput!): YearHasType
+  updateYearHasType(id: ObjID!, input: UpdateYearHasTypeInput!): YearHasType
+  removeYearHasType(id: ObjID!): Boolean
+}

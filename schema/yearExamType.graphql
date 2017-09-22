@@ -1,0 +1,25 @@
+type YearExamType {
+	id: ObjID!
+	name: String!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+extend type Query {
+	yearExamTypes(skip: Int, limit: Int , hot: Boolean, type: String, examinationDifficultyId: ObjID, yearYearExamTypeListId: ObjID, subjectId: ObjID, sectionId: ObjID, chapterId: ObjID): [YearExamType!]
+	yearExamType(id: ObjID!): YearExamType
+}
+
+input createYearExamTypeinput {
+	name: String!
+}
+
+input UpdateYearExamTypeInput {
+	name: String
+}
+
+extend type Mutation {
+	createYearExamType(input: createYearExamTypeinput!): YearExamType
+	updateYearExamType(id: ObjID!, input: UpdateYearExamTypeInput!): YearExamType
+	removeYearExamType(id: ObjID!): Boolean
+}

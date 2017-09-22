@@ -16,6 +16,14 @@ const resolvers = {
       return Exercise.yearExerciseList(exercise)
     },
 
+    yearHasType(exercise, args, { Exercise }) {
+      return Exercise.yearHasType(exercise)
+    },
+
+    yearExamType(exercise, args, { Exercise }) {
+      return Exercise.yearExamType(exercise)
+    },
+
     mockExamination(exercise, args, { Exercise }) {
       return Exercise.mockExamination(exercise)
     },
@@ -45,8 +53,8 @@ const resolvers = {
     }
   },
   Query: {
-    exercises(root, { skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId }, { Exercise }) {
-      return Exercise.all({ skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId })
+    exercises(root, { skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId }, { Exercise }) {
+      return Exercise.all({ skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId })
     },
 
     exercise(root, { id }, { Exercise }) {

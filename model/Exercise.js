@@ -12,7 +12,7 @@ export default class Exercise {
     return this.loader.load(id)
   }
 
-  async all({ skip = 0, limit = 10, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, sectionId, chapterId }) {
+  async all({ skip = 0, limit = 10, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, sectionId, chapterId, yearExamTypeId }) {
     let options = {}
     if (hot) options.hot = hot
     if (type) options.type = type
@@ -28,6 +28,7 @@ export default class Exercise {
       options.sectionId = { $in: sectionIds }
     }
     if (sectionId) options.sectionId = sectionId
+    if (yearExamTypeId) options.yearExamTypeId = yearExamTypeId
     return this.collection
       .find(options)
       .skip(skip)
@@ -48,6 +49,16 @@ export default class Exercise {
   yearExerciseList(exercise) {
     if (!exercise.yearExerciseListId) return null
     return this.context.YearExerciseList.findOneById(exercise.yearExerciseListId)
+  }
+
+  yearHasType(exercise) {
+    if (!exercise.yearHasTypeId) return null
+    return this.context.YearHasType.findOneById(exercise.yearHasTypeId)
+  }
+
+  yearExamType(exercise) {
+    if (!exercise.yearExamTypeId) return null
+    return this.context.YearExamType.findOneById(exercise.yearExamTypeId)
   }
 
   mockExamination(exercise) {

@@ -39,8 +39,9 @@ export default function myRouter(app) {
     console.log('uploadReal')
     const examinationDifficultyId = req.query.examinationDifficultyId
     const yearExerciseTypeId = req.query.yearExerciseTypeId
+    const yearExamTypeId = req.query.yearExamTypeId
     let year = req.query.year
-    if (!examinationDifficultyId || !yearExerciseTypeId || !year) return res.json('参数错误')
+    if (!examinationDifficultyId || !yearExerciseTypeId || !year || !yearExamTypeId) return res.json('参数错误')
     year = year * 1
     if (req.file) {
       try {
@@ -48,7 +49,7 @@ export default function myRouter(app) {
         let oldFile = req.file.path
         fs.renameSync(oldFile, newFile)
         req.context.filePath = newFile
-        await initRealExercise(req.context, examinationDifficultyId, yearExerciseTypeId, year, res)
+        await initRealExercise(req.context, { examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId }, res)
       } catch (e) {
         console.log(e)
         res.send('文件上传失败')
@@ -140,11 +141,11 @@ function trimExerciseContent(str) {
   return str.replace(match[0], '').trim()
 }
 
-async function initRealExercise(context, examinationDifficultyId, yearExerciseTypeId, year, res) {
+async function initRealExercise(context, { examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId }, res) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
   if (!year) return res.send('年份不能为空!')
-  await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year })
+  await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId })
   res.send('文件上传成功')
 }
 
@@ -214,16 +215,25 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
   res.send('文件上传成功')
 }
 
-async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year }) {
-  const { Exercise, YearExerciseList } = context
+async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId }) {
+  const { Exercise, YearExerciseList, YearHasType } = context
   examinationDifficultyId = ObjectId(examinationDifficultyId)
   yearExerciseTypeId = ObjectId(yearExerciseTypeId)
+  yearExamTypeId = ObjectId(yearExamTypeId)
   let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate(
     { yearExerciseTypeId, year },
     { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() },
     { upsert: true }
   )
   const yearExerciseListId = getInsertId(yearExerciseListResult)
+
+  let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
+    { yearExerciseListId, yearExamTypeId },
+    { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
+    { upsert: true }
+  )
+  const yearHasTypeId = getInsertId(yearHasTypeResult)
+
   let num = 0
   for (let RedCellData of RedCellDatas) {
     if (!RedCellData[0]) continue
@@ -234,11 +244,13 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
       num,
       examinationDifficultyId,
       yearExerciseListId,
+      yearHasTypeId,
+      yearExamTypeId,
       type: '02',
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02' }, exerciseInsert, { upsert: true })
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02', yearHasTypeId }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData, begin: 1 })
     await insertAnalysis(context, { exerciseId, RedCellData, begin: 7 })
@@ -313,7 +325,7 @@ async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15 }) 
   const { Analysis } = context
   if (RedCellData.length < begin + 1) return
   let analysiss = []
-  for (let j = begin; j < RedCellData.length; j++) {
+  for (let j = begin; j < begin + 1; j++) {
     if (RedCellData[j]) {
       let content = RedCellData[j] + ''
       content = content.trim()
@@ -323,6 +335,7 @@ async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15 }) 
     }
   }
   if (analysiss.length === 0) return
+  await Analysis.collection.deleteMany({ exerciseId })
   for (let k = 0; k < analysiss.length; k++) {
     const analysisInsert = {
       content: analysiss[k],
