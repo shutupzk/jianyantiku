@@ -29,6 +29,10 @@ export default class YearHasType {
     return this.context.YearExerciseList.findOneById(yearHasType.yearExerciseListId)
   }
 
+  count(yearHasType) {
+    return this.context.Exercise.collection.count({ yearHasTypeId: yearHasType._id })
+  }
+
   exercises(yearHasType, { skip = 0, limit = 10 }) {
     return this.context.Exercise.collection
       .find({

@@ -14,6 +14,10 @@ const resolvers = {
 
     exercises(yearHasType, { skip, limit }, { YearHasType }) {
       return YearHasType.exercises(yearHasType, { skip, limit })
+    },
+
+    count(yearHasType, args, { YearHasType }) {
+      return YearHasType.count(yearHasType)
     }
   },
   Query: {
