@@ -73,9 +73,14 @@ export default class Subject {
     return this.context.Exercise.collection.count(options)
   }
 
-  errorCount(subject, {userId}) {
+  async errorCount(subject, { userId }) {
     let options = { subjectId: subject._id, userId, isAnswer: false }
-    return this.context.UserAnswer.collection.count(options)
+    const userAnswers = await this.context.UserAnswer.collection.find(options).toArray()
+    let ids = []
+    for (let obj of userAnswers) {
+      ids.push(obj.exerciseId)
+    }
+    return this.context.Exercise.collection.count({ _id: { $in: ids } })
   }
 
   async insert(doc) {

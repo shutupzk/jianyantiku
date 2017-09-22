@@ -8,8 +8,8 @@ const resolvers = {
       return User.exerciseCollects(user, { skip, limit })
     },
 
-    errorExcercises(user, { skip, limit }, { User }) {
-      return User.errorExcercises(user, { skip, limit })
+    errorExcercises(user, { skip, limit, isAnswer, subjectId }, { User }) {
+      return User.errorExcercises(user, { skip, limit, isAnswer, subjectId })
     },
 
     courseCollects(user, { skip, limit }, { User }) {
