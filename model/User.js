@@ -71,6 +71,28 @@ export default class User {
       .toArray()
   }
 
+  async errorExcercises(user, { skip = 0, limit = 10, isAnswer, subjectId }) {
+    let ops = {
+      userId: user._id
+    }
+    if (isAnswer === false || isAnswer === true) ops.isAnswer = isAnswer
+    if (subjectId) {
+      ops.subjectId = subjectId
+    }
+    const userAnswers = await this.context.UserAnswer.collection.find(ops).toArray()
+    let ids = []
+    for (let obj of userAnswers) {
+      ids.push(obj.exerciseId)
+    }
+    return this.context.Exercise.collection
+      .find({
+        _id: { $in: ids }
+      })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   async decorations(user, { skip = 0, limit = 10 }) {
     let userHasDecorations = await this.context.UserHasDecoration.collection.find({ userId: user._id }).toArray()
     let decorationIds = []

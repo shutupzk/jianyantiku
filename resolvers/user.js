@@ -7,6 +7,11 @@ const resolvers = {
     exerciseCollects(user, { skip, limit }, { User }) {
       return User.exerciseCollects(user, { skip, limit })
     },
+
+    errorExcercises(user, { skip, limit }, { User }) {
+      return User.errorExcercises(user, { skip, limit })
+    },
+
     courseCollects(user, { skip, limit }, { User }) {
       return User.courseCollects(user, { skip, limit })
     },
