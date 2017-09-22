@@ -132,7 +132,6 @@ export default function myRouter(app) {
     let userAnswers = await UserAnswer.collection.find({}).toArray()
     for (let userAnswer of userAnswers) {
       const { answerId } = userAnswer
-      console.log(userAnswer)
       let answer = await Answer.findOneById(answerId)
       if (answer) {
         const { exerciseId } = answer
