@@ -109,6 +109,22 @@ export default function myRouter(app) {
     }
     res.json({ code: '200', message: 'ok' })
   })
+
+  app.get('/initYearExamType', async (req, res) => {
+    const { YearHasType, Exercise } = req.context
+    const yearExamTypeId = ObjectId('59c481c7f1182b07d2c310b5')
+    const yearExerciseListId = ObjectId('59b575bca335d65c4e0a5355')
+
+    let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
+      { yearExerciseListId, yearExamTypeId },
+      { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
+      { upsert: true }
+    )
+    const yearHasTypeId = getInsertId(yearHasTypeResult)
+
+    await Exercise.collection.update({}, { $set: { yearHasTypeId, yearExamTypeId } })
+    res.json({ code: '200', message: 'ok' })
+  })
 }
 
 function replaceStr(str) {
