@@ -266,7 +266,7 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
       createdAt: Date.now(),
       updatedAt: Date.now()
     }
-    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02', yearHasTypeId }, exerciseInsert, { upsert: true })
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, yearExerciseListId, examinationDifficultyId, type: '02' }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData, begin: 1 })
     await insertAnalysis(context, { exerciseId, RedCellData, begin: 7 })
