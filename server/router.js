@@ -121,8 +121,9 @@ export default function myRouter(app) {
     //   { upsert: true }
     // )
     // const yearHasTypeId = getInsertId(yearHasTypeResult)
-
-    // await Exercise.collection.update({}, { $set: { yearHasTypeId, yearExamTypeId } })
+    // await Exercise.collection.update({ yearExerciseListId }, { $set: { yearHasTypeId, yearExamTypeId } })
+    const { Exercise } = req.context
+    await Exercise.collection.update({ type: '01' }, { $set: { yearHasTypeId: null } })
     res.json({ code: '200', message: 'ok' })
   })
 }
