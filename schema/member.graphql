@@ -1,0 +1,27 @@
+type Member {
+  id: ObjID!
+  name: String
+  memberCharges: [MemberCharge!]
+  memberServices: [MemberService!]
+  createdAt: Float!
+	updatedAt: Float!
+}
+
+extend type Query {
+  members(lastCreatedAt: Float, skip: Int, limit: Int): [Member!]
+  member(id: ObjID!): Member
+}
+
+input createMemberInput {
+  name: String
+}
+
+input updateMemberInput {
+  name: String
+}
+
+extend type Mutation {
+  createMember(input: createMemberInput): Member
+  removeMember(id: ObjID!): Boolean
+  updateMember(id: ObjID!, input: updateMemberInput): Member
+}

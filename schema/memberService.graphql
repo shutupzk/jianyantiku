@@ -1,0 +1,28 @@
+type MemberService {
+  id: ObjID!
+  member: Member!
+  service: Service!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  memberServices(skip: Int, limit: Int): [MemberService!]
+  memberService(id: ObjID!): MemberService
+}
+
+input createMemberServiceinput {
+  memberId: ObjID!
+  serviceId: ObjID!
+}
+
+input UpdateMemberServiceInput {
+  memberId: ObjID!
+  serviceId: ObjID!
+}
+
+extend type Mutation {
+  createMemberService(input: createMemberServiceinput!): MemberService
+  updateMemberService(id: ObjID!, input: UpdateMemberServiceInput!): MemberService
+  removeMemberService(id: ObjID!): Boolean
+}

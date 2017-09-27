@@ -1,0 +1,26 @@
+type Service {
+  id: ObjID!
+  code: String!
+  content: String!
+}
+
+extend type Query {
+  services(lastCreatedAt: Float, skip: Int, limit: Int): [Service!]
+  service(id: ObjID!): Service
+}
+
+input createServiceInput {
+  code: String!
+  content: String!
+}
+
+input updateServiceInput {
+  code: String
+  content: String
+}
+
+extend type Mutation {
+  createService(input: createServiceInput): Service
+  removeService(id: ObjID!): Boolean
+  updateService(id: ObjID!, input: updateServiceInput): Service
+}

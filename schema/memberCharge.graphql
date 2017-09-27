@@ -1,0 +1,28 @@
+type MemberCharge {
+  id: ObjID!
+  member: Member!
+  price: Float!
+  months: Int! #时长，单位月
+}
+
+extend type Query {
+  memberCharges(lastCreatedAt: Float, skip: Int, limit: Int): [MemberCharge!]
+  memberCharge(id: ObjID!): MemberCharge
+}
+
+input createMemberChargeInput {
+  memberId: ObjID!
+  price: Float!
+  months: Int! #时长，单位月
+}
+
+input updateMemberChargeInput {
+  price: Float
+  months: Int #时长，单位月
+}
+
+extend type Mutation {
+  createMemberCharge(input: createMemberChargeInput): MemberCharge
+  removeMemberCharge(id: ObjID!): Boolean
+  updateMemberCharge(id: ObjID!, input: updateMemberChargeInput): MemberCharge
+}
