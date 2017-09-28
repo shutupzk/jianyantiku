@@ -52,7 +52,7 @@ const resolvers = {
         }
         scoreUsed = scoreUsed || 0
         scoreUsed += 0.1
-        console.log('scoreUsed ===', scoreUsed)
+        // console.log('scoreUsed ===', scoreUsed)
         // }
       }
       const id = await UserAnswer.insert(input)

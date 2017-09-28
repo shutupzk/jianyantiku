@@ -97,9 +97,6 @@ export default class Exercise {
       .find({
         exerciseId: exercise._id
       })
-      .sort({ _id: -1 })
-      .skip(skip)
-      .limit(limit)
       .toArray()
   }
 
@@ -115,12 +112,7 @@ export default class Exercise {
         exerciseId: exercise._id
       }
     }
-    return this.context.Note.collection
-      .find(options)
-      .sort({ _id: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray()
+    return this.context.Note.collection.find(options).toArray()
   }
 
   analysiss(exercise, { skip = 0, limit = 10 }) {
@@ -128,9 +120,6 @@ export default class Exercise {
       .find({
         exerciseId: exercise._id
       })
-      .sort({ _id: -1 })
-      .skip(skip)
-      .limit(limit)
       .toArray()
   }
 
