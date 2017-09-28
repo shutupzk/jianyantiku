@@ -50,7 +50,9 @@ const resolvers = {
         if (scoreUsed > score || score === scoreUsed) {
           throw new Error('您的积分不足')
         }
+        scoreUsed = scoreUsed || 0
         scoreUsed += 0.1
+        console.log('scoreUsed ===', scoreUsed)
         // }
       }
       const id = await UserAnswer.insert(input)
