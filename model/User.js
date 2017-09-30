@@ -207,7 +207,7 @@ export default class User {
 
   async exerciseRate(user) {
     const { UserAnswer, Exercise } = this.context
-    const userAnswers = UserAnswer.collection.find({ userId: user._id, examinationHasExerciseId: { $exists: false } })
+    const userAnswers = await UserAnswer.collection.find({ userId: user._id, examinationHasExerciseId: { $exists: false } }).toArray()
     let ids = []
     for (let obj of userAnswers) {
       ids.push(obj.exerciseId)
