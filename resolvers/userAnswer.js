@@ -39,14 +39,6 @@ const resolvers = {
       const user = await User.findOneById(userId)
       let { score, scoreUsed } = user
       if (type === '01') {
-        // const answers = await Answer.collection.find({ exerciseId }).toArray()
-        // let answerIds = []
-        // for (let doc of answers) {
-        //   answerIds.push(doc._id)
-        // }
-        // const count = await UserAnswer.collection.count({ answerId: { $in: answerIds } })
-        // console.log('count === ', count)
-        // if (count === 0) {
         if (scoreUsed > score || score === scoreUsed) {
           throw new Error('您的积分不足')
         }

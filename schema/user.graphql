@@ -15,6 +15,7 @@ type User {
   countUserAnswer: Int
   countRightUserAnswer: Int
   member: Member
+  exerciseRate: Float
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   errorExcercises(skip:Int, limit: Int, isAnswer: Boolean, subjectId: ObjID): [Exercise!]
   courseCollects(skip:Int, limit: Int): [CourseCollect!]

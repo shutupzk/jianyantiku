@@ -66,6 +66,10 @@ const resolvers = {
 
     member(user, args, { User }) {
       return User.member(user)
+    },
+
+    exerciseRate(user, args, { User }) {
+      return User.exerciseRate(user)
     }
   },
   Query: {

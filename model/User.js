@@ -205,6 +205,19 @@ export default class User {
     return Member.collection.findOne({ _id: user.memberId })
   }
 
+  async exerciseRate(user) {
+    const { UserAnswer, Exercise } = this.context
+    const userAnswers = UserAnswer.collection.find({ userId: user._id, examinationHasExerciseId: { $exists: false } })
+    let ids = []
+    for (let obj of userAnswers) {
+      ids.push(obj.exerciseId)
+    }
+    const hasCount = await Exercise.collection.count({ _id: { $in: ids }, type: '01' })
+    const taltalCount = await Exercise.collection.count({ type: '01' })
+    const rate = (hasCount / taltalCount).toFixed(2) * 100
+    return rate
+  }
+
   async insert(doc) {
     const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
