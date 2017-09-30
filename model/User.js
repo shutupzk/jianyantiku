@@ -133,7 +133,7 @@ export default class User {
   }
 
   rateOfProgressOfSections(user, { skip = 0, limit = 10 }) {
-    return this.context.RateOfProgressOfSections.collection
+    return this.context.RateOfProgressOfSection.collection
       .find({
         userId: user._id
       })
