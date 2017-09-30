@@ -65,38 +65,26 @@ const resolvers = {
       let addMonth = 0
       let beginEffectTime
       let resultId
-      if (userMembers && userMembers.length > 0) {
-        for (let member of userMembers) {
-          if (member.code > code) {
-            if (!beginEffectTime) {
-              beginEffectTime = member.effectTime
-            }
-            addMonth += member.member
-            continue
-          } else if (member.code === code) {
-            resultId = member._id
-            await UserMember.updateById(member._id, { months: member.months + months })
-          } else if (member.code < code) {
-            await UserMember.updateById(member._id, {
-              effectTime: moment(member.effectTime)
-                .add(months, 'months')
-                .format('YYYY-MM-DD')
-            })
-          }
-          let { _id, effectTime } = member
-          effectTime = moment(effectTime)
-            .add(months, 'months')
-            .format('YYYY-MM-DD')
-          await UserMember.updateById(_id, { effectTime })
+      for (let member of userMembers) {
+        const memberCode = member.code * 1
+        if (memberCode > code) {
+          if (!beginEffectTime) beginEffectTime = member.effectTime
+          addMonth += member.months
+        } else if (memberCode === code) {
+          resultId = member._id
+          await UserMember.updateById(member._id, { months: member.months + months })
+        } else if (memberCode < code) {
+          await UserMember.updateById(member._id, {
+            effectTime: moment(member.effectTime)
+              .add(months, 'months')
+              .format('YYYY-MM-DD')
+          })
         }
       }
       if (!resultId) {
-        let effectTime
-        if (beginEffectTime) {
-          effectTime = moment(beginEffectTime).add(addMonth, 'months').format('YYYY-MM-DD')
-        } else {
-          effectTime = moment().add(addMonth, 'months').format('YYYY-MM-DD')
-        }
+        let effectTime = moment(beginEffectTime)
+          .add(addMonth, 'months')
+          .format('YYYY-MM-DD')
         resultId = await UserMember.insert(Object.assign({}, input, { code, months, status: true, effectTime }))
       }
       if (!beginEffectTime) {

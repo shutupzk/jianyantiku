@@ -27,6 +27,7 @@ input UpdateUserMemberInput {
 
 extend type Mutation {
   createUserMember(input:createUserMemberinput!): UserMember
+  giveUserMember(input:createUserMemberinput!): UserMember
   updateUserMember(id: ObjID!, input: UpdateUserMemberInput!): UserMember
   removeUserMember(id: ObjID!): Boolean
 }
