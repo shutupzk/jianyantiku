@@ -36,7 +36,9 @@ const resolvers = {
         for (let member of userMembers) {
           if (member.code === code) continue
           let { _id, effectTime } = member
-          effectTime = moment(effectTime).add(months, 'months').format('YYYY-MM-DD')
+          effectTime = moment(effectTime)
+            .add(months, 'months')
+            .format('YYYY-MM-DD')
           await UserMember.updateById(_id, { effectTime })
         }
       }
@@ -51,6 +53,56 @@ const resolvers = {
       await UserMember.updateById(id, { months })
       await User.updateById(userId, { memberId })
       return UserMember.findOneById(id)
+    },
+
+    async giveUserMember(root, { input }, { UserMember, MemberCharge, User }) {
+      const { userId, memberChargeId } = input
+      let { code, months, memberId } = await MemberCharge.findOneById(memberChargeId)
+      const userMembers = await UserMember.collection
+        .find({ userId, status: true })
+        .sort({ code: -1 })
+        .toArray()
+      let addMonth = 0
+      let beginEffectTime
+      let resultId
+      if (userMembers && userMembers.length > 0) {
+        for (let member of userMembers) {
+          if (member.code > code) {
+            if (!beginEffectTime) {
+              beginEffectTime = member.effectTime
+            }
+            addMonth += member.member
+            continue
+          } else if (member.code === code) {
+            resultId = member._id
+            await UserMember.updateById(member._id, { months: member.months + months })
+          } else if (member.code < code) {
+            await UserMember.updateById(member._id, {
+              effectTime: moment(member.effectTime)
+                .add(months, 'months')
+                .format('YYYY-MM-DD')
+            })
+          }
+          let { _id, effectTime } = member
+          effectTime = moment(effectTime)
+            .add(months, 'months')
+            .format('YYYY-MM-DD')
+          await UserMember.updateById(_id, { effectTime })
+        }
+      }
+      if (!resultId) {
+        let effectTime
+        if (beginEffectTime) {
+          effectTime = moment(beginEffectTime).add(addMonth, 'months').format('YYYY-MM-DD')
+        } else {
+          effectTime = moment().add(addMonth, 'months').format('YYYY-MM-DD')
+        }
+        resultId = await UserMember.insert(Object.assign({}, input, { code, months, status: true, effectTime }))
+      }
+      if (!beginEffectTime) {
+        await User.updateById(userId, { memberId })
+      }
+      return UserMember.findOneById(resultId)
     },
 
     async updateUserMember(root, { id, input }, { UserMember }) {
