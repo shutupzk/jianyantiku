@@ -17,12 +17,14 @@ extend type Query {
 input createRateOfProgressOfSectioninput {
   userId: ObjID!
   sectionId: ObjID!
+  examinationDifficultyId: ObjID!
   current: Int
 }
 
 input UpdateRateOfProgressOfSectionInput {
   userId: ObjID
   sectionId: ObjID
+  examinationDifficultyId: ObjID
   current: Int
 }
 
