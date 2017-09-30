@@ -145,7 +145,7 @@ export default function myRouter(app) {
 
   app.get('/initRateOfSection', async (req, res) => {
     const { RateOfProgressOfSection } = req.context
-    await RateOfProgressOfSection.collection.deleteMany({examinationDifficultyId: {$exsits: false}})
+    await RateOfProgressOfSection.collection.deleteMany({examinationDifficultyId: {$exists: false}})
     res.json({ code: '200', message: 'ok' })
   })
 }
