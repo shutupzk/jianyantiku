@@ -24,6 +24,10 @@ export default class RateOfProgressOfSection {
     return this.context.Section.findOneById(rateOfProgressOfSection.sectionId)
   }
 
+  examinationDifficulty(rateOfProgressOfSection) {
+    return this.context.ExaminationDifficulty.findOneById(rateOfProgressOfSection.examinationDifficultyId)
+  }
+
   count(rateOfProgressOfSection) {
     return this.context.Exercise.collection.count({ sectionId: rateOfProgressOfSection.sectionId })
   }

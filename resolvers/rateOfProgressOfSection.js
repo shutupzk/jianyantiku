@@ -12,6 +12,10 @@ const resolvers = {
       return RateOfProgressOfSection.section(rateOfProgressOfSection)
     },
 
+    examinationDifficulty(rateOfProgressOfSection, args, { RateOfProgressOfSection }) {
+      return RateOfProgressOfSection.examinationDifficulty(rateOfProgressOfSection)
+    },
+
     count(rateOfProgressOfSection, args, { RateOfProgressOfSection }) {
       return RateOfProgressOfSection.count(rateOfProgressOfSection)
     }
