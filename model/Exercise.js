@@ -116,11 +116,8 @@ export default class Exercise {
   }
 
   analysiss(exercise, { skip = 0, limit = 10 }) {
-    return this.context.Analysis.collection
-      .find({
-        exerciseId: exercise._id
-      })
-      .toArray()
+    let ops = { exerciseId: exercise._id, $or: [{ adopt: { $exists: false } }, { adopt: '1' }] }
+    return this.context.Analysis.collection.find(ops).toArray()
   }
 
   async insert(doc) {
