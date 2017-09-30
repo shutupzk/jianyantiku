@@ -13,8 +13,8 @@ const resolvers = {
     }
   },
   Query: {
-    analysiss(root, { skip, limit }, { Analysis }) {
-      return Analysis.all({ skip, limit })
+    analysiss(root, { skip, limit, isUser }, { Analysis }) {
+      return Analysis.all({ skip, limit, isUser })
     },
 
     analysis(root, { id }, { Analysis }) {

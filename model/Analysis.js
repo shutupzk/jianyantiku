@@ -12,8 +12,12 @@ export default class Analysis {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
-    return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
+  all({ skip = 0, limit = 10, isUser }) {
+    let ops = {}
+    if (isUser) {
+      ops.adopt = {$in: ['-1', '0', '1']}
+    }
+    return this.collection.find(ops).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   user(analysis) {

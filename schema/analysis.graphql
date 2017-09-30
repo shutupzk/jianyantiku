@@ -11,7 +11,7 @@ type Analysis {
 }
 
 extend type Query {
-  analysiss(skip:Int, limit: Int): [Analysis!]
+  analysiss(skip:Int, limit: Int, isUser: Boolean): [Analysis!]
   analysis(id: ObjID!): Analysis
 }
 
