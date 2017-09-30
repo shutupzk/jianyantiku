@@ -142,6 +142,12 @@ export default function myRouter(app) {
     }
     res.json({ code: '200', message: 'ok' })
   })
+
+  app.get('/initRateOfSection', async (req, res) => {
+    const { RateOfProgressOfSection } = req.context
+    await RateOfProgressOfSection.collection.deleteMany({examinationDifficultyId: {$exsits: false}})
+    res.json({ code: '200', message: 'ok' })
+  })
 }
 
 function replaceStr(str) {
