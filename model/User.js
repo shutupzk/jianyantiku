@@ -214,6 +214,7 @@ export default class User {
     }
     const hasCount = await Exercise.collection.count({ _id: { $in: ids }, type: '01' })
     const taltalCount = await Exercise.collection.count({ type: '01' })
+    console.log(hasCount, taltalCount)
     const rate = (hasCount / taltalCount).toFixed(2) * 100
     return rate
   }
