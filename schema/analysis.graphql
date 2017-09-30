@@ -2,7 +2,7 @@ type Analysis {
   id: ObjID!
   num: Int
   content: String!
-  adopt: String #'-1': 被否认， 0 : 待确认， 1：被采纳
+  adopt: String #0 : 待确认， 1：被采纳 '2': 被否认， 
   user: User
   images: [String!]
   exercise: Exercise!

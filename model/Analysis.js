@@ -15,9 +15,9 @@ export default class Analysis {
   all({ skip = 0, limit = 10, isUser }) {
     let ops = {}
     if (isUser) {
-      ops.adopt = {$in: ['-1', '0', '1']}
+      ops.adopt = {$in: ['2', '0', '1']}
     }
-    return this.collection.find(ops).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection.find(ops).sort({ adopt: 1, _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
   user(analysis) {
