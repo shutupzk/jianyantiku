@@ -76,6 +76,7 @@ export default class ScoreRecord {
   }
 
   scoreType(scoreRecord) {
+    if (!scoreRecord.scoreTypeId) return null
     return this.context.ScoreType.findOneById(scoreRecord.scoreTypeId)
   }
 }

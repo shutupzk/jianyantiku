@@ -3,7 +3,7 @@ type ScoreRecord { #积分记录
   score:Int! #积分数
   date: String! #积分时间
   scoreType:ScoreType
-  user:User
+  user:User!
   createdAt: Float!
   updatedAt: Float!
 }
@@ -16,7 +16,7 @@ extend type Query {
 input createScoreRecordInput {
   score:Int!
   scoreTypeId:ObjID
-  userId:ObjID
+  userId:ObjID!
 }
 
 input UpdateScoreRecordInput {
