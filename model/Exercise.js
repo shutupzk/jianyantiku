@@ -94,12 +94,12 @@ export default class Exercise {
     let anserkeys = {}
     for (let i = 0; i < answers.length; i++) {
       let answer = answers[i]
-      anserkeys[answer.id] = keyArray[i]
+      anserkeys[answer._id] = keyArray[i]
     }
     for (let answer of userAnswers) {
       keys[anserkeys[answer.exerciseId]]++
     }
-    console.log(anserkeys, keys)
+    // console.log(anserkeys, keys)
     let returnKey = ''
     let length = 0
     for (let key in keys) {
