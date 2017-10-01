@@ -2,6 +2,10 @@ const resolvers = {
   Course: {
     id(course) {
       return course._id
+    },
+
+    subject(course, args, {Course}) {
+      return Course.subject()
     }
   },
   Query: {

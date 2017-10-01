@@ -18,6 +18,11 @@ export default class Course {
     return this.collection.find(ops).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
+  subject(course) {
+    if (course.subjectId) return null
+    return this.context.Subject.findOneById(course.subjectId)
+  }
+
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
       createdAt: Date.now(),
