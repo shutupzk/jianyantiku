@@ -27,6 +27,29 @@ export default class UserExerciseTime {
     return this.context.User.findOneById(userExerciseTime.userId)
   }
 
+  totalCount(userExerciseTime) {
+    const { UserTimeAnswer } = this.context
+    return UserTimeAnswer.collection.count({ userExerciseTimeId: userExerciseTime._id })
+  }
+
+  rightCount(userExerciseTime) {
+    const { UserTimeAnswer } = this.context
+    return UserTimeAnswer.collection.count({ userExerciseTimeId: userExerciseTime._id, isAnswer: true })
+  }
+
+  errorCount(userExerciseTime) {
+    const { UserTimeAnswer } = this.context
+    return UserTimeAnswer.collection.count({ userExerciseTimeId: userExerciseTime._id, isAnswer: false })
+  }
+
+  async rightRate(userExerciseTime) {
+    const { UserTimeAnswer } = this.context
+    let total = await UserTimeAnswer.collection.count({ userExerciseTimeId: userExerciseTime._id })
+    let right = await UserTimeAnswer.collection.count({ userExerciseTimeId: userExerciseTime._id, isAnswer: true })
+    if (total === 0) return '0.00'
+    return (right / total * 100).toFixed('2')
+  }
+
   async insert(doc) {
     const { userId, times } = doc
     const docToInsert = Object.assign({}, doc, {

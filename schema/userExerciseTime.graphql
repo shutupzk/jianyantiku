@@ -3,6 +3,10 @@ type UserExerciseTime {
   user: User!
   times: Int!
   date: String!
+  totalCount: Int!
+  rightCount: Int!
+  errorCount: Int!
+  rightRate: String!
   createdAt: Float!
   updatedAt: Float!
 }

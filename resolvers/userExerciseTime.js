@@ -6,6 +6,22 @@ const resolvers = {
 
     user(userExerciseTime, args, { UserExerciseTime }) {
       return UserExerciseTime.user(userExerciseTime)
+    },
+
+    totalCount(userExerciseTime, args, { UserExerciseTime }) {
+      return UserExerciseTime.totalCount(userExerciseTime)
+    },
+
+    rightCount(userExerciseTime, args, { UserExerciseTime }) {
+      return UserExerciseTime.rightCount(userExerciseTime)
+    },
+
+    errorCount(userExerciseTime, args, { UserExerciseTime }) {
+      return UserExerciseTime.errorCount(userExerciseTime)
+    },
+
+    rightRate(userExerciseTime, args, { UserExerciseTime }) {
+      return UserExerciseTime.rightRate(userExerciseTime)
     }
   },
   Query: {
