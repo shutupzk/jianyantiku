@@ -27,7 +27,7 @@ input createCourseinput {
   url: String!
   teacher: String
   abstract: String
-  subject: ObjID
+  subjectId: ObjID
 }
 
 input UpdateCourseInput {
@@ -39,7 +39,7 @@ input UpdateCourseInput {
   url: String
   teacher: String
   abstract: String
-  subject: ObjID
+  subjectId: ObjID
 }
 
 extend type Mutation {
