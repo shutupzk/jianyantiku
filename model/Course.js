@@ -19,7 +19,7 @@ export default class Course {
   }
 
   subject(course) {
-    if (course.subjectId) return null
+    if (!course.subjectId) return null
     return this.context.Subject.findOneById(course.subjectId)
   }
 
