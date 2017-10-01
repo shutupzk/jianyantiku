@@ -13,6 +13,7 @@ type Exercise {
 	yearExamType: YearExamType
 	type: String! #01: 02: 真题
 	answerCount: Int
+	rightCount: Int
 	rightRate: Float
 	normalErrorAnswer: String
 	answers(skip: Int, limit: Int): [Answer!]

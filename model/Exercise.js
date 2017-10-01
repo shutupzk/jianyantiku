@@ -75,6 +75,10 @@ export default class Exercise {
     return this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
   }
 
+  rightCount(exercise) {
+    return this.context.UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
+  }
+
   async normalErrorAnswer(exercise) {
     const exerciseId = exercise._id
     const answers = await this.context.Answer.collection.find({ exerciseId }).toArray()
@@ -95,6 +99,7 @@ export default class Exercise {
     for (let answer of userAnswers) {
       keys[anserkeys[answer.exerciseId]]++
     }
+    console.log(anserkeys, keys)
     let returnKey = ''
     let length = 0
     for (let key in keys) {

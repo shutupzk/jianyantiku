@@ -36,6 +36,10 @@ const resolvers = {
       return Exercise.answerCount(exercise)
     },
 
+    rightCount(exercise, args, { Exercise }) {
+      return Exercise.rightCount(exercise)
+    },
+
     normalErrorAnswer(exercise, args, { Exercise }) {
       return Exercise.normalErrorAnswer(exercise)
     },
