@@ -1,0 +1,27 @@
+type UserExerciseTime {
+  id: ObjID!
+  user: User!
+  times: Int!
+  date: String!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userExerciseTimes(skip:Int, limit: Int): [UserExerciseTime!]
+  userExerciseTime(id: ObjID!): UserExerciseTime
+}
+
+input createUserExerciseTimeinput {
+  userId: ObjID!
+}
+
+input UpdateUserExerciseTimeInput {
+  userId: ObjID
+}
+
+extend type Mutation {
+  createUserExerciseTime(input:createUserExerciseTimeinput!): UserExerciseTime
+  updateUserExerciseTime(id: ObjID!, input: UpdateUserExerciseTimeInput!): UserExerciseTime
+  removeUserExerciseTime(id: ObjID!): Boolean
+}

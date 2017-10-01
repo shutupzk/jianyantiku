@@ -1,0 +1,33 @@
+type UserTimeAnswer {
+  id: ObjID!
+  isAnswer: Boolean!
+  user: User!
+  answer: Answer!
+  exercise: Exercise!
+  userExerciseTime: UserExerciseTime!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userTimeAnswers(skip:Int, limit: Int): [UserTimeAnswer!]
+  userTimeAnswer(id: ObjID!): UserTimeAnswer
+}
+
+input createUserTimeAnswerinput {
+  userId: ObjID!
+  answerId: ObjID!
+  userExerciseTimeId: ObjID
+}
+
+input UpdateUserTimeAnswerInput {
+  userId: ObjID
+  answerId: ObjID
+  userExerciseTimeId: ObjID
+}
+
+extend type Mutation {
+  createUserTimeAnswer(input:createUserTimeAnswerinput!): UserTimeAnswer
+  updateUserTimeAnswer(id: ObjID!, input: UpdateUserTimeAnswerInput!): UserTimeAnswer
+  removeUserTimeAnswer(id: ObjID!): Boolean
+}
