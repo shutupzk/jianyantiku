@@ -12,9 +12,10 @@ export default class Course {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10, hot }) {
+  all({ skip = 0, limit = 10, hot, type }) {
     let ops = {}
     if (hot) ops.hot = hot
+    if (type) ops.type = type
     return this.collection.find(ops).sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
