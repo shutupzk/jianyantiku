@@ -99,7 +99,6 @@ export default class Exercise {
     for (let answer of userAnswers) {
       keys[anserkeys[answer.answerId]]++
     }
-    console.log(anserkeys, keys)
     let returnKey = ''
     let length = 0
     for (let key in keys) {
