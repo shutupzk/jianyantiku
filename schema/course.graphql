@@ -14,7 +14,7 @@ type Course {
 }
 
 extend type Query {
-  courses(skip:Int, limit: Int, hot: Boolean, type: String): [Course!]
+  courses(skip:Int, limit: Int, hot: Boolean, type: String, subjectId: ObjID): [Course!]
   course(id: ObjID!): Course
 }
 
