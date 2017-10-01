@@ -71,13 +71,52 @@ export default class Exercise {
     return this.context.ExaminationDifficulty.findOneById(exercise.examinationDifficultyId)
   }
 
+  answerCount(exercise) {
+    return this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
+  }
+
+  async normalErrorAnswer(exercise) {
+    const exerciseId = exercise._id
+    const answers = await this.context.Answer.collection.find({ exerciseId }).toArray()
+    const userAnswers = await this.context.UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
+    let keys = {
+      A: 0,
+      B: 0,
+      C: 0,
+      D: 0,
+      E: 0
+    }
+    let keyArray = ['A', 'B', 'C', 'D', 'E']
+    let anserkeys = {}
+    for (let i = 0; i < answers.length; i++) {
+      let answer = answers[i]
+      anserkeys[answer.id] = keyArray[i]
+    }
+    for (let answer of userAnswers) {
+      keys[anserkeys[answer.exerciseId]]++
+    }
+    let returnKey = ''
+    let length = 0
+    for (let key in keys) {
+      if (keys[key] > length) {
+        length = keys[key]
+        returnKey = key
+      }
+    }
+    return returnKey
+  }
+
+  async rightRate(exercise) {
+    let all = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
+    let right = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
+    return Math.round(right / all * 100)
+  }
+
   answers(exercise, { skip = 0, limit = 10 }) {
     return this.context.Answer.collection
       .find({
         exerciseId: exercise._id
       })
-      .skip(skip)
-      .limit(limit)
       .toArray()
   }
 

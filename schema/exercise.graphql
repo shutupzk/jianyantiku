@@ -12,6 +12,9 @@ type Exercise {
 	examinationDifficulty: ExaminationDifficulty
 	yearExamType: YearExamType
 	type: String! #01: 02: 真题
+	answerCount: Int
+	rightRate: Float
+	normalErrorAnswer: String
 	answers(skip: Int, limit: Int): [Answer!]
 	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
 	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]

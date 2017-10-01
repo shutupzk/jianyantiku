@@ -32,6 +32,18 @@ const resolvers = {
       return Exercise.examinationDifficulty(exercise)
     },
 
+    answerCount(exercise, args, { Exercise }) {
+      return Exercise.answerCount(exercise)
+    },
+
+    normalErrorAnswer(exercise, args, { Exercise }) {
+      return Exercise.normalErrorAnswer(exercise)
+    },
+
+    rightRate(exercise, args, { Exercise }) {
+      return Exercise.rightRate(exercise)
+    },
+
     answers(exercise, { skip, limit }, { Exercise }) {
       return Exercise.answers(exercise, { skip, limit })
     },
