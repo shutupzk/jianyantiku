@@ -5,7 +5,7 @@ const resolvers = {
     },
 
     subject(course, args, {Course}) {
-      return Course.subject()
+      return Course.subject(course)
     }
   },
   Query: {
