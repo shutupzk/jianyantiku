@@ -38,14 +38,17 @@ const resolvers = {
       const { type } = exercise
       const user = await User.findOneById(userId)
       let { score, scoreUsed, memberId } = user
-      if (type === '01') {
-        if (!memberId && (scoreUsed > score || score === scoreUsed)) {
-          throw new Error('您的积分不足')
+      if (!memberId) {
+        if (type === '01') {
+          if (scoreUsed > score || score === scoreUsed) {
+            throw new Error('您的积分不足')
+          }
+          scoreUsed = scoreUsed || 0
+          scoreUsed += 0.1
+          scoreUsed = Math.round(scoreUsed * 100) / 100
         }
-        scoreUsed = scoreUsed || 0
-        scoreUsed += 0.1
-        scoreUsed = Math.round(scoreUsed * 100) / 100
       }
+
       const id = await UserAnswer.insert(input)
       User.updateById(userId, { scoreUsed })
       const { sectionId, num, examinationDifficultyId } = exercise
