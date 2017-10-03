@@ -73,8 +73,8 @@ const resolvers = {
     }
   },
   Query: {
-    users(root, { skip, limit, sort }, { User }) {
-      return User.all({ skip, limit, sort })
+    users(root, { skip, limit, sort, keyword }, { User }) {
+      return User.all({ skip, limit, sort, keyword })
     },
 
     user(root, { id }, { User }) {
