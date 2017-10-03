@@ -37,9 +37,9 @@ const resolvers = {
       const exercise = await Exercise.findOneById(exerciseId)
       const { type } = exercise
       const user = await User.findOneById(userId)
-      let { score, scoreUsed } = user
+      let { score, scoreUsed, memberId } = user
       if (type === '01') {
-        if (scoreUsed > score || score === scoreUsed) {
+        if (!memberId && (scoreUsed > score || score === scoreUsed)) {
           throw new Error('您的积分不足')
         }
         scoreUsed = scoreUsed || 0
