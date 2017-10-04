@@ -53,4 +53,27 @@ export default function addPassport(app) {
       next(e)
     }
   })
+
+  app.post('/loginWithWechat', async (req, res, next) => {
+    try {
+      const { openId } = req.body
+      if (!openId) {
+        throw new Error('openId not set on request')
+      }
+      const user = await req.context.User.collection.findOne({ openId })
+      if (!user) {
+        throw new Error('User not found matching openId combination')
+      }
+      const exp = Math.floor(new Date().getTime() / 1000) + 60 * 60 * 24
+      const userId = user._id.toString()
+      const payload = {
+        userId,
+        exp
+      }
+      const token = jwt.encode(payload, KEY)
+      res.json({ token, userId })
+    } catch (e) {
+      next(e)
+    }
+  })
 }
