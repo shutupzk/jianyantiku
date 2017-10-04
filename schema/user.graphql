@@ -52,10 +52,8 @@ input signUpInput {
 
 input UpdateUserInput {
   avatar: String
-  password: String
-  disabled: Boolean
   openId: String
-  rank:Int
+  wcNickName: String
 }
 
 input UpdatePasswordInput {
