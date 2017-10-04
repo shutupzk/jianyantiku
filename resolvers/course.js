@@ -19,6 +19,16 @@ const resolvers = {
   },
   Mutation: {
     async createCourse(root, { input }, { Course }) {
+      if (input.hot === 'true') {
+        input.hot = true
+      } else {
+        input.hot = false
+      }
+      if (input.free === 'true') {
+        input.free = true
+      } else {
+        input.free = false
+      }
       const id = await Course.insert(input)
       return Course.findOneById(id)
     },

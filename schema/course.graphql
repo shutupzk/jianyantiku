@@ -24,12 +24,12 @@ input createCourseinput {
   type: String!
   content: String!
   date: String!
-  hot: Boolean
+  hot: String
   url: String!
   teacher: String
   abstract: String
   subjectId: ObjID
-  free: Boolean
+  free: String
 }
 
 input UpdateCourseInput {
