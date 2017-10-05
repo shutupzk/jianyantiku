@@ -15,6 +15,14 @@ export default class User {
     return this.loader.load(id)
   }
 
+  findOneByPhone(phone) {
+    return this.collection.findOne({ phone })
+  }
+
+  findOneByOpenID(openId) {
+    return this.collection.findOne({ openId })
+  }
+
   all({ skip = 0, limit = 10, keyword, sort }) {
     if (!sort) {
       sort = { _id: -1 }

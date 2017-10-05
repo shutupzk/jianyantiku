@@ -79,6 +79,13 @@ const resolvers = {
 
     user(root, { id }, { User }) {
       return User.findOneById(id)
+    },
+
+    getUserByPhone(root, { phone }, { User }) {
+      return User.findOneByPhone(phone)
+    },
+    getUserByOpenId(root, { openId }, { User }) {
+      return User.findOneByOpenID(openId)
     }
   },
   Mutation: {
