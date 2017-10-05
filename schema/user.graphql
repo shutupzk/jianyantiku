@@ -35,6 +35,8 @@ type User {
 extend type Query {
   users(skip:Int, limit: Int, sort: String, keyword: String): [User!]
   user(id: ObjID!): User
+  getUserByPhone(phone: String!): User
+  getUserByOpenId(openId: String!): User
 }
 
 input signUpInput {
