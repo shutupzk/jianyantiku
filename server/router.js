@@ -59,6 +59,27 @@ export default function myRouter(app) {
     }
   })
 
+  app.all('/uploadHot', upload.single('files'), async function(req, res, next) {
+    console.log('uploadHot')
+    const examinationDifficultyId = req.query.examinationDifficultyId
+    const subjectId = req.query.subjectId
+    if (!examinationDifficultyId || !subjectId) return res.json('参数错误')
+    if (req.file) {
+      try {
+        let newFile = req.file.destination + req.file.originalname
+        let oldFile = req.file.path
+        fs.renameSync(oldFile, newFile)
+        req.context.filePath = newFile
+        await initHotExercise(req.context, { examinationDifficultyId, subjectId }, res)
+      } catch (e) {
+        console.log(e)
+        res.send('文件上传失败')
+      }
+    } else {
+      res.send('文件上传失败')
+    }
+  })
+
   app.get('/initModel', async (req, res) => {
     res.json({ code: '200', message: 'ok' })
     await initSectionExercise(req.context)
@@ -145,7 +166,7 @@ export default function myRouter(app) {
 
   app.get('/initRateOfSection', async (req, res) => {
     const { RateOfProgressOfSection } = req.context
-    await RateOfProgressOfSection.collection.deleteMany({examinationDifficultyId: {$exists: false}})
+    await RateOfProgressOfSection.collection.deleteMany({ examinationDifficultyId: { $exists: false } })
     res.json({ code: '200', message: 'ok' })
   })
 }
@@ -185,6 +206,13 @@ async function initRealExercise(context, { examinationDifficultyId, yearExercise
   let RedCellDatas = xlsx.parse(filePath)[0].data
   if (!year) return res.send('年份不能为空!')
   await insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId })
+  res.send('文件上传成功')
+}
+
+async function initHotExercise(context, { examinationDifficultyId, subjectId }, res) {
+  const filePath = context.filePath
+  let RedCellDatas = xlsx.parse(filePath)[0].data
+  await insertHotExercise(context, { RedCellDatas, examinationDifficultyId, subjectId }, res)
   res.send('文件上传成功')
 }
 
@@ -252,6 +280,41 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
     await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId })
   }
   res.send('文件上传成功')
+}
+
+async function insertHotExercise(context, { RedCellDatas, examinationDifficultyId, subjectId }, res) {
+  const { SubjectWithDiffculty, Exercise } = context
+  examinationDifficultyId = ObjectId(examinationDifficultyId)
+  subjectId = ObjectId(subjectId)
+
+  let subjectWithDiffculty = {
+    subjectId,
+    examinationDifficultyId,
+    createdAt: Date.now(),
+    updatedAt: Date.now()
+  }
+
+  await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, subjectWithDiffculty, { upsert: true })
+  let num = 0
+  for (let RedCellData of RedCellDatas) {
+    if (!RedCellData[0]) continue
+    num++
+    let exerciseContent = trimExerciseContent(RedCellData[0])
+    let exerciseInsert = {
+      content: exerciseContent,
+      num,
+      examinationDifficultyId,
+      subjectId,
+      hot: true,
+      type: '03',
+      createdAt: Date.now(),
+      updatedAt: Date.now()
+    }
+    let upsertResult = await Exercise.collection.findOneAndUpdate({ num, subjectId, examinationDifficultyId, type: '03' }, exerciseInsert, { upsert: true })
+    const exerciseId = getInsertId(upsertResult)
+    await insertAnswers(context, { exerciseId, RedCellData, begin: 1 })
+    await insertAnalysis(context, { exerciseId, RedCellData, begin: 7 })
+  }
 }
 
 async function insertRealExercise(context, { RedCellDatas, examinationDifficultyId, yearExerciseTypeId, year, yearExamTypeId }) {
