@@ -383,7 +383,7 @@ async function insertExercise(context, { subjectId, sectionId, RedCellDatas, exa
     let upsertResult = await Exercise.collection.findOneAndUpdate({ num: exerciseNum, subjectId, sectionId, examinationDifficultyId, type: '01' }, exerciseInsert, { upsert: true })
     const exerciseId = getInsertId(upsertResult)
     await insertAnswers(context, { exerciseId, RedCellData })
-    await insertAnalysis(context, { exerciseId, RedCellData })
+    await insertAnalysis(context, { exerciseId, RedCellData, exerciseNum })
   }
 }
 
@@ -423,8 +423,9 @@ async function insertAnswers(context, { exerciseId, RedCellData, begin = 9 }) {
   }
 }
 
-async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15 }) {
+async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15, exerciseNum }) {
   const { Analysis } = context
+  await Analysis.collection.deleteMany({ exerciseId })
   if (RedCellData.length < begin + 1) return
   let analysiss = []
   for (let j = begin; j < begin + 1; j++) {
@@ -437,11 +438,11 @@ async function insertAnalysis(context, { exerciseId, RedCellData, begin = 15 }) 
     }
   }
   if (analysiss.length === 0) return
-  await Analysis.collection.deleteMany({ exerciseId })
   for (let k = 0; k < analysiss.length; k++) {
     const analysisInsert = {
       content: analysiss[k],
       exerciseId,
+      adopt: '1',
       num: k + 1,
       createdAt: Date.now(),
       updatedAt: Date.now()
