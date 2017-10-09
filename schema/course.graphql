@@ -9,6 +9,7 @@ type Course {
   hot: Boolean
   teacher: String
   free: Boolean
+  articleUrl: String
   subject: Subject
   createdAt: Float!
   updatedAt: Float!
@@ -30,6 +31,7 @@ input createCourseinput {
   abstract: String
   subjectId: ObjID
   free: String
+  articleUrl: String
 }
 
 input UpdateCourseInput {
@@ -43,6 +45,7 @@ input UpdateCourseInput {
   abstract: String
   subjectId: ObjID
   free: Boolean
+  articleUrl: String
 }
 
 extend type Mutation {
