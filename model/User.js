@@ -243,10 +243,12 @@ export default class User {
     const userId = (await this.collection.insertOne(docToInsert)).insertedId
 
     const invitationUser = await UserInvitation.collection.findOne({ phone: doc.phone })
-    const scoreTypeId = (await ScoreType.collection.findOne({ code: '10' }))._id
-    const count = await ScoreRecord.collection.count({ userId: invitationUser.userId, scoreTypeId })
-    if (count < 5) {
-      ScoreRecord.autoInsert({ userId: invitationUser.userId, code: '10' })
+    if (invitationUser) {
+      const scoreTypeId = (await ScoreType.collection.findOne({ code: '10' }))._id
+      const count = await ScoreRecord.collection.count({ userId: invitationUser.userId, scoreTypeId })
+      if (count < 5) {
+        ScoreRecord.autoInsert({ userId: invitationUser.userId, code: '10' })
+      }
     }
 
     ScoreRecord.autoInsert({ userId, code: '2' })
