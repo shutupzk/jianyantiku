@@ -19,7 +19,7 @@ export default function paymentRouter(app) {
     let outTradeNo = message.out_trade_no
     let payTime = message.time_end
     const { _id, status, memberChargeId, userId, totalFee, payWay } = await Payment.collection.findOne({ outTradeNo })
-    if (status === 'WAIT_FOR_PAY') return
+    if (status !== 'WAIT_FOR_PAY') return
     const paymentId = _id
     Payment.updateById(paymentId, { tradeNo, payTime, status: 'TRADE_SUCCESS', payNotifyData: message })
     try {
