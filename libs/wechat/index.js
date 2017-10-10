@@ -53,6 +53,14 @@ export default class WechatPay {
     return null
   }
 
+  // 获取微信返回数据
+  async getNotifyData (req) {
+    const xml = await getRawBody(req)
+    const json = await parseXML(xml)
+    const data = json ? json.xml : {}
+    return data
+  }
+
   // 微信通知返回
   async notifyBack(res, success = true, errorMsg) {
     let xml = {}

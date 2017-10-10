@@ -15,6 +15,7 @@ import addModelsToContext from '../model'
 import authenticate from './authenticate'
 import { GRAPHQL_PORT, MONGO_URL } from '../config'
 import router from './router'
+import payment from './payment'
 
 // import { initDB } from '../seed'
 
@@ -39,6 +40,7 @@ async function startServer() {
 
   authenticate(app)
   router(app)
+  payment(app)
 
   app.use('/graphql', (req, res, next) => {
     passport.authenticate('jwt', { session: false }, (err, user, authError) => {

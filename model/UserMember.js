@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
+import moment from 'moment'
 
 export default class UserMember {
   constructor(context) {
@@ -27,6 +28,45 @@ export default class UserMember {
 
   memberCharge(userMember) {
     return this.context.MemberCharge.findOneById(userMember.memberChargeId)
+  }
+
+  async givUserMember(input) {
+    const { userId, memberChargeId } = input
+    const { MemberCharge, User } = this.context
+    let { code, months, memberId } = await MemberCharge.findOneById(memberChargeId)
+    const userMembers = await UserMember.collection
+      .find({ userId, status: true })
+      .sort({ code: -1 })
+      .toArray()
+    let addMonth = 0
+    let beginEffectTime
+    let resultId
+    for (let member of userMembers) {
+      const memberCode = member.code * 1
+      if (memberCode > code) {
+        if (!beginEffectTime) beginEffectTime = member.effectTime
+        addMonth += member.months
+      } else if (memberCode === code) {
+        resultId = member._id
+        await UserMember.updateById(member._id, { months: member.months + months })
+      } else if (memberCode < code) {
+        await UserMember.updateById(member._id, {
+          effectTime: moment(member.effectTime)
+            .add(months, 'months')
+            .format('YYYY-MM-DD')
+        })
+      }
+    }
+    if (!resultId) {
+      let effectTime = moment(beginEffectTime)
+        .add(addMonth, 'months')
+        .format('YYYY-MM-DD')
+      resultId = await UserMember.insert(Object.assign({}, input, { code, months, status: true, effectTime }))
+    }
+    if (!beginEffectTime) {
+      await User.updateById(userId, { memberId })
+    }
+    return resultId
   }
 
   async insert(doc) {

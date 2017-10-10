@@ -10,6 +10,8 @@ type Payment {
   status: String! #待支付:WAIT_FOR_PAY,已支付:TRADE_SUCCESS,已退款:REFUND_SUCCESS
   bussStatus: Boolean! #业务状态
   orderInfo: String #支付参数
+  payTime: String
+  refundTime: String
   user: User!
   memberCharge: MemberCharge
   createdAt: Float!
