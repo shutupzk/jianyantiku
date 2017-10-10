@@ -12,6 +12,10 @@ const resolvers = {
 
     user(payment, args, { Payment }) {
       return Payment.user(payment)
+    },
+
+    memberCharge(payment, args, { Payment }) {
+      return Payment.memberCharge(payment)
     }
   },
   Query: {
@@ -60,9 +64,10 @@ async function insertPayment(input, { totalFee, payWay, phone, type }, Payment) 
   let result
   try {
     if (payWay === 'NATIVE') {
-      result = await wechatPay.createAppOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: totalFee })
+      result = await wechatPay.createAppOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: Math.round(totalFee * 100) * 1 })
     } else if (payWay === 'WECHAT') {
-      result = await wechatPay.createWechatOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: totalFee, openid: input.openid })
+      if (!input.openid) throw new Error('openId 不能为空')
+      result = await wechatPay.createWechatOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: Math.round(totalFee * 100) * 1, openid: input.openid })
     } else {
       throw new Error('支付方式不正确')
     }

@@ -26,6 +26,11 @@ export default class Payment {
     return this.context.User.findOneById(payment.userId)
   }
 
+  memberCharge(payment) {
+    if (!payment.memberChargeId) return null
+    return this.context.MemberCharge.findOneById(payment.memberChargeId)
+  }
+
   async insert(doc) {
     const { ScoreRecord } = this.context
     const { userId, type } = doc
