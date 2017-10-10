@@ -70,7 +70,7 @@ export default class VerifyCode {
       let json = {
         account: 'N4503620',
         password: 'jTN1RC4poE12e7',
-        msg: '【253云通讯】您的验证码是：' + docToInsert.verifyCode,
+        msg: '【文润题库】您的验证码是：' + docToInsert.verifyCode,
         phone
       }
       let headers = { 'Content-Type': 'application/json' }
