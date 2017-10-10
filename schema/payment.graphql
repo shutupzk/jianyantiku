@@ -2,14 +2,16 @@ type Payment {
   id: ObjID!
   totalFee: Float!
   openid: String, # 用户微信openid
-  typeName:String #费用类别 MEMBER: 会员
+  type:String! #费用类别 MEMBER: 会员, SCORE: 积分
   outTradeNo:String! #系统订单号
   tradeNo: String #（支付宝，微信）订单号
   transactionNo:String! #流水号
   payWay: String! #交易方式 ALIPAY WECHAT NATIVE
   status: String! #待支付:WAIT_FOR_PAY,已支付:TRADE_SUCCESS,已退款:REFUND_SUCCESS
+  bussStatus: Boolean! #业务状态
   orderInfo: String #支付参数
   user: User!
+  memberCharge: MemberCharge
   createdAt: Float!
   updatedAt: Float!
 }
@@ -19,18 +21,18 @@ extend type Query {
   payment(id: ObjID!): Payment
 }
 
-input CreatePaymentInput {
+input CreateScorePayInput {
   openId: String
-  totalFee: Float!
-  typeName:String #费用类别 APPOINTMENT,OUTPAYMENT,INPATIENT,CUSULTATION
-  typeInfo:String #类型详情
-  payWay:String! #交易方式 ALIPAY WECHAT
-  consultationId: ObjID
-  appointmentId: ObjID
-  outPaymentTotalId: ObjID
-  depositRecodeId: ObjID
-  patientId: ObjID
+  userId: ObjID!
+  totalFee: Int!
+  payWay:String! #交易方式 ALIPAY WECHAT NATIVE
+}
 
+input CreateMemberPayInput {
+  openId: String
+  userId: ObjID!
+  memberChargeId: ObjID!
+  payWay:String! #交易方式 ALIPAY WECHAT NATIVE
 }
 
 input UpdatePaymentInput {
@@ -43,7 +45,8 @@ input UpdatePaymentInput {
 }
 
 extend type Mutation {
-  createPayment(input: CreatePaymentInput!): Payment
+  createMemberPay(input: CreateMemberPayInput!): Payment
+  createScorePay(input: CreateScorePayInput!): Payment
   updatePayment(id: ObjID!, input: UpdatePaymentInput!): Payment
   removePayment(id: ObjID!): Boolean
 }
