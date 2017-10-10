@@ -32,7 +32,7 @@ export default class UserMember {
 
   async addUserMember(input) {
     const { userId, memberChargeId } = input
-    const { MemberCharge, User } = this.context
+    const { MemberCharge, User, UserMember } = this.context
     let { code, months, memberId } = await MemberCharge.findOneById(memberChargeId)
     const userMembers = await UserMember.collection
       .find({ userId, status: true })
