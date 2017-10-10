@@ -69,8 +69,8 @@ const resolvers = {
     }
   },
   Query: {
-    exercises(root, { skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId }, { Exercise }) {
-      return Exercise.all({ skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId })
+    exercises(root, { skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId, keyword }, { Exercise }) {
+      return Exercise.all({ skip, limit, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, chapterId, sectionId, yearExamTypeId, keyword })
     },
 
     exercise(root, { id }, { Exercise }) {

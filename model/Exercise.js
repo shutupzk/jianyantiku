@@ -12,7 +12,7 @@ export default class Exercise {
     return this.loader.load(id)
   }
 
-  async all({ skip = 0, limit = 10, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, sectionId, chapterId, yearExamTypeId }) {
+  async all({ skip = 0, limit = 10, hot, type, examinationDifficultyId, yearExerciseListId, subjectId, sectionId, chapterId, yearExamTypeId, keyword }) {
     let options = {}
     if (hot) options.hot = hot
     if (type) options.type = type
@@ -29,6 +29,9 @@ export default class Exercise {
     }
     if (sectionId) options.sectionId = sectionId
     if (yearExamTypeId) options.yearExamTypeId = yearExamTypeId
+    if (keyword) {
+      options['$or'] = [{ content: { $regex: keyword, $options: 'i' } }]
+    }
     return this.collection
       .find(options)
       .skip(skip)

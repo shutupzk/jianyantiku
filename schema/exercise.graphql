@@ -26,7 +26,7 @@ type Exercise {
 }
 
 extend type Query {
-	exercises(skip: Int, limit: Int , hot: Boolean, type: String, examinationDifficultyId: ObjID, yearExerciseListId: ObjID, subjectId: ObjID, sectionId: ObjID, chapterId: ObjID, yearExamTypeId: ObjID): [Exercise!]
+	exercises(skip: Int, limit: Int , hot: Boolean, type: String, examinationDifficultyId: ObjID, yearExerciseListId: ObjID, subjectId: ObjID, sectionId: ObjID, chapterId: ObjID, yearExamTypeId: ObjID, keyword: String): [Exercise!]
 	exercise(id: ObjID!): Exercise
 }
 
