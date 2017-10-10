@@ -88,7 +88,23 @@ const resolvers = {
       return Exercise.findOneById(id)
     },
 
-    removeExercise(root, { id }, { Exercise }) {
+    async removeExercise(root, { id }, { Exercise, UserAnswer, Answer, Analysis, Note, ExerciseCollect, ExerciseImage, ExaminationHasExercise, ErrorExercise, AnswerImage, UserTimeAnswer }) {
+      await UserAnswer.collection.deleteMany({ exerciseId: id })
+      await Analysis.collection.deleteMany({ exerciseId: id })
+      await Note.collection.deleteMany({ exerciseId: id })
+      await ExerciseCollect.collection.deleteMany({ exerciseId: id })
+      await ExerciseImage.collection.deleteMany({ exerciseId: id })
+      await ExaminationHasExercise.collection.deleteMany({ exerciseId: id })
+      await ErrorExercise.collection.deleteMany({ exerciseId: id })
+      await AnswerImage.collection.deleteMany({ exerciseId: id })
+      await UserTimeAnswer.collection.deleteMany({ exerciseId: id })
+      const answers = await Answer.collection.find({ exerciseId: id }).toArray()
+      let ids = []
+      for (let answer of answers) {
+        ids.push(answer._id)
+      }
+      await UserAnswer.collection.deleteMany({ answerId: {$in: ids} })
+      await Answer.collection.deleteMany({ exerciseId: id })
       return Exercise.removeById(id)
     }
   }
