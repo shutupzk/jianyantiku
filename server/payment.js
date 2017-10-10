@@ -29,6 +29,7 @@ export default function paymentRouter(app) {
         const { _id, score } = await ScoreType.collection.findOne({ code: '1' })
         await ScoreRecord.insert({ score: Math.round(totalFee * score) * 1, scoreTypeId: _id, userId })
       }
+      await Payment.updateById(paymentId, { bussStatus: true })
     } catch (e) {
       console.log(e)
       const refundFee = Math.round(totalFee * 100) * 1
