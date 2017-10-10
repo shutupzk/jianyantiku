@@ -24,7 +24,7 @@ export default function paymentRouter(app) {
     Payment.updateById(paymentId, { tradeNo, payTime, status: 'TRADE_SUCCESS', payNotifyData: message })
     try {
       if (memberChargeId) {
-        await UserMember.giveUserMember({ userId, memberChargeId })
+        await UserMember.addUserMember({ userId, memberChargeId })
       } else {
         const { _id, score } = await ScoreType.collection.findOne({ code: '1' })
         await ScoreRecord.insert({ score: Math.round(totalFee * score) * 1, scoreTypeId: _id, userId })

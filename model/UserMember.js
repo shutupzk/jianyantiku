@@ -30,7 +30,7 @@ export default class UserMember {
     return this.context.MemberCharge.findOneById(userMember.memberChargeId)
   }
 
-  async givUserMember(input) {
+  async addUserMember(input) {
     const { userId, memberChargeId } = input
     const { MemberCharge, User } = this.context
     let { code, months, memberId } = await MemberCharge.findOneById(memberChargeId)

@@ -56,7 +56,7 @@ const resolvers = {
     },
 
     async giveUserMember(root, { input }, { UserMember, MemberCharge, User }) {
-      const id = await UserMember.giveUserMember(input)
+      const id = await UserMember.addUserMember(input)
       return UserMember.findOneById(id)
     },
 
