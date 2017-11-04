@@ -12,6 +12,10 @@ const resolvers = {
       return YearHasType.yearExerciseList(yearHasType)
     },
 
+    rateOfProgressOfExamination(yearHasType, { userId }, { YearHasType }) {
+      return YearHasType.rateOfProgressOfExamination(yearHasType, { userId })
+    },
+
     exercises(yearHasType, { skip, limit }, { YearHasType }) {
       return YearHasType.exercises(yearHasType, { skip, limit })
     },

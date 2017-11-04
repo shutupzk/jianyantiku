@@ -1,0 +1,37 @@
+type RateOfProgressOfExamination {
+  id: ObjID!
+  user: User!
+  current: Int!
+  count: Int!
+  examinationDifficulty: ExaminationDifficulty!
+  yearHasType: YearHasType!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  rateOfProgressOfExaminations(skip:Int, limit: Int): [RateOfProgressOfExamination!]
+  rateOfProgressOfExamination(id: ObjID!): RateOfProgressOfExamination
+}
+
+input createRateOfProgressOfExaminationinput {
+  userId: ObjID!
+  sectionId: ObjID!
+  examinationDifficultyId: ObjID!
+  yearHasTypeId: ObjID!
+  current: Int
+}
+
+input UpdateRateOfProgressOfExaminationInput {
+  userId: ObjID
+  sectionId: ObjID
+  examinationDifficultyId: ObjID
+  yearHasTypeId: ObjID
+  current: Int
+}
+
+extend type Mutation {
+  createRateOfProgressOfExamination(input:createRateOfProgressOfExaminationinput!): RateOfProgressOfExamination
+  updateRateOfProgressOfExamination(id: ObjID!, input: UpdateRateOfProgressOfExaminationInput!): RateOfProgressOfExamination
+  removeRateOfProgressOfExamination(id: ObjID!): Boolean
+}

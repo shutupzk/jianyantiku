@@ -30,7 +30,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection }) {
+    async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection, RateOfProgressOfExamination }) {
       const { userId } = input
       const answer = await Answer.findOneById(input.answerId)
       const { exerciseId } = answer
@@ -51,15 +51,26 @@ const resolvers = {
 
       const id = await UserAnswer.insert(input)
       User.updateById(userId, { scoreUsed })
-      const { sectionId, num, examinationDifficultyId } = exercise
-      const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId, type })
-      let current = num
-      if (rateOfProgressOfSection) {
-        if (num > rateOfProgressOfSection.current) {
-          await RateOfProgressOfSection.updateById(rateOfProgressOfSection._id, { current })
+      const { sectionId, num, examinationDifficultyId, yearHasTypeId } = exercise
+      if (type === '01' || type === '03') {
+        const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId, type })
+        let current = num
+        if (rateOfProgressOfSection) {
+          if (num > rateOfProgressOfSection.current) {
+            await RateOfProgressOfSection.updateById(rateOfProgressOfSection._id, { current })
+          }
+        } else {
+          await RateOfProgressOfSection.insert({ userId, sectionId, current, examinationDifficultyId, type })
         }
-      } else {
-        await RateOfProgressOfSection.insert({ userId, sectionId, current, examinationDifficultyId, type })
+      } else if (type === '02') {
+        const rateOfProgressOfExamination = await RateOfProgressOfExamination.collection.findOne({ userId, yearHasTypeId, examinationDifficultyId, type })
+        let current = num
+        if (rateOfProgressOfExamination) {
+          // if (num > rateOfProgressOfExamination.current) {
+          await RateOfProgressOfExamination.updateById(rateOfProgressOfExamination._id, { current })
+        } else {
+          await RateOfProgressOfExamination.insert({ userId, yearHasTypeId, current, examinationDifficultyId, type })
+        }
       }
       return UserAnswer.findOneById(id)
     },

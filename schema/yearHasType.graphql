@@ -4,6 +4,7 @@ type YearHasType {
   yearExerciseList: YearExerciseList!
   count: Int
   exercises(skip: Int, limit: Int): [Exercise!]
+  rateOfProgressOfExamination(userId: ObjID!): RateOfProgressOfExamination
   createdAt: Float!
   updatedAt: Float!
 }

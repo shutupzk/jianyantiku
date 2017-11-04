@@ -29,6 +29,10 @@ export default class YearHasType {
     return this.context.YearExerciseList.findOneById(yearHasType.yearExerciseListId)
   }
 
+  rateOfProgressOfExamination(yearHasType, { userId }) {
+    return this.context.RateOfProgressOfExamination.collection.findOne({ yearHasTypeId: yearHasType._id, userId })
+  }
+
   count(yearHasType) {
     return this.context.Exercise.collection.count({ yearHasTypeId: yearHasType._id })
   }
@@ -38,6 +42,7 @@ export default class YearHasType {
       .find({
         yearHasTypeId: yearHasType._id
       })
+      .sort({num: 1})
       .skip(skip)
       .limit(limit)
       .toArray()
