@@ -29,7 +29,7 @@ export default class RateOfProgressOfSection {
   }
 
   count(rateOfProgressOfSection) {
-    return this.context.Exercise.collection.count({ sectionId: rateOfProgressOfSection.sectionId, examinationDifficultyId: rateOfProgressOfSection.examinationDifficultyId })
+    return this.context.Exercise.collection.count({ sectionId: rateOfProgressOfSection.sectionId, examinationDifficultyId: rateOfProgressOfSection.examinationDifficultyId, type: rateOfProgressOfSection.type })
   }
 
   async insert(doc) {
