@@ -16,8 +16,8 @@ const resolvers = {
       return Section.exercises(section, { skip, limit, examinationDifficultyId, type })
     },
 
-    rateOfProgressOfSection(section, { userId, examinationDifficultyId }, { Section }) {
-      return Section.rateOfProgressOfSection(section, { userId, examinationDifficultyId })
+    rateOfProgressOfSection(section, { userId, examinationDifficultyId, type }, { Section }) {
+      return Section.rateOfProgressOfSection(section, { userId, examinationDifficultyId, type })
     }
   },
   Query: {

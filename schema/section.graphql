@@ -6,7 +6,7 @@ type Section {
   count(examinationDifficultyId: ObjID): Int!
   chapter: Chapter!
   exercises(skip: Int, limit: Int, examinationDifficultyId: ObjID, type: String): [Exercise!]
-  rateOfProgressOfSection(userId: ObjID!, examinationDifficultyId: ObjID!): RateOfProgressOfSection
+  rateOfProgressOfSection(userId: ObjID!, examinationDifficultyId: ObjID!, type: String): RateOfProgressOfSection
   createdAt: Float!
   updatedAt: Float!
 }
