@@ -28,8 +28,8 @@ export default class Section {
     return this.collection.find().sort({ _id: -1 }).skip(skip).limit(limit).toArray()
   }
 
-  count(section, { examinationDifficultyId }) {
-    let ops = { sectionId: section._id }
+  count(section, { examinationDifficultyId, type = '01' }) {
+    let ops = { sectionId: section._id, type }
     if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
     return this.context.Exercise.collection.count(ops)
   }
