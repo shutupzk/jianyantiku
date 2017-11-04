@@ -1,6 +1,7 @@
 type RateOfProgressOfSection {
   id: ObjID!
   user: User!
+  type: String
   section: Section!
   current: Int!
   examinationDifficulty: ExaminationDifficulty!
