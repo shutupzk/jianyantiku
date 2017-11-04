@@ -52,14 +52,14 @@ const resolvers = {
       const id = await UserAnswer.insert(input)
       User.updateById(userId, { scoreUsed })
       const { sectionId, num, examinationDifficultyId } = exercise
-      const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId })
+      const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId, type })
       let current = num
       if (rateOfProgressOfSection) {
         if (num > rateOfProgressOfSection.current) {
           await RateOfProgressOfSection.updateById(rateOfProgressOfSection._id, { current })
         }
       } else {
-        await RateOfProgressOfSection.insert({ userId, sectionId, current, examinationDifficultyId })
+        await RateOfProgressOfSection.insert({ userId, sectionId, current, examinationDifficultyId, type })
       }
       return UserAnswer.findOneById(id)
     },
