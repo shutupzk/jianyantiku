@@ -50,7 +50,7 @@ async function startServer() {
         if (query && query.length > 20000) {
           throw new Error('Query too large.')
         }
-        console.log('auth user', err, user)
+        // console.log('auth user', err, user)
         return {
           schema,
           context: Object.assign({ user }, req.context),
