@@ -60,17 +60,33 @@ export default function myRouter(app) {
   })
 
   app.all('/uploadHot', upload.single('files'), async function(req, res, next) {
-    console.log('uploadHot')
+    // console.log('uploadHot')
+    // const examinationDifficultyId = req.query.examinationDifficultyId
+    // const subjectId = req.query.subjectId
+    // if (!examinationDifficultyId || !subjectId) return res.json('参数错误')
+    // if (req.file) {
+    //   try {
+    //     let newFile = req.file.destination + req.file.originalname
+    //     let oldFile = req.file.path
+    //     fs.renameSync(oldFile, newFile)
+    //     req.context.filePath = newFile
+    //     await initHotExercise(req.context, { examinationDifficultyId, subjectId }, res)
+    //   } catch (e) {
+    //     console.log(e)
+    //     res.send('文件上传失败')
+    //   }
+    // } else {
+    //   res.send('文件上传失败')
+    // }
     const examinationDifficultyId = req.query.examinationDifficultyId
-    const subjectId = req.query.subjectId
-    if (!examinationDifficultyId || !subjectId) return res.json('参数错误')
+    if (!examinationDifficultyId) return res.json('参数错误')
     if (req.file) {
       try {
         let newFile = req.file.destination + req.file.originalname
         let oldFile = req.file.path
         fs.renameSync(oldFile, newFile)
         req.context.filePath = newFile
-        await initHotExercise(req.context, { examinationDifficultyId, subjectId }, res)
+        await initSectionExercise(req.context, examinationDifficultyId, res, true)
       } catch (e) {
         console.log(e)
         res.send('文件上传失败')
@@ -216,7 +232,7 @@ async function initHotExercise(context, { examinationDifficultyId, subjectId }, 
   res.send('文件上传成功')
 }
 
-async function initSectionExercise(context, examinationDifficultyId, res) {
+async function initSectionExercise(context, examinationDifficultyId, res, hot) {
   const filePath = context.filePath
   let RedCellDatas = xlsx.parse(filePath)[0].data
   let { Subject, Chapter, Section, SubjectWithDiffculty, SectionWithDiffculty, ChapterWithDiffculty } = context
@@ -277,7 +293,7 @@ async function initSectionExercise(context, examinationDifficultyId, res) {
       { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() },
       { upsert: true }
     )
-    await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId })
+    await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId, hot })
   }
   res.send('文件上传成功')
 }
@@ -359,9 +375,13 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
   }
 }
 
-async function insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId }) {
+async function insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId, hot = false }) {
   const { Exercise } = context
   let count = 0
+  let type = '01'
+  if (hot) {
+    type = '03'
+  }
   for (let RedCellData of RedCellDatas) {
     count++
     if (count === 1) continue
@@ -376,7 +396,8 @@ async function insertExercise(context, { subjectId, sectionId, RedCellDatas, exa
       subjectId,
       sectionId,
       examinationDifficultyId,
-      type: '01',
+      type,
+      hot,
       createdAt: Date.now(),
       updatedAt: Date.now()
     }

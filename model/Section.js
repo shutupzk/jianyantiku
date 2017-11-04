@@ -38,8 +38,8 @@ export default class Section {
     return this.context.Chapter.findOneById(section.chapterId)
   }
 
-  exercises(section, { skip = 0, limit = 10, examinationDifficultyId }) {
-    let ops = { sectionId: section._id }
+  exercises(section, { skip = 0, limit = 10, examinationDifficultyId, type = '01' }) {
+    let ops = { sectionId: section._id, type }
     if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
     return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).toArray()
   }
