@@ -228,8 +228,8 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise) {
       }
     }
 
-    let all = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
-    let right = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
+    let all = await UserAnswer.collection.count({ exerciseId: exercise._id })
+    let right = await UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
     let rightRate = Math.round(right / all * 100)
     console.log(exerciseId, answerCount, rightCount, normalErrorAnswer, rightRate)
     Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
