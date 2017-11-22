@@ -190,7 +190,7 @@ export default function myRouter(app) {
     const { Exercise, UserAnswer, Answer } = req.context
     const exercises = await Exercise.collection.find({}).toArray()
     for (let exercise of exercises) {
-      await updateExercise(Exercise, UserAnswer, Answer, exercise)
+      updateExercise(Exercise, UserAnswer, Answer, exercise)
     }
     res.json({ code: '200', message: 'ok' })
   })
