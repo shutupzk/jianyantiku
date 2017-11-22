@@ -190,7 +190,7 @@ export default function myRouter(app) {
     const { Exercise, UserAnswer, Answer } = req.context
     const exercises = await Exercise.collection.find({}).toArray()
     for (let exercise of exercises) {
-      updateExercise(Exercise, UserAnswer, Answer, exercise)
+      await updateExercise(Exercise, UserAnswer, Answer, exercise)
     }
     res.json({ code: '200', message: 'ok' })
   })
@@ -231,7 +231,7 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise) {
     let all = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
     let right = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
     let rightRate = Math.round(right / all * 100)
-
+    console.log(exerciseId, answerCount, rightCount, normalErrorAnswer, rightRate)
     Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
   } catch (e) {
     console.log(e)
