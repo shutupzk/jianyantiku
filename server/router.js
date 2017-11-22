@@ -307,7 +307,7 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
   sectionNum = sectionNum * 1
   sectionName = sectionName.trim()
 
-  let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { name: subjectName, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+  let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { $set: { hot, name: subjectName, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
   let subjectId = getInsertId(subjectResult)
 
   examinationDifficultyId = ObjectId(examinationDifficultyId)
@@ -321,29 +321,13 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
 
   await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, subjectWithDiffculty, { upsert: true })
 
-  let chapterResult = await Chapter.collection.findOneAndUpdate(
-    { num: chapterNum, subjectId },
-    { name: chapterName, num: chapterNum, subjectId, createdAt: Date.now(), updatedAt: Date.now() },
-    { upsert: true }
-  )
+  let chapterResult = await Chapter.collection.findOneAndUpdate({ num: chapterNum, subjectId }, { $set: { hot, name: chapterName, num: chapterNum, subjectId, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
   let chapterId = getInsertId(chapterResult)
-  let sectionResult = await Section.collection.findOneAndUpdate(
-    { chapterId, num: sectionNum },
-    { name: sectionName, num: sectionNum, chapterId, createdAt: Date.now(), updatedAt: Date.now() },
-    { upsert: true }
-  )
+  let sectionResult = await Section.collection.findOneAndUpdate({ chapterId, num: sectionNum }, { $set: { hot, name: sectionName, num: sectionNum, chapterId, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
-    await ChapterWithDiffculty.collection.findOneAndUpdate(
-      { examinationDifficultyId, chapterId },
-      { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() },
-      { upsert: true }
-    )
-    await SectionWithDiffculty.collection.findOneAndUpdate(
-      { examinationDifficultyId, sectionId },
-      { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() },
-      { upsert: true }
-    )
+    await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
     await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId, hot })
   }
   res.send('文件上传成功')
@@ -389,18 +373,10 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
   examinationDifficultyId = ObjectId(examinationDifficultyId)
   yearExerciseTypeId = ObjectId(yearExerciseTypeId)
   yearExamTypeId = ObjectId(yearExamTypeId)
-  let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate(
-    { yearExerciseTypeId, year },
-    { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() },
-    { upsert: true }
-  )
+  let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate({ yearExerciseTypeId, year }, { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
   const yearExerciseListId = getInsertId(yearExerciseListResult)
 
-  let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
-    { yearExerciseListId, yearExamTypeId },
-    { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
-    { upsert: true }
-  )
+  let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate({ yearExerciseListId, yearExamTypeId }, { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
   const yearHasTypeId = getInsertId(yearHasTypeResult)
 
   let num = 0

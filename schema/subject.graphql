@@ -2,6 +2,7 @@ type Subject {
   id: ObjID!
   name: String!
   remark: String
+  hot: Boolean
   chapters(skip: Int, limit: Int, examinationDifficultyId: ObjID): [Chapter!]
   exercises(skip: Int, limit: Int, hot:Boolean ): [Exercise!]
   hotCount: Int
@@ -19,11 +20,13 @@ extend type Query {
 input createSubjectinput {
   name: String!
   remark: String
+  hot: Boolean
 }
 
 input UpdateSubjectInput {
   name: String
   remark: String
+  hot: Boolean
 }
 
 extend type Mutation {

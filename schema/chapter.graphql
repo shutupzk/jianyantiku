@@ -3,6 +3,7 @@ type Chapter {
   num: Int!
   name: String!
   remark: String
+  hot: Boolean
   subject: Subject!
   sections(skip:Int, limit: Int, examinationDifficultyId: ObjID): [Section!]
   createdAt: Float!
@@ -18,6 +19,7 @@ input createChapterinput {
   num: Int!
   name: String!
   remark: String
+  hot: Boolean
   subjectId: ObjID!
 }
 
@@ -26,6 +28,7 @@ input UpdateChapterInput {
   name: String
   remark: String
   subjectId: ObjID
+  hot: Boolean
 }
 
 extend type Mutation {
