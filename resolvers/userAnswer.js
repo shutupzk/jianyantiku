@@ -1,5 +1,3 @@
-import { func } from '../../../Library/Caches/typescript/2.6/node_modules/@types/assert-plus'
-
 const resolvers = {
   UserAnswer: {
     id(userAnswer) {
