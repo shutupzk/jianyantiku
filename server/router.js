@@ -185,6 +185,57 @@ export default function myRouter(app) {
     await RateOfProgressOfSection.collection.deleteMany({ examinationDifficultyId: { $exists: false } })
     res.json({ code: '200', message: 'ok' })
   })
+
+  app.get('/updateExerciseRate', async (req, res) => {
+    const { Exercise, UserAnswer, Answer } = req.context
+    const exercises = await Exercise.collection.find({}).toArray()
+    for (let exercise of exercises) {
+      updateExercise(Exercise, UserAnswer, Answer, exercise)
+    }
+    res.json({ code: '200', message: 'ok' })
+  })
+}
+
+async function updateExercise(Exercise, UserAnswer, Answer, exercise) {
+  try {
+    const exerciseId = exercise._id
+    let answerCount = await UserAnswer.collection.count({ exerciseId })
+    let rightCount = await UserAnswer.collection.count({ exerciseId, isAnswer: true })
+    const answers = await Answer.collection.find({ exerciseId }).toArray()
+    const userAnswers = await UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
+    let keys = {
+      A: 0,
+      B: 0,
+      C: 0,
+      D: 0,
+      E: 0
+    }
+    let keyArray = ['A', 'B', 'C', 'D', 'E']
+    let anserkeys = {}
+    for (let i = 0; i < answers.length; i++) {
+      let answer = answers[i]
+      anserkeys[answer._id] = keyArray[i]
+    }
+    for (let answer of userAnswers) {
+      keys[anserkeys[answer.answerId]]++
+    }
+    let normalErrorAnswer = ''
+    let length = 0
+    for (let key in keys) {
+      if (keys[key] > length) {
+        length = keys[key]
+        normalErrorAnswer = key
+      }
+    }
+
+    let all = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id })
+    let right = await this.context.UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
+    let rightRate = Math.round(right / all * 100)
+
+    Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 function replaceStr(str) {
