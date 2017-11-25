@@ -21,6 +21,7 @@ export default class CourseCollect {
   }
 
   course(courseCollect) {
+    if (!courseCollect.courseId) return null
     return this.context.Course.findOneById(courseCollect.courseId)
   }
 

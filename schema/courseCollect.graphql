@@ -1,7 +1,7 @@
 type CourseCollect {
   id: ObjID!
   user: User!
-  course: Course!
+  course: Course
   createdAt: Float!
   updatedAt: Float!
 }

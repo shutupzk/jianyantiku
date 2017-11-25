@@ -1,7 +1,7 @@
 type ExerciseCollect {
   id: ObjID!
   user: User!
-  exercise: Exercise!
+  exercise: Exercise
   createdAt: Float!
   updatedAt: Float!
 }

@@ -21,6 +21,7 @@ export default class ExerciseCollect {
   }
 
   exercise(exerciseCollect) {
+    if (!exerciseCollect.exerciseId) return null
     return this.context.Exercise.findOneById(exerciseCollect.exerciseId)
   }
 
