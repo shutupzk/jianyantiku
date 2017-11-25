@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name"        : "jianyantiku-api",
+    "name"        : "server-api",
     "script"      : "server/index.js",
     "watch"       : false,
     "log_date_format": "YYYY-MM-DD HH:mm:ss",
