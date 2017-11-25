@@ -3,6 +3,7 @@ type Section {
   num: Int!
   name: String!
   remark: String
+  hot: Boolean
   count(examinationDifficultyId: ObjID, type: String): Int!
   chapter: Chapter!
   exercises(skip: Int, limit: Int, examinationDifficultyId: ObjID, type: String): [Exercise!]
@@ -21,6 +22,7 @@ input createSectioninput {
   name: String!
   remark: String
   chapterId: ObjID!
+  hot: Boolean
 }
 
 input UpdateSectionInput {
@@ -28,6 +30,7 @@ input UpdateSectionInput {
   name: String
   remark: String
   chapterId: ObjID
+  hot: Boolean
 }
 
 extend type Mutation {
