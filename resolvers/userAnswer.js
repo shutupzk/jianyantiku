@@ -49,7 +49,7 @@ const resolvers = {
         }
       }
       const id = await UserAnswer.insert(input)
-      updateUserExercise()
+      updateUserExercise({ input, userId, user, exercise }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       updateExercise(Exercise, UserAnswer, Answer, exercise, input)
       return UserAnswer.findOneById(id)
     },
@@ -65,7 +65,7 @@ const resolvers = {
   }
 }
 
-async function updateUserExercise({input, userId, user, exercise}, {UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination}) {
+async function updateUserExercise({ input, userId, user, exercise }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination }) {
   const { type } = exercise
   let { scoreUsed } = user
   User.updateById(userId, { scoreUsed })
