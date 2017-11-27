@@ -35,7 +35,7 @@ export default class WechatPay {
     console.log('xml ====== ', xml)
     const json = await parseXML(xml)
     console.log('json ====== ', json)
-    const data = json ? json.xml : {}
+    const data = json || {}
     console.log('data ====== ', data)
     let self = this.wechatConfig
     if (data.trade_type === 'APP') {
@@ -57,7 +57,7 @@ export default class WechatPay {
   }
 
   // 获取微信返回数据
-  async getNotifyData (req) {
+  async getNotifyData(req) {
     const xml = await getRawBody(req)
     const json = await parseXML(xml)
     const data = json ? json.xml : {}
