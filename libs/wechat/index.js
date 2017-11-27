@@ -31,12 +31,7 @@ export default class WechatPay {
 
   // 微信通知数据校验
   async veryfy(req) {
-    const xml = await getRawBody(req)
-    console.log('xml ====== ', xml)
-    const json = await parseXML(xml)
-    console.log('json ====== ', json)
-    const data = json || {}
-    console.log('data ====== ', data)
+    const data = await this.getNotifyData(req)
     let self = this.wechatConfig
     if (data.trade_type === 'APP') {
       self = this.wechatNativeConfig
@@ -60,7 +55,7 @@ export default class WechatPay {
   async getNotifyData(req) {
     const xml = await getRawBody(req)
     const json = await parseXML(xml)
-    const data = json ? json.xml : {}
+    const data = json || {}
     return data
   }
 
