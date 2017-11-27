@@ -62,12 +62,14 @@ async function insertPayment(input, { totalFee, payWay, phone, type }, Payment) 
   const status = 'WAIT_FOR_PAY'
   const bussStatus = false
   let result
+  // let thisTotalFee = Math.round(totalFee * 100) * 1
+  let thisTotalFee = 1
   try {
     if (payWay === 'NATIVE') {
-      result = await wechatPay.createAppOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: Math.round(totalFee * 100) * 1 })
+      result = await wechatPay.createAppOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: thisTotalFee })
     } else if (payWay === 'WECHAT') {
       if (!input.openid) throw new Error('openId 不能为空')
-      result = await wechatPay.createWechatOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: Math.round(totalFee * 100) * 1, openid: input.openid })
+      result = await wechatPay.createWechatOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: thisTotalFee, openid: input.openid })
     } else {
       throw new Error('支付方式不正确')
     }

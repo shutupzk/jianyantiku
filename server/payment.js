@@ -15,6 +15,7 @@ export default function paymentRouter(app) {
     await wechatPay.notifyBack(res, success, errorMsg)
     if (!success) return
     const message = await wechatPay.getNotifyData(req)
+    console.log('message ======= ', message)
     let tradeNo = message.transaction_id
     let outTradeNo = message.out_trade_no
     let payTime = message.time_end
