@@ -119,6 +119,7 @@ export default class WechatPay {
       notify_url: this.wechatNativeConfig.wechat_notify_url,
       trade_type: 'APP'
     }
+    console.log('params ======= ', params, this.wechatNativeConfig)
     const xml = await this.request({ params, tradeType: 'APP' })
     const json = await parseXML(xml)
     if (json.return_code !== 'SUCCESS' || json.result_code !== 'SUCCESS') {
