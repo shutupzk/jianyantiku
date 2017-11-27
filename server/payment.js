@@ -6,10 +6,8 @@ import moment from 'moment'
 const wechatPay = new WechatPay({ wechatNativeConfig })
 export default function paymentRouter(app) {
   app.all('/payment/wechat/notify', async (req, res) => {
-    // console.log('req ======= ', req)
     const { Payment, UserMember, ScoreRecord, ScoreType } = req.context
     const errorMsg = await wechatPay.veryfy(req)
-    console.log('errorMsg ======= ', errorMsg)
     let success = true
     if (errorMsg) {
       success = false
@@ -17,7 +15,6 @@ export default function paymentRouter(app) {
     await wechatPay.notifyBack(res, success, errorMsg)
     if (!success) return
     const message = await wechatPay.getNotifyData(req)
-    console.log('message ======= ', message)
     let tradeNo = message.transaction_id
     let outTradeNo = message.out_trade_no
     let payTime = message.time_end
