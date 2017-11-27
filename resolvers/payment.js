@@ -62,8 +62,8 @@ async function insertPayment(input, { totalFee, payWay, phone, type }, Payment) 
   const status = 'WAIT_FOR_PAY'
   const bussStatus = false
   let result
-  // let thisTotalFee = Math.round(totalFee * 100) * 1
-  let thisTotalFee = 1
+  let thisTotalFee = Math.round(totalFee * 100) * 1
+  // let thisTotalFee = 1
   try {
     if (payWay === 'NATIVE') {
       result = await wechatPay.createAppOrder({ body: `${phone}会员充值`, out_trade_no: outTradeNo, total_fee: thisTotalFee })
