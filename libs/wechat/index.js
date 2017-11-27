@@ -43,11 +43,11 @@ export default class WechatPay {
     }
     if (data.return_code === 'FAIL' || data.result_code === 'FAIL') {
       return data.return_msg
-    } else if (self.appId !== data.appid) {
+    } else if (self.appid !== data.appid) {
       return 'InvalidAppId'
-    } else if (self.mchId !== data.mch_id) {
+    } else if (self.mch_id !== data.mch_id) {
       return 'InvalidMchId'
-    } else if (self.subMchId && self.subMchId !== data.sub_mch_id) {
+    } else if (self.sub_mch_id && self.sub_mch_id !== data.sub_mch_id) {
       return 'InvalidSubMchId'
     }
     // if (self._getSign(data) !== data.sign) {
