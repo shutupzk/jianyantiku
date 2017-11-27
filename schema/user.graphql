@@ -27,6 +27,7 @@ type User {
   userSigns(skip:Int, limit: Int): [UserSign!]
   userShares(skip:Int, limit: Int): [UserShare!]
   userInvitations(skip:Int, limit: Int): [UserInvitation!]
+  notes(skip:Int, limit: Int): [Note!]
   userMembers: [UserMember!]
   createdAt: Float!
   updatedAt: Float!

@@ -48,6 +48,10 @@ const resolvers = {
       return User.userInvitations(user, { skip, limit })
     },
 
+    notes(user, { skip, limit }, { User }) {
+      return User.notes(user, { skip, limit })
+    },
+
     countCourseCollect(user, args, { User }) {
       return User.countCourseCollect(user)
     },
