@@ -52,6 +52,10 @@ const resolvers = {
       return User.notes(user, { skip, limit })
     },
 
+    userDayAnswers(user, { skip, limit }, { User }) {
+      return User.userDayAnswers(user, { skip, limit })
+    },
+
     countCourseCollect(user, args, { User }) {
       return User.countCourseCollect(user)
     },

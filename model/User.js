@@ -151,6 +151,17 @@ export default class User {
       .toArray()
   }
 
+  userDayAnswers(user, { skip = 0, limit = 10 }) {
+    return this.context.UserDayAnswer.collection
+      .find({
+        userId: user._id
+      })
+      .sort({ _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
+  }
+
   rateOfProgressOfSections(user, { skip = 0, limit = 10 }) {
     return this.context.RateOfProgressOfSection.collection
       .find({
