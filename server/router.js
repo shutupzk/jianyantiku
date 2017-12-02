@@ -306,8 +306,9 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
   chapterName = chapterName.trim()
   sectionNum = sectionNum * 1
   sectionName = sectionName.trim()
-
-  let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { $set: { hot, name: subjectName, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
+  let subjectSets = { hot, name: subjectName, createdAt: Date.now(), updatedAt: Date.now() }
+  if (hot) subjectSets.hot = hot
+  let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { $set: subjectSets }, { upsert: true })
   let subjectId = getInsertId(subjectResult)
 
   examinationDifficultyId = ObjectId(examinationDifficultyId)
@@ -321,9 +322,14 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
 
   await SubjectWithDiffculty.collection.findOneAndUpdate({ subjectId, examinationDifficultyId }, subjectWithDiffculty, { upsert: true })
 
-  let chapterResult = await Chapter.collection.findOneAndUpdate({ num: chapterNum, subjectId }, { $set: { hot, name: chapterName, num: chapterNum, subjectId, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
+  let chapterSet = { name: chapterName, num: chapterNum, subjectId, createdAt: Date.now(), updatedAt: Date.now() }
+  if (hot) chapterSet.hot = hot
+  let chapterResult = await Chapter.collection.findOneAndUpdate({ num: chapterNum, subjectId }, { $set: chapterSet }, { upsert: true })
   let chapterId = getInsertId(chapterResult)
-  let sectionResult = await Section.collection.findOneAndUpdate({ chapterId, num: sectionNum }, { $set: { hot, name: sectionName, num: sectionNum, chapterId, createdAt: Date.now(), updatedAt: Date.now() } }, { upsert: true })
+
+  let sectionSet = { name: sectionName, num: sectionNum, chapterId, createdAt: Date.now(), updatedAt: Date.now() }
+  if (hot) sectionSet.hot = hot
+  let sectionResult = await Section.collection.findOneAndUpdate({ chapterId, num: sectionNum }, { $set: sectionSet }, { upsert: true })
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
     await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
