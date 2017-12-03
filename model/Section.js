@@ -42,7 +42,7 @@ export default class Section {
     if (limit < 10) limit = 10
     let ops = { sectionId: section._id, type }
     if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
-    return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).toArray()
+    return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).sort({num: 1}).toArray()
   }
 
   rateOfProgressOfSection(section, { skip = 0, limit = 10, userId, examinationDifficultyId, type = '01' }) {
