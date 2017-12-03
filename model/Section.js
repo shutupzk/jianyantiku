@@ -39,6 +39,7 @@ export default class Section {
   }
 
   exercises(section, { skip = 0, limit = 10, examinationDifficultyId, type = '01' }) {
+    if (limit < 10) limit = 10
     let ops = { sectionId: section._id, type }
     if (examinationDifficultyId) ops.examinationDifficultyId = examinationDifficultyId
     return this.context.Exercise.collection.find(ops).skip(skip).limit(limit).toArray()

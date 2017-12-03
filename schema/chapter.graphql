@@ -24,7 +24,7 @@ input createChapterinput {
 }
 
 input UpdateChapterInput {
-  num: Int!
+  num: Int
   name: String
   remark: String
   subjectId: ObjID
