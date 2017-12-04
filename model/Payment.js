@@ -15,7 +15,7 @@ export default class Payment {
 
   all({ skip = 0, limit = 10 }) {
     return this.collection
-      .find()
+      .find({ status: { $ne: 'WAIT_FOR_PAY' } })
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
