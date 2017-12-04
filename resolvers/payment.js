@@ -19,8 +19,8 @@ const resolvers = {
     }
   },
   Query: {
-    payments(root, { skip, limit }, { Payment }) {
-      return Payment.all({ skip, limit })
+    payments(root, { skip, limit, name, tradeNo }, { Payment }) {
+      return Payment.all({ skip, limit, name, tradeNo })
     },
 
     payment(root, { id }, { Payment }) {

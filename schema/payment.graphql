@@ -19,7 +19,7 @@ type Payment {
 }
 
 extend type Query {
-  payments(lastCreatedAt: Float, skip:Int, limit: Int): [Payment!]
+  payments(lastCreatedAt: Float, skip:Int, limit: Int, name: String, tradeNo: String): [Payment!]
   payment(id: ObjID!): Payment
 }
 

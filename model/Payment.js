@@ -13,9 +13,22 @@ export default class Payment {
     return this.loader.load(id)
   }
 
-  all({ skip = 0, limit = 10 }) {
+  async all({ skip = 0, limit = 10, name, tradeNo }) {
+    let ops = { status: { $ne: 'WAIT_FOR_PAY' } }
+    const { User } = this.context
+    if (name) {
+      let users = await User.collection.findOne({$or: [{ phone: { $regex: name, $options: 'i' } }, { name: { $regex: name, $options: 'i' } }]})
+      let userIds = []
+      for (let user of users) {
+        userIds.push(user._id)
+      }
+      ops['userId'] = {$in: userIds}
+    }
+    if (tradeNo) {
+      ops['$or'] = [{ outTradeNo: { $regex: tradeNo, $options: 'i' } }, { tradeNo: { $regex: tradeNo, $options: 'i' } }]
+    }
     return this.collection
-      .find({ status: { $ne: 'WAIT_FOR_PAY' } })
+      .find(ops)
       .sort({ _id: -1 })
       .skip(skip)
       .limit(limit)
