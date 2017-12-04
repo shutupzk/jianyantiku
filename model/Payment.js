@@ -17,7 +17,7 @@ export default class Payment {
     let ops = { status: { $ne: 'WAIT_FOR_PAY' } }
     const { User } = this.context
     if (name) {
-      let users = await User.collection.findOne({$or: [{ phone: { $regex: name, $options: 'i' } }, { name: { $regex: name, $options: 'i' } }]}).toArray()
+      let users = await User.collection.find({$or: [{ phone: { $regex: name, $options: 'i' } }, { name: { $regex: name, $options: 'i' } }]}).toArray()
       let userIds = []
       for (let user of users) {
         userIds.push(user._id)
