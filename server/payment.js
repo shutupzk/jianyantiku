@@ -46,7 +46,7 @@ export default function paymentRouter(app) {
 
   app.all('/payment/total', async (req, res) => {
     const { Payment } = req.context
-    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
     let total = 0
     for (let { totalFee } of payments) {
       total += totalFee
@@ -66,7 +66,7 @@ export default function paymentRouter(app) {
       yearDatas.push(0)
       yearList[i] = 0
     }
-    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
     for (let { totalFee, createdAt } of payments) {
       let year = moment(createdAt).year()
       let index = years.indexOf(year)
@@ -94,7 +94,7 @@ export default function paymentRouter(app) {
         next(moment().add(1, 'month').format('YYYY-MM'))
       }
     }
-    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
     for (let { totalFee, createdAt } of payments) {
       let month = moment(createdAt).format('YYYY-MM-DD')
       let index = months.indexOf(month)
