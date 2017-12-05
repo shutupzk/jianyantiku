@@ -104,9 +104,9 @@ export default function paymentRouter(app) {
     for (let { totalFee, createdAt } of payments) {
       let year = moment(createdAt).year()
       let index = years.indexOf(year)
-      yearDatas[index] += totalFee
-      yearList[year] += totalFee
-      total += totalFee
+      yearDatas[index] = Math.round((yearDatas[index] + totalFee) * 100) / 100
+      yearList[year] = Math.round((yearList[year] + totalFee) * 100) / 100
+      total = Math.round((total + totalFee) * 100) / 100
     }
     return res.json({ total, years, yearDatas, yearList })
   })
@@ -138,9 +138,9 @@ export default function paymentRouter(app) {
     for (let { totalFee, createdAt } of payments) {
       let month = moment(createdAt).format('YYYY-MM')
       let index = months.indexOf(month)
-      monthsData[index] += totalFee
-      monthList[month] += totalFee
-      total += totalFee
+      monthsData[index] = Math.round((monthsData[index] + totalFee) * 100) / 100
+      monthList[month] = Math.round((monthList[month] + totalFee) * 100) / 100
+      total = Math.round((total + totalFee) * 100) / 100
     }
     return res.json({ total, months, monthsData, monthList })
   })
