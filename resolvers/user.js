@@ -4,6 +4,10 @@ const resolvers = {
       return user._id
     },
 
+    payFee(user) {
+      return user.payFee || 0
+    },
+
     exerciseCollects(user, { skip, limit }, { User }) {
       return User.exerciseCollects(user, { skip, limit })
     },

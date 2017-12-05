@@ -6,7 +6,7 @@ import moment from 'moment'
 const wechatPay = new WechatPay({ wechatNativeConfig })
 export default function paymentRouter(app) {
   app.all('/payment/wechat/notify', async (req, res) => {
-    const { Payment, UserMember, ScoreRecord, ScoreType } = req.context
+    const { Payment, UserMember, ScoreRecord, ScoreType, User } = req.context
     const errorMsg = await wechatPay.veryfy(req)
     let success = true
     if (errorMsg) {
@@ -22,6 +22,7 @@ export default function paymentRouter(app) {
     if (status !== 'WAIT_FOR_PAY') return
     const paymentId = _id
     Payment.updateById(paymentId, { tradeNo, payTime, status: 'TRADE_SUCCESS', payNotifyData: message })
+    let { payFee } = await User.findOneById(userId)
     try {
       if (memberChargeId) {
         await UserMember.addUserMember({ userId, memberChargeId })
@@ -30,6 +31,8 @@ export default function paymentRouter(app) {
         await ScoreRecord.insert({ score: Math.round(totalFee * score) * 1, scoreTypeId: _id, userId })
       }
       await Payment.updateById(paymentId, { bussStatus: true })
+      payFee = payFee || 0
+      User.updateById(userId, { payFee: payFee + totalFee })
     } catch (e) {
       console.log(e)
       const refundFee = Math.round(totalFee * 100) * 1
@@ -42,6 +45,26 @@ export default function paymentRouter(app) {
       }
       Payment.updateById(paymentId, { tradeNo, refundTime: moment().format('YYYY-MM-DD HH:mm:ss'), status: 'REFUND_SUCCESS', refundNotifyData })
     }
+  })
+
+  app.all('/payment/updateUserPayfee', async (req, res) => {
+    const { Payment, User } = req.context
+    const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
+    let users = {}
+    for (let { userId, totalFee } of payments) {
+      if (users[userId]) {
+        users[userId] += totalFee
+      } else {
+        users[userId] = totalFee
+      }
+    }
+
+    console.log(users)
+
+    for (let userId in users) {
+      User.updateById(userId, { payFee: users[userId] })
+    }
+    return res.json({ code: 'ok' })
   })
 
   app.all('/payment/total', async (req, res) => {
@@ -87,14 +110,18 @@ export default function paymentRouter(app) {
     let monthList = {}
     let total = 0
     next(begin)
-    function next (time) {
+    function next(time) {
       months.push(time)
       monthsData.push(0)
       monthList[time] = 0
       if (time === end) {
         return months
       } else {
-        return next(moment(time).add(1, 'month').format('YYYY-MM'))
+        return next(
+          moment(time)
+            .add(1, 'month')
+            .format('YYYY-MM')
+        )
       }
     }
     const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
