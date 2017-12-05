@@ -96,7 +96,7 @@ export default function paymentRouter(app) {
     }
     const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
     for (let { totalFee, createdAt } of payments) {
-      let month = moment(createdAt).format('YYYY-MM-DD')
+      let month = moment(createdAt).format('YYYY-MM')
       let index = months.indexOf(month)
       monthsData[index] += totalFee
       monthList[month] += totalFee
