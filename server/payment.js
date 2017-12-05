@@ -53,14 +53,15 @@ export default function paymentRouter(app) {
     const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
     let users = {}
     for (let { userId, totalFee } of payments) {
+      let fee = totalFee * 100
       if (users[userId]) {
-        users[userId] += totalFee
+        users[userId] += fee
       } else {
-        users[userId] = totalFee
+        users[userId] = fee
       }
     }
     for (let userId in users) {
-      User.updateById(ObjectId(userId), { payFee: users[userId] })
+      User.updateById(ObjectId(userId), { payFee: users[userId] / 100 })
     }
     return res.json({ code: 'ok' })
   })
