@@ -59,6 +59,7 @@ export default function paymentRouter(app) {
     let years = []
     let yearDatas = []
     let yearList = {}
+    let total = 0
     let begin = 2017
     let end = moment().year()
     for (let i = begin; i < end + 1; i++) {
@@ -72,8 +73,9 @@ export default function paymentRouter(app) {
       let index = years.indexOf(year)
       yearDatas[index] += totalFee
       yearList[year] += totalFee
+      total += totalFee
     }
-    return res.json({ years, yearDatas, yearList })
+    return res.json({ total, years, yearDatas, yearList })
   })
 
   app.all('/payment/months', async (req, res) => {
