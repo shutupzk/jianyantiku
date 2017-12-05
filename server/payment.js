@@ -71,6 +71,7 @@ export default function paymentRouter(app) {
     for (let { _id, totalFee, payNotifyData } of payments) {
       let realTotalFee = payNotifyData.total_fee * 1 / 100
       console.log(totalFee, realTotalFee)
+      Payment.updateById(_id, { totalFee: realTotalFee })
     }
     return res.json({ code: 'ok' })
   })
