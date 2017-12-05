@@ -21,7 +21,7 @@ import payment from './payment'
 
 import moment from 'moment'
 import later from 'later'
-let schedule = later.parse.text('every 1 min')
+let schedule = later.parse.text('at 00:01 am')
 later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
