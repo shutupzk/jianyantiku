@@ -85,6 +85,7 @@ export default function paymentRouter(app) {
     let months = []
     let monthsData = []
     let monthList = {}
+    let total = 0
     next(begin)
     function next (time) {
       months.push(time)
@@ -102,7 +103,8 @@ export default function paymentRouter(app) {
       let index = months.indexOf(month)
       monthsData[index] += totalFee
       monthList[month] += totalFee
+      total += totalFee
     }
-    return res.json({ months, monthsData, monthList })
+    return res.json({ total, months, monthsData, monthList })
   })
 }
