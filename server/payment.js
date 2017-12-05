@@ -43,4 +43,64 @@ export default function paymentRouter(app) {
       Payment.updateById(paymentId, { tradeNo, refundTime: moment().format('YYYY-MM-DD HH:mm:ss'), status: 'REFUND_SUCCESS', refundNotifyData })
     }
   })
+
+  app.all('/payment/total', async (req, res) => {
+    const { Payment } = req.context
+    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    let total = 0
+    for (let { totalFee } of payments) {
+      total += totalFee
+    }
+    return res.json({ total })
+  })
+
+  app.all('/payment/years', async (req, res) => {
+    const { Payment } = req.context
+    let years = []
+    let yearDatas = []
+    let yearList = {}
+    let begin = 2017
+    let end = moment().year()
+    for (let i = begin; i < end + 1; i++) {
+      years.push(i)
+      yearDatas.push(0)
+      yearList[i] = 0
+    }
+    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    for (let { totalFee, createdAt } of payments) {
+      let year = moment(createdAt).year()
+      let index = years.indexOf(year)
+      yearDatas[index] += totalFee
+      yearList[year] += totalFee
+    }
+    return res.json({ years, yearDatas, yearList })
+  })
+
+  app.all('/payment/months', async (req, res) => {
+    const { Payment } = req.context
+    let begin = '2017-10'
+    let end = moment().format('YYYY-MM')
+    let months = []
+    let monthsData = []
+    let monthList = {}
+    next(begin)
+    function next (time) {
+      months.push(time)
+      monthsData.push(0)
+      monthList[time] = 0
+      if (begin === end) {
+        return months
+      } else {
+        next(moment().add(1, 'month').format('YYYY-MM'))
+      }
+    }
+    const payments = await Payment.collection.find({ $status: 'TRADE_SUCCESS' }).toArray()
+    for (let { totalFee, createdAt } of payments) {
+      let month = moment(createdAt).format('YYYY-MM-DD')
+      let index = months.indexOf(month)
+      monthsData[index] += totalFee
+      monthList[month] += totalFee
+    }
+    return res.json({ months, monthsData, monthList })
+  })
 }
