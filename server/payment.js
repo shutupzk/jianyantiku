@@ -59,11 +59,18 @@ export default function paymentRouter(app) {
         users[userId] = totalFee
       }
     }
-
-    console.log(users)
-
     for (let userId in users) {
       User.updateById(ObjectId(userId), { payFee: users[userId] })
+    }
+    return res.json({ code: 'ok' })
+  })
+
+  app.all('/payment/updatePayment', async (req, res) => {
+    const { Payment } = req.context
+    const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS', userId: ObjectId('5a153666cc03894e54d9b5b8') }).toArray()
+    for (let { _id, totalFee, payNotifyData } of payments) {
+      let realTotalFee = payNotifyData.total_fee * 1 / 100
+      console.log(totalFee, realTotalFee)
     }
     return res.json({ code: 'ok' })
   })
