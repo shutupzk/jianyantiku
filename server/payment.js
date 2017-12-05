@@ -88,10 +88,10 @@ export default function paymentRouter(app) {
       months.push(time)
       monthsData.push(0)
       monthList[time] = 0
-      if (begin === end) {
+      if (time === end) {
         return months
       } else {
-        next(moment(time).add(1, 'month').format('YYYY-MM'))
+        return next(moment(time).add(1, 'month').format('YYYY-MM'))
       }
     }
     const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
