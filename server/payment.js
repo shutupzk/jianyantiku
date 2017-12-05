@@ -91,7 +91,7 @@ export default function paymentRouter(app) {
       if (begin === end) {
         return months
       } else {
-        next(moment().add(1, 'month').format('YYYY-MM'))
+        next(moment(time).add(1, 'month').format('YYYY-MM'))
       }
     }
     const payments = await Payment.collection.find({ status: 'TRADE_SUCCESS' }).toArray()
