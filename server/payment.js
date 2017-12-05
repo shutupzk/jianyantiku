@@ -2,6 +2,7 @@ import WechatPay from '../libs/wechat'
 import { wechatNativeConfig } from '../config'
 import { createTradeNo } from '../utils'
 import moment from 'moment'
+import { ObjectId } from 'mongodb'
 
 const wechatPay = new WechatPay({ wechatNativeConfig })
 export default function paymentRouter(app) {
@@ -62,7 +63,7 @@ export default function paymentRouter(app) {
     console.log(users)
 
     for (let userId in users) {
-      User.updateById(userId, { payFee: users[userId] })
+      User.updateById(ObjectId(userId), { payFee: users[userId] })
     }
     return res.json({ code: 'ok' })
   })
