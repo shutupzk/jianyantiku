@@ -32,6 +32,7 @@ const resolvers = {
   },
   Mutation: {
     async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection, RateOfProgressOfExamination, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
+      console.log(Date.now())
       const { userId } = input
       const answer = await Answer.findOneById(input.answerId)
       const { exerciseId } = answer
@@ -54,6 +55,8 @@ const resolvers = {
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       updateExercise(Exercise, UserAnswer, Answer, exercise, input)
       addAnserCount(input, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
+      console.log('4')
+      console.log(Date.now())
       return UserAnswer.findOneById(id)
     },
 
@@ -92,6 +95,7 @@ async function updateUserExercise({ input, userId, exercise, scoreUsed }, { User
       await RateOfProgressOfExamination.insert({ userId, yearHasTypeId, current, examinationDifficultyId, type })
     }
   }
+  console.log('1')
 }
 
 async function addAnserCount(doc, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
@@ -155,6 +159,7 @@ async function addAnserCount(doc, user, { User, Answer, UserDayAnswer, ScoreReco
       )
     }
   })
+  console.log('3')
 }
 
 async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
@@ -207,6 +212,7 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
   } catch (e) {
     console.log(e)
   }
+  console.log('2')
 }
 
 export default resolvers
