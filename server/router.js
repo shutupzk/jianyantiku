@@ -1,8 +1,9 @@
 import xlsx from 'node-xlsx'
 import fs from 'fs'
 import { ObjectId } from 'mongodb'
-// import path from 'path'
 import qiniu from 'qiniu'
+import { createUser } from '../libs/easemob'
+
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
@@ -104,6 +105,15 @@ export default function myRouter(app) {
   app.get('/updateExerciseDiff', async (req, res) => {
     // const { Exercise } = req.context
     // await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
+    res.json({ code: '200', message: 'ok' })
+  })
+
+  app.get('/updateUserEaseCount', async (req, res) => {
+    const { User } = req.context
+    const users = await User.collection.find({}).toArray()
+    for (let { phone } of users) {
+      createUser({ username: phone, password: phone })
+    }
     res.json({ code: '200', message: 'ok' })
   })
 

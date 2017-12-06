@@ -1,3 +1,4 @@
+import { createUser } from '../libs/easemob'
 const resolvers = {
   User: {
     id(user) {
@@ -102,7 +103,9 @@ const resolvers = {
   },
   Mutation: {
     async signUp(root, { input }, { User }) {
+      const { phone } = input
       const id = await User.insert(input)
+      createUser({ username: phone, password: phone })
       return User.findOneById(id)
     },
 
