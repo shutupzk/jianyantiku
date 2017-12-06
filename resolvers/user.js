@@ -105,11 +105,17 @@ const resolvers = {
     async signUp(root, { input }, { User }) {
       const { phone } = input
       const id = await User.insert(input)
-      let eseaData = await getUser({ username: phone })
-      if (!eseaData || !eseaData.entities || eseaData.entities.length === 0) {
-        console.log('has esea')
-        await createUser({ username: phone, password: phone })
+      try {
+        let eseaData = await getUser({ username: phone })
+        console.log(eseaData)
+        if (!eseaData || !eseaData.entities || eseaData.entities.length === 0) {
+          console.log('has esea')
+          await createUser({ username: phone, password: phone })
+        }
+      } catch (e) {
+        console.log(e)
       }
+
       return User.findOneById(id)
     },
 
