@@ -13,4 +13,12 @@ const wechatNativeConfig = {
   wechat_notify_url: 'http://47.92.71.113:9000/payment/wechat/notify'
 }
 
-export { MONGO_URL, GRAPHQL_PORT, wechatNativeConfig }
+const easeConfig = {
+  appKey: '1104171206178491#medicallib',
+  clientSecret: 'YXA64MTvh4fqM2ld-xFoWLReuA-wcrk',
+  clientId: 'YXA6ZZiNwNpoEeeER6lzCvntDQ',
+  orgName: '1104171206178491',
+  appName: 'medicallib'
+}
+
+export { MONGO_URL, GRAPHQL_PORT, wechatNativeConfig, easeConfig }
