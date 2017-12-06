@@ -49,6 +49,7 @@ export const getToken = async () => {
 export const getUser = async ({ username }) => {
   const token = await getToken()
   const url = baseUrl + '/users/' + username
+  console.log(url)
   const method = 'GET'
   return request({}, url, token, method)
 }

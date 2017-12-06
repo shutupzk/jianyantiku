@@ -112,7 +112,11 @@ export default function myRouter(app) {
     const { User } = req.context
     const users = await User.collection.find({}).toArray()
     for (let { phone } of users) {
-      createUser({ username: phone, password: phone })
+      try {
+        await createUser({ username: phone, password: phone })
+      } catch (e) {
+        console.log(e)
+      }
     }
     res.json({ code: '200', message: 'ok' })
   })
