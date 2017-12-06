@@ -2,7 +2,7 @@ import xlsx from 'node-xlsx'
 import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import qiniu from 'qiniu'
-import { createUser } from '../libs/easemob'
+import { createUser, getUser } from '../libs/easemob'
 
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
@@ -113,7 +113,11 @@ export default function myRouter(app) {
     const users = await User.collection.find({}).toArray()
     for (let { phone } of users) {
       try {
-        await createUser({ username: phone, password: phone })
+        let eseaData = await getUser({ username: phone })
+        if (!eseaData || !eseaData.entities || eseaData.entities.length === 0) {
+          console.log('has esea')
+          await createUser({ username: phone, password: phone })
+        }
       } catch (e) {
         console.log(e)
       }

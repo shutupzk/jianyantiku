@@ -1,4 +1,4 @@
-import { createUser } from '../libs/easemob'
+import { createUser, getUser } from '../libs/easemob'
 const resolvers = {
   User: {
     id(user) {
@@ -105,7 +105,11 @@ const resolvers = {
     async signUp(root, { input }, { User }) {
       const { phone } = input
       const id = await User.insert(input)
-      createUser({ username: phone, password: phone })
+      let eseaData = await getUser({ username: phone })
+      if (!eseaData || !eseaData.entities || eseaData.entities.length === 0) {
+        console.log('has esea')
+        await createUser({ username: phone, password: phone })
+      }
       return User.findOneById(id)
     },
 
