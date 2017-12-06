@@ -105,9 +105,14 @@ const resolvers = {
     async signUp(root, { input }, { User }) {
       const { phone } = input
       const id = await User.insert(input)
+      let eseaData = null
       try {
-        let eseaData = await getUser({ username: phone })
-        console.log(eseaData)
+        eseaData = await getUser({ username: phone })
+        console.log('查询环信返回的数据', eseaData)
+      } catch (e) {
+        console.log('获取环信')
+      }
+      try {
         if (!eseaData || !eseaData.entities || eseaData.entities.length === 0) {
           console.log('has esea')
           await createUser({ username: phone, password: phone })
