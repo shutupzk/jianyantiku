@@ -39,79 +39,11 @@ export default class UserAnswer {
   }
 
   async insert(doc) {
-    const { Answer, UserDayAnswer, Decoration, DecorationType, UserHasDecoration, ScoreRecord } = this.context
-    const answer = await Answer.findOneById(doc.answerId)
-    const { exerciseId } = answer
     const docToInsert = Object.assign({}, doc, {
-      exerciseId,
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
     const id = (await this.collection.insertOne(docToInsert)).insertedId
-
-    // 添加做题数
-    Answer.findOneById(doc.answerId).then(async answer => {
-      let date = moment().format('YYYY-MM-DD')
-      let userId = doc.userId
-      let correct = answer.isAnswer ? 1 : 0
-      const { User } = this.context
-      User.findOneById(userId).then((user) => {
-        User.updateById(userId, {countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct})
-      })
-      let exit = await UserDayAnswer.collection.findOne({ date, userId })
-      if (exit) {
-        let totalCount = exit.totalCount + 1
-        let correctCount = exit.correctCount + correct
-        await UserDayAnswer.updateById(exit._id, { totalCount, correctCount })
-        if (totalCount === 100) {
-          ScoreRecord.autoInsert({ userId, code: '3' })
-        }
-      } else {
-        await UserDayAnswer.insert({ userId, totalCount: 1, correctCount: 1, date })
-      }
-
-      let userDayAnswers = await UserDayAnswer.collection.find({ userId }).toArray()
-      let totalCount = 0
-      let correctCount = 0
-      for (let userDayAnswer of userDayAnswers) {
-        totalCount += userDayAnswer.totalCount
-        correctCount += userDayAnswer.correctCount
-      }
-
-      let totalTypeId = (await DecorationType.collection.findOne({ code: '01' }))._id
-      let correctTypeId = (await DecorationType.collection.findOne({ code: '02' }))._id
-      let decorations = await Decoration.collection
-        .find({
-          $or: [
-            {
-              decorationTypeId: totalTypeId,
-              score: { $lte: totalCount }
-            },
-            {
-              decorationTypeId: correctTypeId,
-              score: { $lte: correctCount }
-            }
-          ]
-        })
-        .toArray()
-      for (let decoration of decorations) {
-        let decorationId = decoration._id
-        let userHasDecoration = {
-          userId,
-          decorationId,
-          createdAt: Date.now(),
-          updatedAt: Date.now()
-        }
-        UserHasDecoration.collection.findOneAndUpdate(
-          {
-            userId,
-            decorationId
-          },
-          userHasDecoration,
-          { upsert: true }
-        )
-      }
-    })
     return id
   }
 
