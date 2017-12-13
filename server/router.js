@@ -125,6 +125,18 @@ export default function myRouter(app) {
     res.json({ code: '200', message: 'ok' })
   })
 
+  app.all('/uploadDeleteExercise', async function(req, res) {
+    const { Exercise } = req.context
+    let sectionId = ObjectId(req.body.sectionId)
+    let examinationDifficultyId = ObjectId(req.body.examinationDifficultyId)
+    let exercises = await Exercise.collection.find({sectionId, examinationDifficultyId}).sort({num: 1}).toArray()
+    let nums = []
+    for (let exercise of exercises) {
+      nums.push(exercise.num)
+    }
+    res.json({ code: '200', message: 'ok', nums })
+  })
+
   app.get('/updateUserMulti', async (req, res) => {
     const { User } = req.context
     const users = await User.collection.find({}).toArray()
