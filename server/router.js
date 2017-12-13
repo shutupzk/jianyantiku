@@ -130,14 +130,20 @@ export default function myRouter(app) {
     const users = await User.collection.find({}).toArray()
     let phones = {}
     let results = {}
-    for (let { phone } of users) {
+    for (let { _id, phone } of users) {
       if (phones[phone]) {
         phones[phone] += phones[phone]
-        results[phone] = results[phone] ? results[phone] + 1 : 1
+        if (results[phone]) {
+          results[phone].push(_id)
+        } else {
+          results[phone] = [_id]
+        }
+        // User.removeById(_id)
       } else {
         phones[phone] = 1
       }
     }
+
     res.json({ code: '200', message: 'ok', phones, results })
   })
 
