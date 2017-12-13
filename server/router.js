@@ -131,8 +131,12 @@ export default function myRouter(app) {
     let examinationDifficultyId = ObjectId(req.body.examinationDifficultyId)
     let exercises = await Exercise.collection.find({sectionId, examinationDifficultyId}).sort({num: 1}).toArray()
     let nums = []
-    for (let exercise of exercises) {
-      nums.push(exercise.num)
+    for (let i = 0; i < exercises.length; i++) {
+      let { _id, num } = exercises[i]
+      if (num !== i + 1) {
+        Exercise.updateById(_id, {num: i + 1})
+      }
+      nums.push(num)
     }
     res.json({ code: '200', message: 'ok', nums })
   })
