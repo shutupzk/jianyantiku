@@ -138,7 +138,7 @@ export default function myRouter(app) {
         } else {
           results[phone] = [_id]
         }
-        // User.removeById(_id)
+        User.removeById(_id)
       } else {
         phones[phone] = 1
       }
