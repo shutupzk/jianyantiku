@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader'
 import findByIds from 'mongo-find-by-ids'
 import bcrypt from 'bcrypt'
-import { checkPhoneNumber } from '../utils'
+import { checkPhoneNumber, getInsertId } from '../utils'
 const SALT_ROUNDS = 10
 
 export default class User {
@@ -250,7 +250,6 @@ export default class User {
   }
 
   async insert(doc) {
-    const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')
     let user = await this.collection.findOne({ phone: doc.phone })
     if (user) throw new Error('手机号已被注册')
@@ -262,9 +261,18 @@ export default class User {
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
-    const userId = (await this.collection.insertOne(docToInsert)).insertedId
+    let upsertResult = await this.collection.findOneAndUpdate({ phone: doc.phone }, docToInsert, { upsert: true })
+    const userId = getInsertId(upsertResult)
+    const { lastErrorObject } = upsertResult
+    if (lastErrorObject) {
+      this.initUser(userId, doc.phone)
+    }
+    return userId
+  }
 
-    const invitationUser = await UserInvitation.collection.findOne({ phone: doc.phone })
+  async initUser (userId, phone) {
+    const { ScoreRecord, UserInvitation, ScoreType } = this.context
+    const invitationUser = await UserInvitation.collection.findOne({ phone })
     if (invitationUser) {
       const scoreTypeId = (await ScoreType.collection.findOne({ code: '10' }))._id
       const count = await ScoreRecord.collection.count({ userId: invitationUser.userId, scoreTypeId })
@@ -272,9 +280,7 @@ export default class User {
         ScoreRecord.autoInsert({ userId: invitationUser.userId, code: '10' })
       }
     }
-
     ScoreRecord.autoInsert({ userId, code: '2' })
-    return userId
   }
 
   async updateById(id, doc) {

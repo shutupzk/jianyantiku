@@ -125,6 +125,22 @@ export default function myRouter(app) {
     res.json({ code: '200', message: 'ok' })
   })
 
+  app.get('/updateUserMulti', async (req, res) => {
+    const { User } = req.context
+    const users = await User.collection.find({}).toArray()
+    let phones = {}
+    let results = {}
+    for (let { phone } of users) {
+      if (phones[phone]) {
+        phones[phone] += phones[phone]
+        results[phone] = results[phone] ? results[phone] + 1 : 1
+      } else {
+        phones[phone] = 1
+      }
+    }
+    res.json({ code: '200', message: 'ok', phones, results })
+  })
+
   app.get('/updateExerciseType', async (req, res) => {
     // const { Exercise } = req.context
     // await Exercise.collection.updateMany({}, { $set: { type: '01' } })
@@ -350,8 +366,16 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
   let sectionResult = await Section.collection.findOneAndUpdate({ chapterId, num: sectionNum }, { $set: sectionSet }, { upsert: true })
   let sectionId = getInsertId(sectionResult)
   if (subjectId && chapterId && sectionId) {
-    await ChapterWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, chapterId }, { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
-    await SectionWithDiffculty.collection.findOneAndUpdate({ examinationDifficultyId, sectionId }, { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+    await ChapterWithDiffculty.collection.findOneAndUpdate(
+      { examinationDifficultyId, chapterId },
+      { examinationDifficultyId, chapterId, createdAt: Date.now(), updatedAt: Date.now() },
+      { upsert: true }
+    )
+    await SectionWithDiffculty.collection.findOneAndUpdate(
+      { examinationDifficultyId, sectionId },
+      { examinationDifficultyId, sectionId, createdAt: Date.now(), updatedAt: Date.now() },
+      { upsert: true }
+    )
     await insertExercise(context, { subjectId, sectionId, RedCellDatas, examinationDifficultyId, hot })
   }
   res.send('文件上传成功')
@@ -397,10 +421,18 @@ async function insertRealExercise(context, { RedCellDatas, examinationDifficulty
   examinationDifficultyId = ObjectId(examinationDifficultyId)
   yearExerciseTypeId = ObjectId(yearExerciseTypeId)
   yearExamTypeId = ObjectId(yearExamTypeId)
-  let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate({ yearExerciseTypeId, year }, { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+  let yearExerciseListResult = await YearExerciseList.collection.findOneAndUpdate(
+    { yearExerciseTypeId, year },
+    { yearExerciseTypeId, year, createdAt: Date.now(), updatedAt: Date.now() },
+    { upsert: true }
+  )
   const yearExerciseListId = getInsertId(yearExerciseListResult)
 
-  let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate({ yearExerciseListId, yearExamTypeId }, { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() }, { upsert: true })
+  let yearHasTypeResult = await YearHasType.collection.findOneAndUpdate(
+    { yearExerciseListId, yearExamTypeId },
+    { yearExerciseListId, yearExamTypeId, createdAt: Date.now(), updatedAt: Date.now() },
+    { upsert: true }
+  )
   const yearHasTypeId = getInsertId(yearHasTypeResult)
 
   let num = 0
