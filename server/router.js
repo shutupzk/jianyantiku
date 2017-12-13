@@ -134,7 +134,7 @@ export default function myRouter(app) {
     for (let i = 0; i < exercises.length; i++) {
       let { _id, num } = exercises[i]
       if (num !== i + 1) {
-        Exercise.updateById(_id, {num: i + 1})
+        await Exercise.updateById(_id, {num: i + 1})
       }
       nums.push(num)
     }
