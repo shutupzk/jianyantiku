@@ -1,9 +1,32 @@
 {
-  "apps" : [{
-    "name"        : "server-api",
-    "script"      : "server/index.js",
-    "watch"       : false,
-    "log_date_format": "YYYY-MM-DD HH:mm:ss",
-    "exec_interpreter" : "babel-node"
-  }]
+  "apps": [
+    {
+      "name": "server-api",
+      "script": "server/index.1.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "server-api",
+      "script": "server/index.2.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "server-api",
+      "script": "server/index.3.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "server-api",
+      "script": "server/index.4.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    }
+  ]
 }
