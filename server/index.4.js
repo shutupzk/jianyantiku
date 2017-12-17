@@ -14,7 +14,7 @@ import addModelsToContext from '../model'
 
 import authenticate from './authenticate'
 import { MONGO_URL } from '../config'
-GRAPHQL_PORT = 10004
+const GRAPHQL_PORT = 10004
 import router from './router'
 import payment from './payment'
 
