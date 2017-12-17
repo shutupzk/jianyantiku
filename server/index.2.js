@@ -22,7 +22,7 @@ import payment from './payment'
 
 import moment from 'moment'
 import later from 'later'
-let schedule = later.parse.text('at 00:01 am')
+let schedule = later.parse.text('at 00:10 am')
 later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
@@ -52,6 +52,7 @@ async function startServer() {
           throw new Error('Query too large.')
         }
         // console.log('auth user', err, user)
+        console.log('request 10001')
         return {
           schema,
           context: Object.assign({ user }, req.context),
