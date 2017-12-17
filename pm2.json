@@ -5,6 +5,7 @@
     "watch"       : false,
     "log_date_format": "YYYY-MM-DD HH:mm:ss",
     "instances": 4,
+    "exec_mode"  : "cluster",
     "exec_interpreter" : "babel-node"
   }]
 }
