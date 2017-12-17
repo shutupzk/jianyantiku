@@ -43,8 +43,8 @@ export default class YearHasType {
         yearHasTypeId: yearHasType._id
       })
       .sort({num: 1})
-      .skip(skip)
-      .limit(limit)
+      // .skip(skip)
+      // .limit(limit)
       .toArray()
   }
 
