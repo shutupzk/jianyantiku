@@ -52,7 +52,7 @@ async function startServer() {
           throw new Error('Query too large.')
         }
         // console.log('auth user', err, user)
-        console.log('request 10002', query)
+        console.log('request 10002')
         return {
           schema,
           context: Object.assign({ user }, req.context),
