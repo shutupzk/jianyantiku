@@ -1,0 +1,40 @@
+type Version {
+  id: ObjID!
+  androidUrl: String
+  iosUrl: String
+  name: String!  #版本号
+  content: String!
+  type: String# patient, doctor
+  mustUpdate:Boolean!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  versions(lastCreatedAt: Float, skip:Int, limit: Int, type: String): [Version!]
+  version(id: ObjID!): Version
+}
+
+input CreateVersionInput {
+  name: String!
+  androidUrl: String
+  iosUrl: String
+  content: String!
+  mustUpdate:Boolean!
+  type: String# patient, doctor
+}
+
+input UpdateVersionInput {
+  name: String
+  androidUrl: String
+  iosUrl: String
+  content: String
+  mustUpdate:Boolean
+  type: String# patient, doctor
+}
+
+extend type Mutation {
+  createVersion(input: CreateVersionInput!): Version
+  updateVersion(id: ObjID!, input: UpdateVersionInput!): Version
+  removeVersion(id: ObjID!): Boolean
+}
