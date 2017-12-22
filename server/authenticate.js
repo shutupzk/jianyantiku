@@ -71,7 +71,7 @@ export default function addPassport(app) {
         exp
       }
       const token = jwt.encode(payload, KEY)
-      res.json({ token, userId })
+      res.json({ token, userId, phone: user.phone })
     } catch (e) {
       next(e)
     }
