@@ -362,7 +362,7 @@ async function initSectionExercise(context, examinationDifficultyId, res, hot) {
   chapterName = chapterName.trim()
   sectionNum = sectionNum * 1
   sectionName = sectionName.trim()
-  let subjectSets = { hot, name: subjectName, createdAt: Date.now(), updatedAt: Date.now() }
+  let subjectSets = { name: subjectName, createdAt: Date.now(), updatedAt: Date.now() }
   if (hot) subjectSets.hot = hot
   let subjectResult = await Subject.collection.findOneAndUpdate({ name: subjectName }, { $set: subjectSets }, { upsert: true })
   let subjectId = getInsertId(subjectResult)
