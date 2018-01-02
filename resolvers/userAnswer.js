@@ -59,8 +59,10 @@ const resolvers = {
 
     async createErrorUserAnswer (root, { input }, { UserAnswer, Answer, Exercise }) {
       const { userId, isAnswer, answerId } = input
+      const answer = await Answer.findOneById(answerId)
+      const { exerciseId } = answer
       if (isAnswer) {
-        await UserAnswer.collection.updateMany({ userId, answerId }, {$set: { deleted: true }})
+        await UserAnswer.collection.updateMany({ userId, exerciseId }, {$set: { deleted: true }})
         return true
       }
       return false
