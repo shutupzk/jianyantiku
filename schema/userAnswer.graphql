@@ -32,9 +32,15 @@ input UpdateUserAnswerInput {
   examinationHasExerciseId: ObjID
 }
 
+input createErrorUserAnswerinput {
+  isAnswer: Boolean!
+  userId: ObjID!
+  answerId: ObjID!
+}
+
 extend type Mutation {
   createUserAnswer(input:createUserAnswerinput!): UserAnswer
-  createErrorUserAnswer(input:createUserAnswerinput!): Boolean
+  createErrorUserAnswer(input:createErrorUserAnswerinput!): Boolean
   updateUserAnswer(id: ObjID!, input: UpdateUserAnswerInput!): UserAnswer
   removeUserAnswer(id: ObjID!): Boolean
 }
