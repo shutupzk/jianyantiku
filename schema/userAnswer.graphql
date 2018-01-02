@@ -6,6 +6,7 @@ type UserAnswer {
   exercise: Exercise!
   subject: Subject
   examinationHasExercise: ExaminationHasExercise!
+  deleted: Boolean
   createdAt: Float!
   updatedAt: Float!
 }
@@ -33,6 +34,7 @@ input UpdateUserAnswerInput {
 
 extend type Mutation {
   createUserAnswer(input:createUserAnswerinput!): UserAnswer
+  createErrorUserAnswer(input:createUserAnswerinput!): Boolean
   updateUserAnswer(id: ObjID!, input: UpdateUserAnswerInput!): UserAnswer
   removeUserAnswer(id: ObjID!): Boolean
 }

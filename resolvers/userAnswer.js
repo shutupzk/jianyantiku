@@ -57,6 +57,15 @@ const resolvers = {
       return UserAnswer.findOneById(id)
     },
 
+    async createErrorUserAnswer (root, { input }, { UserAnswer, Answer, Exercise }) {
+      const { userId, isAnswer, answerId } = input
+      if (isAnswer) {
+        await UserAnswer.collection.updateMany({ userId, answerId }, {$set: { deleted: true }})
+        return true
+      }
+      return false
+    },
+
     async updateUserAnswer(root, { id, input }, { UserAnswer }) {
       await UserAnswer.updateById(id, input)
       return UserAnswer.findOneById(id)
