@@ -81,7 +81,8 @@ export default class User {
 
   async errorExcercises(user, { skip = 0, limit = 10, isAnswer, subjectId }) {
     let ops = {
-      userId: user._id
+      userId: user._id,
+      deleted: null
     }
     if (isAnswer === false || isAnswer === true) ops.isAnswer = isAnswer
     if (subjectId) {
