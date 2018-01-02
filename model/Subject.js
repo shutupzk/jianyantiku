@@ -74,7 +74,7 @@ export default class Subject {
   }
 
   async errorCount(subject, { userId }) {
-    let options = { subjectId: subject._id, userId, isAnswer: false }
+    let options = { subjectId: subject._id, userId, isAnswer: false, deleted: null }
     const userAnswers = await this.context.UserAnswer.collection.find(options).toArray()
     let ids = []
     for (let obj of userAnswers) {
