@@ -172,14 +172,9 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
   try {
     let { answerCount, rightCount } = exercise
     const { isAnswer } = input
-    if (!answerCount) {
-      answerCount = await UserAnswer.collection.count({ exerciseId: exercise._id })
-    }
+    if (!answerCount) answerCount = 0
     answerCount++
-
-    if (!rightCount) {
-      rightCount = await UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
-    }
+    if (!rightCount) rightCount = 0
     if (isAnswer) rightCount++
 
     const exerciseId = exercise._id
@@ -209,11 +204,7 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
         normalErrorAnswer = key
       }
     }
-
-    let all = await UserAnswer.collection.count({ exerciseId: exercise._id })
-    let right = await UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
-    let rightRate = Math.round(right / all * 100)
-
+    let rightRate = Math.round(rightCount / answerCount * 100)
     Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
   } catch (e) {
     console.log(e)
