@@ -31,10 +31,14 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection, RateOfProgressOfExamination, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
+    async createUserAnswer(
+      root,
+      { input },
+      { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection, RateOfProgressOfExamination, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }
+    ) {
       const { userId, answerId } = input
       const answer = await Answer.findOneById(answerId)
-      let { exerciseId, answerCount } = answer
+      let { exerciseId } = answer
       const exercise = await Exercise.findOneById(exerciseId)
       const { type } = exercise
       const user = await User.findOneById(userId)
@@ -53,18 +57,16 @@ const resolvers = {
       const id = await UserAnswer.insert(input)
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       updateExercise(Exercise, UserAnswer, Answer, exercise, input)
-      addAnserCount(input, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
-      answerCount = answerCount || 0
-      Answer.updateById(answerId, { answerCount: answerCount + 1 })
+      addAnserCount(input, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
       return UserAnswer.findOneById(id)
     },
 
-    async createErrorUserAnswer (root, { input }, { UserAnswer, Answer, Exercise }) {
+    async createErrorUserAnswer(root, { input }, { UserAnswer, Answer, Exercise }) {
       const { userId, isAnswer, answerId } = input
       const answer = await Answer.findOneById(answerId)
       const { exerciseId } = answer
       if (isAnswer) {
-        await UserAnswer.collection.updateMany({ userId, exerciseId }, {$set: { deleted: true }})
+        await UserAnswer.collection.updateMany({ userId, exerciseId }, { $set: { deleted: true } })
         return true
       }
       return false
@@ -107,67 +109,65 @@ async function updateUserExercise({ input, userId, exercise, scoreUsed }, { User
   }
 }
 
-async function addAnserCount(doc, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
+async function addAnserCount(doc, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
   // 添加做题数
-  Answer.findOneById(doc.answerId).then(async answer => {
-    let date = moment().format('YYYY-MM-DD')
-    let userId = doc.userId
-    let correct = answer.isAnswer ? 1 : 0
-    User.updateById(userId, { countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct })
-    let exit = await UserDayAnswer.collection.findOne({ date, userId })
-    if (exit) {
-      let totalCount = exit.totalCount + 1
-      let correctCount = exit.correctCount + correct
-      UserDayAnswer.updateById(exit._id, { totalCount, correctCount })
-      if (totalCount === 100) {
-        ScoreRecord.autoInsert({ userId, code: '3' })
-      }
-    } else {
-      UserDayAnswer.insert({ userId, totalCount: 1, correctCount: 1, date })
+  let date = moment().format('YYYY-MM-DD')
+  let userId = doc.userId
+  let correct = answer.isAnswer ? 1 : 0
+  User.updateById(userId, { countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct })
+  let exit = await UserDayAnswer.collection.findOne({ date, userId })
+  if (exit) {
+    let totalCount = exit.totalCount + 1
+    let correctCount = exit.correctCount + correct
+    UserDayAnswer.updateById(exit._id, { totalCount, correctCount })
+    if (totalCount === 100) {
+      ScoreRecord.autoInsert({ userId, code: '3' })
     }
+  } else {
+    UserDayAnswer.insert({ userId, totalCount: 1, correctCount: 1, date })
+  }
 
-    let userDayAnswers = await UserDayAnswer.collection.find({ userId }).toArray()
-    let totalCount = 0
-    let correctCount = 0
-    for (let userDayAnswer of userDayAnswers) {
-      totalCount += userDayAnswer.totalCount
-      correctCount += userDayAnswer.correctCount
-    }
+  let userDayAnswers = await UserDayAnswer.collection.find({ userId }).toArray()
+  let totalCount = 0
+  let correctCount = 0
+  for (let userDayAnswer of userDayAnswers) {
+    totalCount += userDayAnswer.totalCount
+    correctCount += userDayAnswer.correctCount
+  }
 
-    let totalTypeId = (await DecorationType.collection.findOne({ code: '01' }))._id
-    let correctTypeId = (await DecorationType.collection.findOne({ code: '02' }))._id
-    let decorations = await Decoration.collection
-      .find({
-        $or: [
-          {
-            decorationTypeId: totalTypeId,
-            score: { $lte: totalCount }
-          },
-          {
-            decorationTypeId: correctTypeId,
-            score: { $lte: correctCount }
-          }
-        ]
-      })
-      .toArray()
-    for (let decoration of decorations) {
-      let decorationId = decoration._id
-      let userHasDecoration = {
-        userId,
-        decorationId,
-        createdAt: Date.now(),
-        updatedAt: Date.now()
-      }
-      UserHasDecoration.collection.findOneAndUpdate(
+  let totalTypeId = (await DecorationType.collection.findOne({ code: '01' }))._id
+  let correctTypeId = (await DecorationType.collection.findOne({ code: '02' }))._id
+  let decorations = await Decoration.collection
+    .find({
+      $or: [
         {
-          userId,
-          decorationId
+          decorationTypeId: totalTypeId,
+          score: { $lte: totalCount }
         },
-        userHasDecoration,
-        { upsert: true }
-      )
+        {
+          decorationTypeId: correctTypeId,
+          score: { $lte: correctCount }
+        }
+      ]
+    })
+    .toArray()
+  for (let decoration of decorations) {
+    let decorationId = decoration._id
+    let userHasDecoration = {
+      userId,
+      decorationId,
+      createdAt: Date.now(),
+      updatedAt: Date.now()
     }
-  })
+    UserHasDecoration.collection.findOneAndUpdate(
+      {
+        userId,
+        decorationId
+      },
+      userHasDecoration,
+      { upsert: true }
+    )
+  }
 }
 
 async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
@@ -180,30 +180,18 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
     if (isAnswer) rightCount++
     const exerciseId = exercise._id
     const answers = await Answer.collection.find({ exerciseId }).toArray()
-    const userAnswers = await UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
-    let keys = {
-      A: 0,
-      B: 0,
-      C: 0,
-      D: 0,
-      E: 0
-    }
+    let index = 0
     let keyArray = ['A', 'B', 'C', 'D', 'E']
-    let anserkeys = {}
-    for (let i = 0; i < answers.length; i++) {
-      let answer = answers[i]
-      anserkeys[answer._id] = keyArray[i]
-    }
-    for (let answer of userAnswers) {
-      keys[anserkeys[answer.answerId]]++
-    }
     let normalErrorAnswer = ''
-    let length = 0
-    for (let key in keys) {
-      if (keys[key] > length) {
-        length = keys[key]
-        normalErrorAnswer = key
+    let lastCount = 0
+    for (let { _id, isAnswer } of answers) {
+      let count = 0
+      if (!isAnswer) count = await UserAnswer.collection.count({ answerId: _id })
+      if (count > lastCount) {
+        normalErrorAnswer = keyArray[index]
+        lastCount = count
       }
+      index++
     }
     let rightRate = Math.round(rightCount / answerCount * 100)
     Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
