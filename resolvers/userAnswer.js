@@ -32,9 +32,9 @@ const resolvers = {
   },
   Mutation: {
     async createUserAnswer(root, { input }, { User, UserAnswer, Answer, Exercise, RateOfProgressOfSection, RateOfProgressOfExamination, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration }) {
-      const { userId } = input
-      const answer = await Answer.findOneById(input.answerId)
-      const { exerciseId } = answer
+      const { userId, answerId } = input
+      const answer = await Answer.findOneById(answerId)
+      let { exerciseId, answerCount } = answer
       const exercise = await Exercise.findOneById(exerciseId)
       const { type } = exercise
       const user = await User.findOneById(userId)
@@ -54,6 +54,8 @@ const resolvers = {
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       updateExercise(Exercise, UserAnswer, Answer, exercise, input)
       addAnserCount(input, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
+      answerCount = answerCount || 0
+      Answer.updateById(answerId, { answerCount: answerCount + 1 })
       return UserAnswer.findOneById(id)
     },
 

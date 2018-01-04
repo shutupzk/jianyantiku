@@ -3,6 +3,7 @@ type Answer {
   num: Int
   content: String
   isAnswer: Boolean!
+  answerCount: Int
   exercise: Exercise!
   answerImages(skip:Int, limit: Int): [AnswerImage!]
   userAnswers(skip: Int, limit: Int): [UserAnswer!]

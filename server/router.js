@@ -141,6 +141,16 @@ export default function myRouter(app) {
     res.json({ code: '200', message: 'ok', nums })
   })
 
+  app.all('/updateAnswerCount', async function(req, res) {
+    const { Answer, UserAnswer } = req.context
+    const answers = await Answer.collection.find().toArray()
+    for (let { _id } of answers) {
+      let count = await UserAnswer.collection.count({ answerId: _id })
+      await Answer.updateById(_id, { answerCount: count })
+    }
+    res.json({ code: '200', message: 'ok' })
+  })
+
   app.get('/updateUserMulti', async (req, res) => {
     const { User } = req.context
     const users = await User.collection.find({}).toArray()
