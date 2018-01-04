@@ -40,9 +40,9 @@ const resolvers = {
     //   return Exercise.rightCount(exercise)
     // },
 
-    // normalErrorAnswer(exercise, args, { Exercise }) {
-    //   return Exercise.normalErrorAnswer(exercise)
-    // },
+    normalErrorAnswer(exercise, args, { Exercise }) {
+      return Exercise.normalErrorAnswer(exercise)
+    },
 
     // rightRate(exercise, args, { Exercise }) {
     //   return Exercise.rightRate(exercise)

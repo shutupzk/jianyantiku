@@ -83,32 +83,21 @@ export default class Exercise {
   }
 
   async normalErrorAnswer(exercise) {
+    const { UserAnswer } = this.context
     const exerciseId = exercise._id
     const answers = await this.context.Answer.collection.find({ exerciseId }).toArray()
-    const userAnswers = await this.context.UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
-    let keys = {
-      A: 0,
-      B: 0,
-      C: 0,
-      D: 0,
-      E: 0
-    }
+    let index = 0
     let keyArray = ['A', 'B', 'C', 'D', 'E']
-    let anserkeys = {}
-    for (let i = 0; i < answers.length; i++) {
-      let answer = answers[i]
-      anserkeys[answer._id] = keyArray[i]
-    }
-    for (let answer of userAnswers) {
-      keys[anserkeys[answer.answerId]]++
-    }
     let returnKey = ''
-    let length = 0
-    for (let key in keys) {
-      if (keys[key] > length) {
-        length = keys[key]
-        returnKey = key
+    let lastCount = 0
+    for (let { _id, isAnswer } of answers) {
+      let count = 0
+      if (!isAnswer) count = await UserAnswer.collection.count({ answerId: _id })
+      if (count > lastCount) {
+        returnKey = keyArray[index]
+        lastCount = count
       }
+      index++
     }
     return returnKey
   }
