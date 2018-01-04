@@ -83,9 +83,10 @@ const resolvers = {
   }
 }
 
-async function updateUserExercise({ input, userId, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination }) {
+async function updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination }) {
   const { type } = exercise
-  User.updateById(userId, { scoreUsed })
+  let correct = input.isAnswer ? 1 : 0
+  User.updateById(userId, { scoreUsed, countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct })
   const { sectionId, num, examinationDifficultyId, yearHasTypeId } = exercise
   if (type === '01' || type === '03') {
     const rateOfProgressOfSection = await RateOfProgressOfSection.collection.findOne({ userId, sectionId, examinationDifficultyId, type })
@@ -114,7 +115,6 @@ async function addAnserCount(doc, answer, user, { User, Answer, UserDayAnswer, S
   let date = moment().format('YYYY-MM-DD')
   let userId = doc.userId
   let correct = answer.isAnswer ? 1 : 0
-  User.updateById(userId, { countUserAnswer: (user.countUserAnswer || 0) + 1, countRightUserAnswer: (user.countRightUserAnswer || 0) + correct })
   let exit = await UserDayAnswer.collection.findOne({ date, userId })
   if (exit) {
     let totalCount = exit.totalCount + 1
