@@ -179,34 +179,34 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
     if (!rightCount) rightCount = 0
     if (isAnswer) rightCount++
     const exerciseId = exercise._id
-    // const answers = await Answer.collection.find({ exerciseId }).toArray()
-    // const userAnswers = await UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
-    // let keys = {
-    //   A: 0,
-    //   B: 0,
-    //   C: 0,
-    //   D: 0,
-    //   E: 0
-    // }
-    // let keyArray = ['A', 'B', 'C', 'D', 'E']
-    // let anserkeys = {}
-    // for (let i = 0; i < answers.length; i++) {
-    //   let answer = answers[i]
-    //   anserkeys[answer._id] = keyArray[i]
-    // }
-    // for (let answer of userAnswers) {
-    //   keys[anserkeys[answer.answerId]]++
-    // }
-    // let normalErrorAnswer = ''
-    // let length = 0
-    // for (let key in keys) {
-    //   if (keys[key] > length) {
-    //     length = keys[key]
-    //     normalErrorAnswer = key
-    //   }
-    // }
+    const answers = await Answer.collection.find({ exerciseId }).toArray()
+    const userAnswers = await UserAnswer.collection.find({ exerciseId, isAnswer: false }).toArray()
+    let keys = {
+      A: 0,
+      B: 0,
+      C: 0,
+      D: 0,
+      E: 0
+    }
+    let keyArray = ['A', 'B', 'C', 'D', 'E']
+    let anserkeys = {}
+    for (let i = 0; i < answers.length; i++) {
+      let answer = answers[i]
+      anserkeys[answer._id] = keyArray[i]
+    }
+    for (let answer of userAnswers) {
+      keys[anserkeys[answer.answerId]]++
+    }
+    let normalErrorAnswer = ''
+    let length = 0
+    for (let key in keys) {
+      if (keys[key] > length) {
+        length = keys[key]
+        normalErrorAnswer = key
+      }
+    }
     let rightRate = Math.round(rightCount / answerCount * 100)
-    Exercise.updateById(exerciseId, { answerCount, rightCount, rightRate })
+    Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
   } catch (e) {
     console.log(e)
   }
