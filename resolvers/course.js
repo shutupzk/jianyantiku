@@ -5,7 +5,7 @@ const resolvers = {
     },
 
     async collect(exercise, { userId }, { CourseCollect }) {
-      const exit = await CourseCollect.collection.find({exerciseId: exercise._id, userId})
+      const exit = await CourseCollect.collection.findOne({exerciseId: exercise._id, userId})
       if (exit) {
         return true
       }

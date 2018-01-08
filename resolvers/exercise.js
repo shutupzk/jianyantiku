@@ -49,7 +49,7 @@ const resolvers = {
     // },
 
     async collect(exercise, { userId }, { ExerciseCollect }) {
-      const exit = await ExerciseCollect.collection.find({exerciseId: exercise._id, userId})
+      const exit = await ExerciseCollect.collection.findOne({exerciseId: exercise._id, userId})
       if (exit) {
         return true
       }
