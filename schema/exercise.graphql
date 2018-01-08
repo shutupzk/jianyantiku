@@ -16,6 +16,7 @@ type Exercise {
 	rightCount: Int
 	rightRate: Float
 	normalErrorAnswer: String
+	collect(userId: ObjID!): Boolean
 	answers(skip: Int, limit: Int): [Answer!]
 	exerciseCollects(skip: Int, limit: Int): [ExerciseCollect!]
 	exerciseImages(skip: Int, limit: Int): [ExerciseImage!]

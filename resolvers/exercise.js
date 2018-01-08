@@ -48,6 +48,14 @@ const resolvers = {
     //   return Exercise.rightRate(exercise)
     // },
 
+    async collect(exercise, { userId }, { ExerciseCollect }) {
+      const exit = await ExerciseCollect.collection.find({exerciseId: exercise._id, userId})
+      if (exit) {
+        return true
+      }
+      return false
+    },
+
     answers(exercise, { skip, limit }, { Exercise }) {
       return Exercise.answers(exercise, { skip, limit })
     },

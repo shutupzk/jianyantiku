@@ -4,6 +4,14 @@ const resolvers = {
       return course._id
     },
 
+    async collect(exercise, { userId }, { CourseCollect }) {
+      const exit = await CourseCollect.collection.find({exerciseId: exercise._id, userId})
+      if (exit) {
+        return true
+      }
+      return false
+    },
+
     subject(course, args, {Course}) {
       return Course.subject(course)
     }
