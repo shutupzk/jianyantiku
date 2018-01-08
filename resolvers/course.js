@@ -4,8 +4,8 @@ const resolvers = {
       return course._id
     },
 
-    async collect(exercise, { userId }, { CourseCollect }) {
-      const exit = await CourseCollect.collection.findOne({exerciseId: exercise._id, userId})
+    async collect(course, { userId }, { CourseCollect }) {
+      const exit = await CourseCollect.collection.findOne({courseId: course._id, userId})
       if (exit) {
         return true
       }
