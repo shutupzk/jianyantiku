@@ -14,14 +14,14 @@ import addModelsToContext from '../model'
 
 import authenticate from './authenticate'
 import { MONGO_URL } from '../config'
-const GRAPHQL_PORT = 10003
 import router from './router'
 import payment from './payment'
 
 // import { initDB } from '../seed'
-
+import { responseTime } from '../utils'
 import moment from 'moment'
 import later from 'later'
+const GRAPHQL_PORT = 10003
 let schedule = later.parse.text('at 00:20 am')
 later.date.localTime()
 
@@ -31,6 +31,7 @@ async function startServer() {
   const db = await MongoClient.connect(MONGO_URL)
   const context = addModelsToContext({ db })
   const app = express().use('*', cors())
+  app.use(responseTime())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
 

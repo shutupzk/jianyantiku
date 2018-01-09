@@ -3,7 +3,7 @@ import crypto from 'crypto'
 
 // MD5签名
 export const md5 = str => {
-  var md5sum = crypto.createHash('md5')
+  let md5sum = crypto.createHash('md5')
   md5sum.update(str)
   str = md5sum.digest('hex')
   return str
@@ -50,7 +50,7 @@ export const createTransactionNo = () => {
   return date + sss + r1 + r2 + r3 + r4
 }
 
-export const getInsertId = (upsertResult) => {
+export const getInsertId = upsertResult => {
   const { lastErrorObject, value } = upsertResult
   let insertId
   if (value) {
@@ -59,6 +59,22 @@ export const getInsertId = (upsertResult) => {
     insertId = lastErrorObject.upserted
   }
   return insertId
+}
+
+export const responseTime = function() {
+  return function(req, res, next) {
+    req._startTime = new Date() // 获取时间 t1
+
+    let calResponseTime = function() {
+      let now = new Date() // 获取时间 t2
+      let deltaTime = now - req._startTime
+      console.log(deltaTime + 'ms')
+    }
+
+    res.once('finish', calResponseTime)
+    res.once('close', calResponseTime)
+    return next()
+  }
 }
 
 function secondsFormat(str, length) {

@@ -16,6 +16,7 @@ import authenticate from './authenticate'
 import { GRAPHQL_PORT, MONGO_URL } from '../config'
 import router from './router'
 import payment from './payment'
+import { responseTime } from '../utils'
 
 // import { initDB } from '../seed'
 
@@ -30,6 +31,7 @@ async function startServer() {
   const db = await MongoClient.connect(MONGO_URL)
   const context = addModelsToContext({ db })
   const app = express().use('*', cors())
+  app.use(responseTime())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
 
