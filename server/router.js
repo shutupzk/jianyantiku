@@ -125,8 +125,8 @@ export default function myRouter(app) {
     let time = new Date(day).getTime()
     let count0 = await UserExerciseTime.collection.count({createdAt: {$lt: time}})
     let count1 = await UserTimeAnswer.collection.count({createdAt: {$lt: time}})
-    // await UserExerciseTime.collection.deleteMany({createdAt: {$lt: time}})
-    // await UserTimeAnswer.collection.deleteMany({createdAt: {$lt: time}})
+    await UserExerciseTime.collection.deleteMany({createdAt: {$lt: time}})
+    await UserTimeAnswer.collection.deleteMany({createdAt: {$lt: time}})
 
     res.json({ code: '200', message: 'ok', count0, count1 })
   })
