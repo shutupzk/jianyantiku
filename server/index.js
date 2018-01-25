@@ -81,7 +81,13 @@ export async function startServer(GRAPHQL_PORT) {
   later.setInterval(async () => {
     console.log('定时任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
-      const { User, UserMember, Member } = context
+      const { User, UserMember, Member, UserExerciseTime, UserTimeAnswer } = context
+      let day = moment()
+        .add(-2, 'days')
+        .format('YYYY-MM-DD')
+      let time = new Date(day).getTime()
+      await UserExerciseTime.collection.deleteMany({ createdAt: { $lt: time } })
+      await UserTimeAnswer.collection.deleteMany({ createdAt: { $lt: time } })
       const users = await User.collection.find({ memberId: { $exists: true, $ne: null } }).toArray()
       const today = moment().format('YYYY-MM-DD')
       for (let user of users) {
