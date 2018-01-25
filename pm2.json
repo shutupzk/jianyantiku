@@ -1,29 +1,8 @@
 {
   "apps": [
     {
-      "name": "api1",
-      "script": "server/index.1.js",
-      "watch": false,
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
-    },
-    {
-      "name": "api2",
-      "script": "server/index.2.js",
-      "watch": false,
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
-    },
-    {
-      "name": "api3",
-      "script": "server/index.3.js",
-      "watch": false,
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
-    },
-    {
-      "name": "api4",
-      "script": "server/index.4.js",
+      "name": "api",
+      "script": "apis/server.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"

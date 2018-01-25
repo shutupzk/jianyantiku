@@ -13,10 +13,9 @@ import resolvers from '../resolvers'
 import addModelsToContext from '../model'
 
 import authenticate from './authenticate'
-import { GRAPHQL_PORT, MONGO_URL } from '../config'
+import { MONGO_URL } from '../config'
 import router from './router'
 import payment from './payment'
-import { responseTime } from '../utils'
 
 // import { initDB } from '../seed'
 
@@ -27,11 +26,10 @@ later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
-async function startServer() {
+export async function startServer(GRAPHQL_PORT) {
   const db = await MongoClient.connect(MONGO_URL)
   const context = addModelsToContext({ db })
   const app = express().use('*', cors())
-  app.use(responseTime())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
 
@@ -114,13 +112,11 @@ async function startServer() {
   }, schedule)
 }
 
-// initDB(MONGO_URL, function() {
-startServer()
-  .then(() => {
-    console.log('All systems go')
-  })
-  .catch(e => {
-    console.error('Uncaught error in startup')
-    console.error(e)
-  })
-// })
+// startServer()
+//   .then(() => {
+//     console.log('All systems go')
+//   })
+//   .catch(e => {
+//     console.error('Uncaught error in startup')
+//     console.error(e)
+//   })

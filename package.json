@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "babel-node server/index.js",
+    "start": "babel-node apis/server.js",
     "init": "babel-node initSeed.js"
   },
   "devDependencies": {

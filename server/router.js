@@ -8,6 +8,16 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
 
 export default function myRouter(app) {
+  app.all('/test', (req, res) => {
+    let start = Date.now()
+    function fibo(n) {
+      return n > 1 ? fibo(n - 1) + fibo(n - 2) : 1
+    }
+    fibo(40)
+    let end = Date.now()
+    console.log('test ' + (end - start) + 'ms')
+    res.json({ start, end, length: end - start })
+  })
   app.all('/qiniu/fileUploadToken', (req, res) => {
     let key = req.query.key || req.body.key || null
     if (!key) return res.json({ code: 'err', data: {}, msg: '缺少参数 key ' })
@@ -129,12 +139,15 @@ export default function myRouter(app) {
     const { Exercise } = req.context
     let sectionId = ObjectId(req.body.sectionId)
     let examinationDifficultyId = ObjectId(req.body.examinationDifficultyId)
-    let exercises = await Exercise.collection.find({sectionId, examinationDifficultyId}).sort({num: 1}).toArray()
+    let exercises = await Exercise.collection
+      .find({ sectionId, examinationDifficultyId })
+      .sort({ num: 1 })
+      .toArray()
     let nums = []
     for (let i = 0; i < exercises.length; i++) {
       let { _id, num } = exercises[i]
       if (num !== i + 1) {
-        await Exercise.updateById(_id, {num: i + 1})
+        await Exercise.updateById(_id, { num: i + 1 })
       }
       nums.push(num)
     }
