@@ -3,6 +3,7 @@ import fs from 'fs'
 import { ObjectId } from 'mongodb'
 import qiniu from 'qiniu'
 import { createUser, getUser } from '../libs/easemob'
+import moment from 'moment'
 
 var multer = require('multer')
 var upload = multer({ dest: 'uploads/' })
@@ -116,6 +117,18 @@ export default function myRouter(app) {
     // const { Exercise } = req.context
     // await Exercise.collection.updateMany({}, { $set: { examinationDifficultyId: ObjectId('59ab935b21d1ae0bf21deb02') } })
     res.json({ code: '200', message: 'ok' })
+  })
+
+  app.get('/deleteExerciseTimeAnswer', async (req, res) => {
+    const { UserExerciseTime, UserTimeAnswer } = req.context
+    let day = moment().add(-2, 'days').format('YYYY-MM-DD')
+    let time = new Date(day).getTime()
+    let count0 = await UserExerciseTime.collection.count({createdAt: {$lt: time}})
+    let count1 = await UserTimeAnswer.collection.count({createdAt: {$lt: time}})
+    // await UserExerciseTime.collection.deleteMany({createdAt: {$lt: time}})
+    // await UserTimeAnswer.collection.deleteMany({createdAt: {$lt: time}})
+
+    res.json({ code: '200', message: 'ok', count0, count1 })
   })
 
   app.get('/updateUserEaseCount', async (req, res) => {
