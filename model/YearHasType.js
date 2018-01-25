@@ -42,7 +42,7 @@ export default class YearHasType {
       .find({
         yearHasTypeId: yearHasType._id
       })
-      .sort({num: 1})
+      // .sort({num: 1})
       // .skip(skip)
       // .limit(limit)
       .toArray()
