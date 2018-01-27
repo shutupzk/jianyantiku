@@ -86,7 +86,7 @@ const resolvers = {
     },
 
     userCourseCount(user, args, { UserCourse }) {
-      return UserCourse.count({ userId: user._id })
+      return UserCourse.collection.count({ userId: user._id })
     }
   },
   Query: {
