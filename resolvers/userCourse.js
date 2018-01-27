@@ -23,6 +23,8 @@ const resolvers = {
   },
   Mutation: {
     async createUserCourse(root, { input }, { UserCourse }) {
+      const userCourse = await UserCourse.collection.findOne(input)
+      if (userCourse) return userCourse
       const id = await UserCourse.insert(input)
       return UserCourse.findOneById(id)
     },
