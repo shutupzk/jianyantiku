@@ -83,6 +83,10 @@ const resolvers = {
 
     exerciseRate(user, args, { User }) {
       return User.exerciseRate(user)
+    },
+
+    userCourseCount(user, args, { UserCourse }) {
+      return UserCourse.count({ userId: user._id })
     }
   },
   Query: {
