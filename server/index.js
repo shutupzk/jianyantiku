@@ -43,6 +43,7 @@ export async function startServer(GRAPHQL_PORT) {
   payment(app)
 
   app.use('/graphql', (req, res, next) => {
+    console.log('request ======= ' + GRAPHQL_PORT)
     passport.authenticate('jwt', { session: false }, (err, user, authError) => {
       // if (!user) return res.json({ error: 'auth err' })
       graphqlExpress(() => {

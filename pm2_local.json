@@ -1,14 +1,14 @@
 {
   "apps": [
     {
-      "name": "api",
+      "name": "api1",
       "script": "apis/server.1.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
-      "name": "api",
+      "name": "api2",
       "script": "apis/server.2.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",

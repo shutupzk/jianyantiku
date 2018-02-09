@@ -1,28 +1,28 @@
 {
   "apps": [
     {
-      "name": "api",
+      "name": "api3",
       "script": "apis/server.3.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
-      "name": "api",
+      "name": "api4",
       "script": "apis/server.4.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
-      "name": "api",
+      "name": "api5",
       "script": "apis/server.5.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
-      "name": "api",
+      "name": "api6",
       "script": "apis/server.6.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
