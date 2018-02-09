@@ -2,28 +2,28 @@
   "apps": [
     {
       "name": "api",
-      "script": "apis/server3.js",
+      "script": "apis/server.3.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
       "name": "api",
-      "script": "apis/server4.js",
+      "script": "apis/server.4.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
       "name": "api",
-      "script": "apis/server5.js",
+      "script": "apis/server.5.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
     },
     {
       "name": "api",
-      "script": "apis/server6.js",
+      "script": "apis/server.6.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node"
