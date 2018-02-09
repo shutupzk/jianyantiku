@@ -126,48 +126,6 @@ async function addAnserCount(doc, answer, user, { User, Answer, UserDayAnswer, S
   } else {
     UserDayAnswer.insert({ userId, totalCount: 1, correctCount: 1, date })
   }
-
-  let userDayAnswers = await UserDayAnswer.collection.find({ userId }).toArray()
-  let totalCount = 0
-  let correctCount = 0
-  for (let userDayAnswer of userDayAnswers) {
-    totalCount += userDayAnswer.totalCount
-    correctCount += userDayAnswer.correctCount
-  }
-
-  let totalTypeId = (await DecorationType.collection.findOne({ code: '01' }))._id
-  let correctTypeId = (await DecorationType.collection.findOne({ code: '02' }))._id
-  let decorations = await Decoration.collection
-    .find({
-      $or: [
-        {
-          decorationTypeId: totalTypeId,
-          score: { $lte: totalCount }
-        },
-        {
-          decorationTypeId: correctTypeId,
-          score: { $lte: correctCount }
-        }
-      ]
-    })
-    .toArray()
-  for (let decoration of decorations) {
-    let decorationId = decoration._id
-    let userHasDecoration = {
-      userId,
-      decorationId,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    }
-    UserHasDecoration.collection.findOneAndUpdate(
-      {
-        userId,
-        decorationId
-      },
-      userHasDecoration,
-      { upsert: true }
-    )
-  }
 }
 
 async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {

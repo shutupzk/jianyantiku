@@ -94,7 +94,49 @@ const resolvers = {
       return User.all({ skip, limit, sort, keyword })
     },
 
-    user(root, { id }, { User }) {
+    async user(root, { id }, { User, UserDayAnswer, DecorationType, Decoration, UserHasDecoration }) {
+      let userId = id
+      let userDayAnswers = await UserDayAnswer.collection.find({ userId: id }).toArray()
+      let totalCount = 0
+      let correctCount = 0
+      for (let userDayAnswer of userDayAnswers) {
+        totalCount += userDayAnswer.totalCount
+        correctCount += userDayAnswer.correctCount
+      }
+
+      let totalTypeId = (await DecorationType.collection.findOne({ code: '01' }))._id
+      let correctTypeId = (await DecorationType.collection.findOne({ code: '02' }))._id
+      let decorations = await Decoration.collection
+        .find({
+          $or: [
+            {
+              decorationTypeId: totalTypeId,
+              score: { $lte: totalCount }
+            },
+            {
+              decorationTypeId: correctTypeId,
+              score: { $lte: correctCount }
+            }
+          ]
+        })
+        .toArray()
+      for (let decoration of decorations) {
+        let decorationId = decoration._id
+        let userHasDecoration = {
+          userId,
+          decorationId,
+          createdAt: Date.now(),
+          updatedAt: Date.now()
+        }
+        UserHasDecoration.collection.findOneAndUpdate(
+          {
+            userId,
+            decorationId
+          },
+          userHasDecoration,
+          { upsert: true }
+        )
+      }
       return User.findOneById(id)
     },
 
