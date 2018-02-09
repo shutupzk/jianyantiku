@@ -3,7 +3,7 @@ import path from 'path'
 
 let MONGO_HOST = 'localhost'
 if (process.env.SERVER) {
-  MONGO_HOST = '47.92.128.90'
+  MONGO_HOST = '47.92.71.113'
 }
 
 const MONGO_URL = `mongodb://jianyantiku:jianyantiku@${MONGO_HOST}:27017/jianyantiku`
