@@ -5,8 +5,11 @@ console.log('numCPUs', numCPUs)
 
 if (cluster.isMaster) {
   console.log(`Master ${process.pid} is running`)
-
-  for (let i = 0; i < 3; i++) {
+  let length = 2
+  if (process.env.SERVER) {
+    length = 4
+  }
+  for (let i = 0; i < length; i++) {
     cluster.fork()
   }
 

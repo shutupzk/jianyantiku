@@ -1,0 +1,32 @@
+{
+  "apps": [
+    {
+      "name": "api",
+      "script": "apis/server3.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "api",
+      "script": "apis/server4.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "api",
+      "script": "apis/server5.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    },
+    {
+      "name": "api",
+      "script": "apis/server6.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node"
+    }
+  ]
+}
