@@ -44,9 +44,16 @@ export async function startServer(GRAPHQL_PORT) {
 
   app.use('/graphql', (req, res, next) => {
     console.log('request ======= ' + GRAPHQL_PORT)
-    console.log(req.headers)
+    console.log(req.headers.Authorization)
     passport.authenticate('jwt', { session: false }, (err, user, authError) => {
       console.log('err, user', err, user)
+      if (user) {
+        const token = req.headers.Authorization.replace('JWT ', '')
+        if (token !== user.token) {
+          throw new Error('请重新登录')
+        }
+      }
+
       // if (!user) return res.json({ error: 'auth err' })
       graphqlExpress(() => {
         const query = req.query.query || req.body.query
