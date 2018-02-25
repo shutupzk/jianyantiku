@@ -56,8 +56,8 @@ const resolvers = {
       input.exerciseId = exerciseId
       const id = await UserAnswer.insert(input)
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
-      updateExercise(Exercise, UserAnswer, Answer, exercise, input)
       addAnserCount(input, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
+      updateExercise(Exercise, UserAnswer, Answer, exercise, input)
       return UserAnswer.findOneById(id)
     },
 
@@ -102,7 +102,6 @@ async function updateUserExercise({ input, userId, user, exercise, scoreUsed }, 
     const rateOfProgressOfExamination = await RateOfProgressOfExamination.collection.findOne({ userId, yearHasTypeId, examinationDifficultyId, type })
     let current = num
     if (rateOfProgressOfExamination) {
-      // if (num > rateOfProgressOfExamination.current) {
       await RateOfProgressOfExamination.updateById(rateOfProgressOfExamination._id, { current })
     } else {
       await RateOfProgressOfExamination.insert({ userId, yearHasTypeId, current, examinationDifficultyId, type })
