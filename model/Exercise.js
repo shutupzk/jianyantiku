@@ -151,7 +151,7 @@ export default class Exercise {
   }
 
   analysiss(exercise, { skip = 0, limit = 10 }) {
-    let ops = { exerciseId: exercise._id, $or: [{ adopt: { $exists: false } }, { adopt: '1' }] }
+    let ops = { exerciseId: exercise._id, $or: [{ adopt: { $exists: false } }, { adopt: '1' }, { adopt: null }] }
     return this.context.Analysis.collection.find(ops).toArray()
   }
 
