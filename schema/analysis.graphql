@@ -20,6 +20,7 @@ input createAnalysisinput {
   images: [String!]
   userId: ObjID
   exerciseId: ObjID!
+  adopt: String
 }
 
 input UpdateAnalysisInput {
