@@ -48,7 +48,7 @@ export async function startServer(GRAPHQL_PORT) {
     passport.authenticate('jwt', { session: false }, (err, user, authError) => {
       console.log('err, user', err, user)
       if (user) {
-        const token = req.headers.Authorization.replace('JWT ', '')
+        const token = req.headers.authorization.replace('JWT ', '')
         if (token !== user.token) {
           throw new Error('请重新登录')
         }
