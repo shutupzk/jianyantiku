@@ -47,15 +47,15 @@ export async function startServer(GRAPHQL_PORT) {
     console.log(req.headers)
     passport.authenticate('jwt', { session: false }, (err, user, authError) => {
       console.log('err, user', err, user)
-      if (user) {
-        const token = req.headers.authorization.replace('JWT ', '')
-        if (token !== user.token) {
-          throw new Error('请重新登录')
-        }
-      }
 
       // if (!user) return res.json({ error: 'auth err' })
       graphqlExpress(() => {
+        if (user) {
+          const token = req.headers.authorization.replace('JWT ', '')
+          if (token !== user.token) {
+            throw new Error('请重新登录')
+          }
+        }
         const query = req.query.query || req.body.query
         if (query && query.length > 20000) {
           throw new Error('Query too large.')
