@@ -48,7 +48,7 @@ export default function addPassport(app) {
         exp
       }
       const token = jwt.encode(payload, KEY)
-      await req.context.User.updateById(userId, { token })
+      await req.context.User.updateById(user._id, { token })
       res.json({ token, userId })
     } catch (e) {
       next(e)
@@ -72,7 +72,7 @@ export default function addPassport(app) {
         exp
       }
       const token = jwt.encode(payload, KEY)
-      await req.context.User.updateById(userId, { token })
+      await req.context.User.updateById(user._id, { token })
       res.json({ token, userId, phone: user.phone })
     } catch (e) {
       next(e)
