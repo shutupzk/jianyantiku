@@ -15,9 +15,14 @@ export default class Analysis {
   all({ skip = 0, limit = 10, isUser }) {
     let ops = {}
     if (isUser) {
-      ops.adopt = {$in: ['2', '0', '1']}
+      ops.adopt = { $in: ['2', '0', '1'] }
     }
-    return this.collection.find(ops).sort({ adopt: 1, _id: -1 }).skip(skip).limit(limit).toArray()
+    return this.collection
+      .find(ops)
+      .sort({ adopt: 1, _id: -1 })
+      .skip(skip)
+      .limit(limit)
+      .toArray()
   }
 
   user(analysis) {
@@ -31,7 +36,7 @@ export default class Analysis {
 
   async insert(doc) {
     const docToInsert = Object.assign({}, doc, {
-      adopt: doc.adopt || '0',
+      adopt: doc.adopt === 'admin' ? null : '0',
       createdAt: Date.now(),
       updatedAt: Date.now()
     })
@@ -43,11 +48,14 @@ export default class Analysis {
     const { ScoreRecord } = this.context
     const { adopt } = doc
     const analysis = await this.findOneById(id)
-    const ret = await this.collection.update({ _id: id }, {
-      $set: Object.assign({}, doc, {
-        updatedAt: Date.now()
-      })
-    })
+    const ret = await this.collection.update(
+      { _id: id },
+      {
+        $set: Object.assign({}, doc, {
+          updatedAt: Date.now()
+        })
+      }
+    )
     this.loader.clear(id)
     if (adopt === '1' && analysis.adopt === '0') {
       const { userId } = analysis
