@@ -19,7 +19,7 @@ export default class ExaminationHasExercise {
   exercise(examinationHasExercise) {
     if (!examinationHasExercise.examinationId) return null
     console.log('examinationHasExercise =========', examinationHasExercise)
-    return this.context.Exercise.findOneById(examinationHasExercise.exerciseId)
+    return this.context.Exercise.collection.findOne({_id: examinationHasExercise.exerciseId})
   }
 
   examination(examinationHasExercise) {
