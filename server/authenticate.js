@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt'
 const KEY = '0.9434990896465933'
 
 async function userFromPayload(request, jwtPayload) {
-  console.log('jwtPayload', jwtPayload)
+  // console.log('jwtPayload', jwtPayload)
   if (!jwtPayload.userId) {
     throw new Error('No userId in JWT')
   }
