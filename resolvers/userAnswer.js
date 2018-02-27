@@ -147,7 +147,7 @@ async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, an
     if (isAnswer) rightCount++
     const exerciseId = exercise._id
     let aCount = answer.answerCount || 0
-    await Answer.collection.updateById(answer._id, { answerCount: aCount + 1 })
+    await Answer.updateById(answer._id, { answerCount: aCount + 1 })
     const answers = await Answer.collection.find({ exerciseId }).toArray()
     let index = 0
     let keyArray = ['A', 'B', 'C', 'D', 'E']
