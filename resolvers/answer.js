@@ -8,6 +8,13 @@ const resolvers = {
       return Answer.exercise(answer)
     },
 
+    async answerCount(answer, args, { Answer, UserAnswer }) {
+      if (answer.answerCount) return answer.answerCount
+      let answerCount = await UserAnswer.collection.count({ answerId: answer._id })
+      await Answer.updateById(answer._id, { answerCount })
+      return answerCount
+    },
+
     answerImages(answer, { skip, limit }, { Answer }) {
       return Answer.answerImages(answer, { skip, limit })
     },
