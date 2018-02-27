@@ -78,7 +78,7 @@ export default class Examination {
       } else {
         await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: 100 } })
         for (let i = 0; i < 100; i++) {
-          let readom = Math.floor(Math.random() * 50000)
+          let readom = Math.floor(Math.random() * ids.length)
           exerciseIds.push(ids[readom])
         }
       }
@@ -119,14 +119,4 @@ export default class Examination {
     this.loader.clear(id)
     return ret
   }
-}
-
-function getRadmom(source, result) {
-  let sourceLength = source.length
-  let resultLength = result.length
-  if (sourceLength === 0 || resultLength === 100) return result
-  let readom = Math.floor(Math.random() * sourceLength)
-  result.push(source[readom]._id)
-  source.splice(readom, 1)
-  return getRadmom(source, result)
 }
