@@ -40,7 +40,7 @@ input createErrorUserAnswerinput {
 
 extend type Mutation {
   createUserAnswer(input:createUserAnswerinput!): UserAnswer
-  createErrorUserAnswer(input:createErrorUserAnswerinput!): Boolean
+  createErrorUserAnswer(input:createErrorUserAnswerinput!): Exercise!
   updateUserAnswer(id: ObjID!, input: UpdateUserAnswerInput!): UserAnswer
   removeUserAnswer(id: ObjID!): Boolean
 }

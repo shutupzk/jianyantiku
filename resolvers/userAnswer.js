@@ -67,9 +67,10 @@ const resolvers = {
       const { exerciseId } = answer
       if (isAnswer) {
         await UserAnswer.collection.updateMany({ userId, exerciseId }, { $set: { deleted: true } })
-        return true
+        // return true
       }
-      return false
+      // return false
+      return Exercise.findOneById(exerciseId)
     },
 
     async updateUserAnswer(root, { id, input }, { UserAnswer }) {
