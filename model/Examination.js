@@ -95,7 +95,7 @@ export default class Examination {
       }
       insertArray.push(obj)
     }
-    await this.context.ExaminationHasExercise.collection.insertArray(insertArray)
+    await this.context.ExaminationHasExercise.collection.insertMany(insertArray)
 
     return examinationId
   }
