@@ -22,7 +22,7 @@ import payment from './payment'
 import moment from 'moment'
 import later from 'later'
 let schedule = later.parse.text('at 00:01 am')
-let schedule01 = later.parse.text('at 11:57 am')
+let schedule01 = later.parse.text('at 01:57 am')
 later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
