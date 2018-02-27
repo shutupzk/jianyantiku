@@ -54,6 +54,9 @@ export default class Examination {
   }
 
   async insert(doc) {
+    const { ExerciseId } = this.context
+    let idObj = await ExerciseId.collection.findOne()
+    let ids = idObj.ids || []
     const docToInsert = Object.assign({}, doc, {
       startTime: moment().format('YYYY-MM-DD HH:mm:ss'),
       endTime: moment()
@@ -68,33 +71,31 @@ export default class Examination {
       let exerciseIds = (await this.context.ExaminationModel.findOneById(doc.examinationModelId)).exerciseIds
       await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: exerciseIds.length } })
     } else {
-      let count = await this.context.Exercise.collection.count()
+      let count = ids.length
       if (count <= 1) {
         await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: count } })
-        let exercises = await this.context.Exercise.collection
-          .find()
-          .project({ _id: 1 })
-          .toArray()
-        for (let exercise of exercises) exerciseIds.push(exercise._id)
+        exerciseIds = [...ids]
       } else {
         await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: 100 } })
-        let exercises = await this.context.Exercise.collection
-          .find({ type: '01' })
-          .project({ _id: 1 })
-          .toArray()
-        getRadmom(exercises, exerciseIds)
+        for (let i = 0; i < 100; i++) {
+          let readom = Math.floor(Math.random() * 50000)
+          exerciseIds.push(ids[readom])
+        }
       }
     }
 
+    await this.context.ExaminationHasExercise.collection.deleteMany({ examinationId })
+    let insertArray = []
     for (let exerciseId of exerciseIds) {
-      let upsert = {
+      let obj = {
         exerciseId,
         examinationId,
         createdAt: Date.now(),
         updatedAt: Date.now()
       }
-      await this.context.ExaminationHasExercise.collection.updateOne({ examinationId, exerciseId }, upsert, { upsert: true })
+      insertArray.push(obj)
     }
+    await this.context.ExaminationHasExercise.collection.insertArray(insertArray)
 
     return examinationId
   }

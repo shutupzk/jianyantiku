@@ -22,6 +22,7 @@ import payment from './payment'
 import moment from 'moment'
 import later from 'later'
 let schedule = later.parse.text('at 00:01 am')
+let schedule01 = later.parse.text('at 11:10 am')
 later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
@@ -53,7 +54,7 @@ export async function startServer(GRAPHQL_PORT) {
         if (user) {
           const token = req.headers.authorization.replace('JWT ', '')
           if (token !== user.token) {
-            throw new Error('请重新登录')
+            return res.json({ errors: '请重新登录' })
           }
         }
         const query = req.query.query || req.body.query
@@ -126,6 +127,33 @@ export async function startServer(GRAPHQL_PORT) {
       console.log(e)
     }
   }, schedule)
+
+  later.setInterval(async () => {
+    console.log('定时插入习题id任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
+    try {
+      const { ExerciseId, Exercise } = context
+      let exercises = await Exercise.collection.find().toArray()
+      let ids = []
+      for (let { _id } of exercises) {
+        ids.push(_id)
+      }
+      await ExerciseId.collection.deleteMany({})
+      await ExerciseId.collection.findOneAndUpdate(
+        {
+          key: 1
+        },
+        {
+          $set: {
+            key: 1,
+            ids
+          }
+        },
+        { upsert: true }
+      )
+    } catch (e) {
+      console.log(e)
+    }
+  }, schedule01)
 }
 
 // startServer()
