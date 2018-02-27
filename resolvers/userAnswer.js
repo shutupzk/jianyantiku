@@ -57,7 +57,7 @@ const resolvers = {
       const id = await UserAnswer.insert(input)
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       addAnserCount(input, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
-      updateExercise(Exercise, UserAnswer, Answer, exercise, input)
+      updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer})
       return UserAnswer.findOneById(id)
     },
 
@@ -137,7 +137,7 @@ async function addAnserCount(doc, answer, user, { User, Answer, UserDayAnswer, S
   }
 }
 
-async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
+async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer}) {
   try {
     let { answerCount, rightCount } = exercise
     const { isAnswer } = input
@@ -146,14 +146,22 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise, input) {
     if (!rightCount) rightCount = 0
     if (isAnswer) rightCount++
     const exerciseId = exercise._id
+    let aCount = answer.answerCount || 0
+    await Answer.collection.updateById(answer._id, { answerCount: aCount + 1 })
     const answers = await Answer.collection.find({ exerciseId }).toArray()
     let index = 0
     let keyArray = ['A', 'B', 'C', 'D', 'E']
     let normalErrorAnswer = ''
     let lastCount = 0
-    for (let { _id, isAnswer } of answers) {
+    for (let { _id, isAnswer, answerCount } of answers) {
       let count = 0
-      if (!isAnswer) count = await UserAnswer.collection.count({ answerId: _id })
+      if (isAnswer) {
+        if (answerCount) {
+          count = answerCount
+        } else {
+          count = await UserAnswer.collection.count({ answerId: _id })
+        }
+      }
       if (count > lastCount) {
         normalErrorAnswer = keyArray[index]
         lastCount = count
