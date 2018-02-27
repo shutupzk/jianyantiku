@@ -22,7 +22,7 @@ import payment from './payment'
 import moment from 'moment'
 import later from 'later'
 let schedule = later.parse.text('at 00:01 am')
-let schedule01 = later.parse.text('at 11:30 am')
+let schedule01 = later.parse.text('at 11:57 am')
 later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
@@ -132,11 +132,12 @@ export async function startServer(GRAPHQL_PORT) {
     console.log('定时插入习题id任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
       const { ExerciseId, Exercise } = context
-      let exercises = await Exercise.collection.find().toArray()
+      let exercises = await Exercise.collection.find({type: '01'}).toArray()
       let ids = []
       for (let { _id } of exercises) {
         ids.push(_id)
       }
+      console.log(ids)
       await ExerciseId.collection.deleteMany({})
       await ExerciseId.collection.findOneAndUpdate(
         {
