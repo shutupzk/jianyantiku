@@ -159,6 +159,7 @@ async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, an
         if (answerCount) {
           count = answerCount
         } else {
+          console.log('count ======== ')
           count = await UserAnswer.collection.count({ answerId: _id })
         }
       }
