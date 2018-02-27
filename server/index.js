@@ -131,13 +131,13 @@ export async function startServer(GRAPHQL_PORT) {
   later.setInterval(async () => {
     console.log('定时插入习题id任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
-      const { ExerciseId, Exercise } = context
+      const { ExerciseId, Exercise, ExaminationHasExercise } = context
       let exercises = await Exercise.collection.find({type: '01'}).toArray()
       let ids = []
       for (let { _id } of exercises) {
         ids.push(_id)
       }
-      console.log(ids)
+      await ExaminationHasExercise.collection.deleteMany({})
       await ExerciseId.collection.deleteMany({})
       await ExerciseId.collection.findOneAndUpdate(
         {

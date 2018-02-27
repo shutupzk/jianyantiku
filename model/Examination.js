@@ -72,19 +72,12 @@ export default class Examination {
       await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: exerciseIds.length } })
     } else {
       let count = ids.length
-      if (count <= 1) {
-        await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: count } })
-        exerciseIds = [...ids]
-      } else {
-        await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: 100 } })
-        for (let i = 0; i < 100; i++) {
-          let readom = Math.floor(Math.random() * ids.length)
-          exerciseIds.push(ids[readom])
-        }
+      await this.collection.updateOne({ _id: examinationId }, { $set: { totalCount: 100 } })
+      for (let i = 0; i < 100; i++) {
+        let readom = Math.floor(Math.random() * count)
+        exerciseIds.push(ids[readom])
       }
     }
-
-    await this.context.ExaminationHasExercise.collection.deleteMany({ examinationId })
     let insertArray = []
     for (let exerciseId of exerciseIds) {
       let obj = {
@@ -95,9 +88,7 @@ export default class Examination {
       }
       insertArray.push(obj)
     }
-    // console.log(insertArray)
     await this.context.ExaminationHasExercise.collection.insertMany(insertArray)
-
     return examinationId
   }
 
