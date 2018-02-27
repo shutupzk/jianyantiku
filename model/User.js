@@ -97,8 +97,6 @@ export default class User {
       .find({
         _id: { $in: ids }
       })
-      .skip(skip)
-      .limit(limit)
       .toArray()
   }
 
@@ -271,7 +269,7 @@ export default class User {
     return userId
   }
 
-  async initUser (userId, phone) {
+  async initUser(userId, phone) {
     const { ScoreRecord, UserInvitation, ScoreType } = this.context
     const invitationUser = await UserInvitation.collection.findOne({ phone })
     if (invitationUser) {
