@@ -169,7 +169,7 @@ export default function myRouter(app) {
 
   app.all('/updateAnswerCount', async function(req, res) {
     const { Answer, UserAnswer } = req.context
-    const answers = await Answer.collection.find().toArray()
+    const answers = await Answer.collection.find({ answerCount: null }).toArray()
     for (let { _id } of answers) {
       let count = await UserAnswer.collection.count({ answerId: _id })
       await Answer.updateById(_id, { answerCount: count })
