@@ -55,9 +55,9 @@ const resolvers = {
       }
       input.exerciseId = exerciseId
       const id = await UserAnswer.insert(input)
+      await updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer})
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       addAnserCount(input, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
-      updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer})
       return UserAnswer.findOneById(id)
     },
 
@@ -159,7 +159,6 @@ async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, an
         if (answerCount) {
           count = answerCount
         } else {
-          console.log('count ======== ')
           count = await UserAnswer.collection.count({ answerId: _id })
         }
         if (count > lastCount) {
@@ -170,7 +169,7 @@ async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, an
       index++
     }
     let rightRate = Math.round(rightCount / answerCount * 100)
-    Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
+    await Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
   } catch (e) {
     console.log(e)
   }
