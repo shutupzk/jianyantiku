@@ -155,17 +155,17 @@ async function updateExercise({Exercise, UserAnswer, Answer, exercise, input, an
     let lastCount = 0
     for (let { _id, isAnswer, answerCount } of answers) {
       let count = 0
-      if (isAnswer) {
+      if (!isAnswer) {
         if (answerCount) {
           count = answerCount
         } else {
           console.log('count ======== ')
           count = await UserAnswer.collection.count({ answerId: _id })
         }
-      }
-      if (count > lastCount) {
-        normalErrorAnswer = keyArray[index]
-        lastCount = count
+        if (count > lastCount) {
+          normalErrorAnswer = keyArray[index]
+          lastCount = count
+        }
       }
       index++
     }
