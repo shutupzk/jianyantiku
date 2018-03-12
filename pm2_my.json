@@ -6,28 +6,31 @@
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
-      "cron_restart": "13 17 * * *"
+      "cron_restart": "15 12,16,20,22  * * *"
     },
     {
       "name": "api4",
       "script": "apis/server.4.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
+      "exec_interpreter": "babel-node",
+      "cron_restart": "16 12,16,20,22  * * *"
     },
     {
       "name": "api5",
       "script": "apis/server.5.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
+      "exec_interpreter": "babel-node",
+      "cron_restart": "17 12,16,20,22  * * *"
     },
     {
       "name": "api6",
       "script": "apis/server.6.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
+      "exec_interpreter": "babel-node",
+      "cron_restart": "18 12,16,20,22  * * *"
     }
   ]
 }
