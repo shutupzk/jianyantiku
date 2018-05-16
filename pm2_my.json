@@ -1,22 +1,6 @@
 {
   "apps": [
     {
-      "name": "api3",
-      "script": "apis/server.3.js",
-      "watch": false,
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node",
-      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
-    },
-    {
-      "name": "api4",
-      "script": "apis/server.4.js",
-      "watch": false,
-      "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node",
-      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
-    },
-    {
       "name": "api5",
       "script": "apis/server.5.js",
       "watch": false,
@@ -27,6 +11,22 @@
     {
       "name": "api6",
       "script": "apis/server.6.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api7",
+      "script": "apis/server.7.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api8",
+      "script": "apis/server.8.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
