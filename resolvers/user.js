@@ -65,13 +65,13 @@ const resolvers = {
       return User.countCourseCollect(user)
     },
 
-    countUserAnswer(user, args, { User }) {
-      return User.countUserAnswer(user)
-    },
+    // countUserAnswer(user, args, { User }) {
+    //   return User.countUserAnswer(user)
+    // },
 
-    countRightUserAnswer(user, args, { User }) {
-      return User.countRightUserAnswer(user)
-    },
+    // countRightUserAnswer(user, args, { User }) {
+    //   return User.countRightUserAnswer(user)
+    // },
 
     userMembers(user, args, { User }) {
       return User.userMembers(user)
