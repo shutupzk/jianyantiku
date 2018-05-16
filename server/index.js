@@ -92,7 +92,7 @@ export async function startServer(GRAPHQL_PORT) {
   later.setInterval(async () => {
     console.log('定时任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
-      const { User, UserMember, Member, UserExerciseTime, UserTimeAnswer, User } = context
+      const { User, UserMember, Member, UserExerciseTime, UserTimeAnswer, UserAnswer } = context
       let day = moment()
         .add(-2, 'days')
         .format('YYYY-MM-DD')
