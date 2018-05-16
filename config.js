@@ -7,7 +7,7 @@ import path from 'path'
 // }
 // const MONGO_URL = `mongodb://jianyantiku:jianyantiku@${MONGO_HOST}/jianyantiku`
 
-const MONGO_URL = `mongodb://jianyantiku:jianyantiku@s-8vb760e909e21f74-pub.mongodb.zhangbei.rds.aliyuncs.com:3717,s-8vba0228e91e5584-pub.mongodb.zhangbei.rds.aliyuncs.com:3717/jianyantiku`
+const MONGO_URL = `mongodb://root:Gg3fgmc8zt@s-8vb760e909e21f74-pub.mongodb.zhangbei.rds.aliyuncs.com:3717,s-8vba0228e91e5584-pub.mongodb.zhangbei.rds.aliyuncs.com:3717/jianyantiku`
 const GRAPHQL_PORT = '9000'
 
 const wechatNativeConfig = {
