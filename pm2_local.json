@@ -5,14 +5,32 @@
       "script": "apis/server.1.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
+      "exec_interpreter": "babel-node",
+      "cron_restart": "16 2,8,10,12,14,16,18,20,22  * * *"
     },
     {
       "name": "api2",
       "script": "apis/server.2.js",
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
-      "exec_interpreter": "babel-node"
+      "exec_interpreter": "babel-node",
+      "cron_restart": "16 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api3",
+      "script": "apis/server.3.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "16 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api4",
+      "script": "apis/server.4.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "16 2,8,10,12,14,16,18,20,22  * * *"
     }
   ]
 }
