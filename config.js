@@ -1,12 +1,13 @@
 import fs from 'fs'
 import path from 'path'
 
-let MONGO_HOST = 'localhost'
-if (process.env.SERVER) {
-  MONGO_HOST = '47.92.71.113'
-}
+// let MONGO_HOST = 'localhost:27017'
+// if (process.env.SERVER) {
+//   MONGO_HOST = '47.92.71.113:27017'
+// }
+// const MONGO_URL = `mongodb://jianyantiku:jianyantiku@${MONGO_HOST}/jianyantiku`
 
-const MONGO_URL = `mongodb://jianyantiku:jianyantiku@${MONGO_HOST}:27017/jianyantiku`
+const MONGO_URL = `let MONGO_URL = 'mongodb://jianyantiku:jianyantiku@s-8vb760e909e21f74-pub.mongodb.zhangbei.rds.aliyuncs.com:3717,s-8vba0228e91e5584-pub.mongodb.zhangbei.rds.aliyuncs.com:3717/jianyantiku'`
 const GRAPHQL_PORT = '9000'
 
 const wechatNativeConfig = {
