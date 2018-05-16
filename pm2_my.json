@@ -6,7 +6,7 @@
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
-      "cron_restart": "15 12,16,20,22  * * *"
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
     },
     {
       "name": "api4",
@@ -14,7 +14,7 @@
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
-      "cron_restart": "16 12,16,20,22  * * *"
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
     },
     {
       "name": "api5",
@@ -22,7 +22,7 @@
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
-      "cron_restart": "17 12,16,20,22  * * *"
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
     },
     {
       "name": "api6",
@@ -30,7 +30,7 @@
       "watch": false,
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "exec_interpreter": "babel-node",
-      "cron_restart": "18 12,16,20,22  * * *"
+      "cron_restart": "15 2,8,10,12,14,16,18,20,22  * * *"
     }
   ]
 }
