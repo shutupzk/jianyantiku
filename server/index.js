@@ -67,7 +67,7 @@ export async function startServer(GRAPHQL_PORT) {
           context: Object.assign({ user }, req.context),
           debug: true,
           formatError: e => {
-            console.log(e)
+            // console.log(e)
             return { message: e.message }
           }
         }
