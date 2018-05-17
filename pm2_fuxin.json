@@ -1,0 +1,36 @@
+{
+  "apps": [
+    {
+      "name": "api9",
+      "script": "apis/server.9.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "17 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api10",
+      "script": "apis/server.10.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "17 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api11",
+      "script": "apis/server.11.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "17 2,8,10,12,14,16,18,20,22  * * *"
+    },
+    {
+      "name": "api12",
+      "script": "apis/server.12.js",
+      "watch": false,
+      "log_date_format": "YYYY-MM-DD HH:mm:ss",
+      "exec_interpreter": "babel-node",
+      "cron_restart": "17 2,8,10,12,14,16,18,20,22  * * *"
+    }
+  ]
+}
