@@ -55,7 +55,7 @@ const resolvers = {
       }
       input.exerciseId = exerciseId
       const id = await UserAnswer.insert(input)
-      await updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer})
+      updateExercise({Exercise, UserAnswer, Answer, exercise, input, answer})
       updateUserExercise({ input, userId, user, exercise, scoreUsed }, { UserAnswer, User, RateOfProgressOfSection, RateOfProgressOfExamination })
       addAnserCount(input, answer, user, { User, Answer, UserDayAnswer, ScoreRecord, DecorationType, Decoration, UserHasDecoration })
       return UserAnswer.findOneById(id)
