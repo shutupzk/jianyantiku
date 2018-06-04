@@ -1,17 +1,49 @@
+#真题结构（type 为 02 的 题） ： examinationDifficulty (中级、初级) -> yearExerciseType (真题类型：检验技士, 检验技师 ；检验中级) -> yearExerciseList(年份) -> exercise (题)
+#
+#基础题和精品题库结构（type为 01， 和 03）： subject (科目) -> chapter (章) -> section(节) -> exercise (题)
+#
+#
+# 查询 基础题和精品题库  需要 传入难度id( examinationDifficultyId) 和 题目类型 type（#01:基础 02: 真题, 03:精品题库）
+#
+# query($sectionId: ObjID!, $skip: Int, $limit: Int, $examinationDifficultyId: ObjID, $type: String) {
+#   section(id: $sectionId) {
+#     id
+#     exercises(skip: $skip, limit: $limit, examinationDifficultyId: $examinationDifficultyId, type: $type) {
+#       id
+#       content
+#     }
+#   }
+# }
+#
+#
+#查询 真题 出入 年份 id(yearExerciseListId)
+#
+#  query($yearExerciseListId: ObjID!, $skip: Int, $limit: Int) {
+#     yearExerciseList(id: $yearExerciseListId) {
+#       id
+#       exercises(skip: $skip, limit: $limit) {
+#         id
+#         content
+#       }
+#     }
+#   }
 type Exercise {
 	id: ObjID!
 	content: String!
 	num: Int!
 	hot: Boolean # 是否是高频
-	difficulty: Int # 难度系数
+	difficulty: Int # 难度系数（暂时没用）
 	section: Section
 	subject: Subject
+	#真题年份
 	yearExerciseList: YearExerciseList
 	yearHasType: YearHasType
 	mockExamination: MockExamination
+	#难度
 	examinationDifficulty: ExaminationDifficulty
 	yearExamType: YearExamType
-	type: String! #01:基础 02: 真题, 03:精品题库
+	 #01:基础 02: 真题, 03:精品题库
+	type: String!
 	answerCount: Int
 	rightCount: Int
 	rightRate: Float
