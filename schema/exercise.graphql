@@ -11,7 +11,7 @@ type Exercise {
 	mockExamination: MockExamination
 	examinationDifficulty: ExaminationDifficulty
 	yearExamType: YearExamType
-	type: String! #01: 02: 真题, 03:精品题库
+	type: String! #01:基础 02: 真题, 03:精品题库
 	answerCount: Int
 	rightCount: Int
 	rightRate: Float
