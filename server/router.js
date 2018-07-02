@@ -28,13 +28,17 @@ export default function myRouter(app) {
     for (let user of users) {
       let member = await User.member(user)
       let members = await User.userMembers(user)
-      let endDate = moment(members[0].effectTime)
-        .add(members[0].months, 'months')
-        .format('YYYY-MM-DD')
-      let beginDate = moment(members[members.length - 1].effectTime).format('YYYY-MM-DD')
-      data.push([user.name, user.phone, member.name, beginDate, endDate, user.countUserAnswer])
+      let endDate = ''
+      let beginDate = ''
+      if (members && members.length) {
+        endDate = moment(members[0].effectTime)
+          .add(members[0].months, 'months')
+          .format('YYYY-MM-DD')
+        beginDate = moment(members[members.length - 1].effectTime).format('YYYY-MM-DD')
+      }
+      data.push([user.name, user.phone, member ? member.name : '', beginDate, endDate, user.countUserAnswer])
     }
-    let filepath = path.join(__dirname, `../uploads/users.xlsx`)
+    let filepath = path.join(__dirname, `../public/users.xlsx`)
     var buffer = xlsx.build([{ name: 'one', data: data }]) // Returns a buffer
     try {
       fs.writeFileSync(filepath, buffer)
@@ -42,7 +46,7 @@ export default function myRouter(app) {
     } catch (e) {
       throw e
     }
-    res.json({ok: 1})
+    res.json({ ok: 1 })
   })
 
   app.all('/qiniu/fileUploadToken', (req, res) => {
