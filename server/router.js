@@ -24,7 +24,7 @@ export default function myRouter(app) {
   app.all('/getMemberuser', async (req, res) => {
     const { User } = req.context
     let users = await User.collection.find({ memberId: { $exists: true } }).toArray()
-    let data = []
+    let data = [[['姓名', '手机号', '会员等级', '开始时间', '结束时间', '做题数量']]]
     for (let user of users) {
       let member = await User.member(user)
       let members = await User.userMembers(user)
@@ -36,7 +36,7 @@ export default function myRouter(app) {
           .format('YYYY-MM-DD')
         beginDate = moment(members[members.length - 1].effectTime).format('YYYY-MM-DD')
       }
-      data.push([user.name, user.phone, member ? member.name : '', beginDate, endDate, user.countUserAnswer])
+      data.push([user.name, user.phone, member ? member.name : '过期会员', beginDate, endDate, user.countUserAnswer])
     }
     let filepath = path.join(__dirname, `../public/users.xlsx`)
     var buffer = xlsx.build([{ name: 'one', data: data }]) // Returns a buffer

@@ -16,6 +16,7 @@ import authenticate from './authenticate'
 import { MONGO_URL } from '../config'
 import router from './router'
 import payment from './payment'
+import path from 'path'
 
 // import { initDB } from '../seed'
 
@@ -33,6 +34,7 @@ export async function startServer(GRAPHQL_PORT) {
   const app = express().use('*', cors())
   app.use(bodyParser.urlencoded({ extended: true }))
   app.use(bodyParser.json())
+  app.use('/public', express.static(path.join(__dirname, '..', 'public')))
 
   app.use((req, res, next) => {
     req.context = context
