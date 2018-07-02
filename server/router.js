@@ -1,5 +1,6 @@
 import xlsx from 'node-xlsx'
 import fs from 'fs'
+import path from 'path'
 import { ObjectId } from 'mongodb'
 import qiniu from 'qiniu'
 import { createUser, getUser } from '../libs/easemob'
@@ -19,6 +20,31 @@ export default function myRouter(app) {
     console.log('test ' + (end - start) + 'ms')
     res.json({ start, end, length: end - start })
   })
+
+  app.all('/getMemberuser', async (req, res) => {
+    const { User } = req.context
+    let users = await User.collection.find({ memberId: { $exists: true } }).toArray()
+    let data = []
+    for (let user of users) {
+      let member = await User.member(user)
+      let members = await User.userMembers(user)
+      let endDate = moment(members[0].effectTime)
+        .add(members[0].months, 'months')
+        .format('YYYY-MM-DD')
+      let beginDate = moment(members[members.length - 1].effectTime).format('YYYY-MM-DD')
+      data.push([user.name, user.phone, member.name, beginDate, endDate, user.countUserAnswer])
+    }
+    let filepath = path.join(__dirname, `../uploads/users.xlsx`)
+    var buffer = xlsx.build([{ name: 'one', data: data }]) // Returns a buffer
+    try {
+      fs.writeFileSync(filepath, buffer)
+      // return `/public/statistics/dayusers.xlsx`
+    } catch (e) {
+      throw e
+    }
+    res.json({ok: 1})
+  })
+
   app.all('/qiniu/fileUploadToken', (req, res) => {
     let key = req.query.key || req.body.key || null
     if (!key) return res.json({ code: 'err', data: {}, msg: '缺少参数 key ' })
@@ -121,12 +147,14 @@ export default function myRouter(app) {
 
   app.get('/deleteExerciseTimeAnswer', async (req, res) => {
     const { UserExerciseTime, UserTimeAnswer } = req.context
-    let day = moment().add(-2, 'days').format('YYYY-MM-DD')
+    let day = moment()
+      .add(-2, 'days')
+      .format('YYYY-MM-DD')
     let time = new Date(day).getTime()
-    let count0 = await UserExerciseTime.collection.count({createdAt: {$lt: time}})
-    let count1 = await UserTimeAnswer.collection.count({createdAt: {$lt: time}})
-    await UserExerciseTime.collection.deleteMany({createdAt: {$lt: time}})
-    await UserTimeAnswer.collection.deleteMany({createdAt: {$lt: time}})
+    let count0 = await UserExerciseTime.collection.count({ createdAt: { $lt: time } })
+    let count1 = await UserTimeAnswer.collection.count({ createdAt: { $lt: time } })
+    await UserExerciseTime.collection.deleteMany({ createdAt: { $lt: time } })
+    await UserTimeAnswer.collection.deleteMany({ createdAt: { $lt: time } })
 
     res.json({ code: '200', message: 'ok', count0, count1 })
   })
@@ -322,7 +350,7 @@ async function updateExercise(Exercise, UserAnswer, Answer, exercise) {
 
     let all = await UserAnswer.collection.count({ exerciseId: exercise._id })
     let right = await UserAnswer.collection.count({ exerciseId: exercise._id, isAnswer: true })
-    let rightRate = Math.round(right / all * 100)
+    let rightRate = Math.round((right / all) * 100)
     console.log(exerciseId, answerCount, rightCount, normalErrorAnswer, rightRate)
     Exercise.updateById(exerciseId, { answerCount, rightCount, normalErrorAnswer, rightRate })
   } catch (e) {
