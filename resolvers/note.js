@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createNote(root, { input }, { Note, Patient }) {
+    async createNote(root, { input }, { Note }) {
       const id = await Note.insert(input)
       return Note.findOneById(id)
     },

@@ -14,7 +14,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createService(root, { input }, { Service, Patient }) {
+    async createService(root, { input }, { Service }) {
       const id = await Service.insert(input)
       return Service.findOneById(id)
     },

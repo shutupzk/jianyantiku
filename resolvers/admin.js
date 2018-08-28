@@ -14,7 +14,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createAdmin(root, { input }, { Admin, Patient }) {
+    async createAdmin(root, { input }, { Admin }) {
       const id = await Admin.insert(input)
       return Admin.findOneById(id)
     },

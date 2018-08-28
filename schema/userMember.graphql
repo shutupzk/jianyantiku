@@ -1,0 +1,32 @@
+type UserMember {
+  id: ObjID!
+  user: User!
+  code: Int!
+  months: Int!
+  status: Boolean! #支付状态
+  effectTime: String!
+  memberCharge: MemberCharge!
+  createdAt: Float!
+  updatedAt: Float!
+}
+
+extend type Query {
+  userMembers(skip:Int, limit: Int): [UserMember!]
+  userMember(id: ObjID!): UserMember
+}
+
+input createUserMemberinput {
+  userId: ObjID!
+  memberChargeId: ObjID!
+}
+
+input UpdateUserMemberInput {
+  userId: ObjID!
+  memberChargeId: ObjID!
+}
+
+extend type Mutation {
+  createUserMember(input:createUserMemberinput!): UserMember
+  updateUserMember(id: ObjID!, input: UpdateUserMemberInput!): UserMember
+  removeUserMember(id: ObjID!): Boolean
+}

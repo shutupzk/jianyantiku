@@ -34,7 +34,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createSubject(root, { input }, { Subject, Patient }) {
+    async createSubject(root, { input }, { Subject }) {
       const id = await Subject.insert(input)
       return Subject.findOneById(id)
     },

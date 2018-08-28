@@ -18,7 +18,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createMockExamination(root, { input }, { MockExamination, Patient }) {
+    async createMockExamination(root, { input }, { MockExamination }) {
       const id = await MockExamination.insert(input)
       return MockExamination.findOneById(id)
     },

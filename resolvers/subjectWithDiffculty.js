@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createSubjectWithDiffculty(root, { input }, { SubjectWithDiffculty, Patient }) {
+    async createSubjectWithDiffculty(root, { input }, { SubjectWithDiffculty }) {
       const id = await SubjectWithDiffculty.insert(input)
       return SubjectWithDiffculty.findOneById(id)
     },

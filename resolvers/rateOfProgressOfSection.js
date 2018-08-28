@@ -27,7 +27,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createRateOfProgressOfSection(root, { input }, { RateOfProgressOfSection, Patient }) {
+    async createRateOfProgressOfSection(root, { input }, { RateOfProgressOfSection }) {
       const id = await RateOfProgressOfSection.insert(input)
       return RateOfProgressOfSection.findOneById(id)
     },

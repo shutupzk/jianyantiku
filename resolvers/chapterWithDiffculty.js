@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createChapterWithDiffculty(root, { input }, { ChapterWithDiffculty, Patient }) {
+    async createChapterWithDiffculty(root, { input }, { ChapterWithDiffculty }) {
       const id = await ChapterWithDiffculty.insert(input)
       return ChapterWithDiffculty.findOneById(id)
     },

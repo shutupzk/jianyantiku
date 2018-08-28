@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createUserHasDecoration(root, { input }, { UserHasDecoration, Patient }) {
+    async createUserHasDecoration(root, { input }, { UserHasDecoration }) {
       const id = await UserHasDecoration.insert(input)
       return UserHasDecoration.findOneById(id)
     },

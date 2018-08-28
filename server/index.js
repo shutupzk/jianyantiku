@@ -16,7 +16,12 @@ import authenticate from './authenticate'
 import { GRAPHQL_PORT, MONGO_URL } from '../config'
 import router from './router'
 
-import { initDB } from '../seed'
+// import { initDB } from '../seed'
+
+import moment from 'moment'
+import later from 'later'
+let schedule = later.parse.text('every 1 min')
+later.date.localTime()
 
 const schema = makeExecutableSchema({ typeDefs, resolvers })
 
@@ -43,7 +48,7 @@ async function startServer() {
         if (query && query.length > 20000) {
           throw new Error('Query too large.')
         }
-        // console.log('auth user', err, user)
+        console.log('auth user', err, user)
         return {
           schema,
           context: Object.assign({ user }, req.context),
@@ -70,6 +75,39 @@ async function startServer() {
   })
 
   app.listen(GRAPHQL_PORT, () => console.log(`GraphQL server launched, visit http://localhost:${GRAPHQL_PORT}/graphiql`))
+
+  later.setInterval(async () => {
+    console.log('定时任务执行时间：', moment().format('YYYY-MM-DD HH:mm:ss'))
+    try {
+      const { User, UserMember, Member } = context
+      const users = await User.collection.find({ memberId: { $exists: true, $ne: null } }).toArray()
+      const today = moment().format('YYYY-MM-DD')
+      for (let user of users) {
+        const userMembers = await User.userMembers(user)
+        let count = 0
+        for (let member of userMembers) {
+          count++
+          const { months, effectTime } = member
+          let endDate = moment(effectTime)
+            .add(months, 'months')
+            .format('YYYY-MM-DD')
+          if (today > endDate || today === endDate) {
+            await UserMember.updateById(member._id, { status: false })
+            if (userMembers[count]) {
+              const { code } = userMembers[count]
+              const { _id } = await Member.collection.findOne({ code })
+              await User.updateById(user._id, { memberId: _id })
+              break
+            } else {
+              await User.updateById(user._id, { memberId: null })
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }, schedule)
 }
 
 // initDB(MONGO_URL, function() {

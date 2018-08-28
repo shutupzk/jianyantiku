@@ -30,7 +30,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createSection(root, { input }, { Section, Patient }) {
+    async createSection(root, { input }, { Section }) {
       const id = await Section.insert(input)
       return Section.findOneById(id)
     },

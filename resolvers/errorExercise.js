@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createErrorExercise(root, { input }, { ErrorExercise, Patient }) {
+    async createErrorExercise(root, { input }, { ErrorExercise }) {
       const id = await ErrorExercise.insert(input)
       return ErrorExercise.findOneById(id)
     },

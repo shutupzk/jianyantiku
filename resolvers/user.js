@@ -50,15 +50,23 @@ const resolvers = {
 
     countCourseCollect(user, args, { User }) {
       return User.countCourseCollect(user)
+    },
+
+    countUserAnswer(user, args, { User }) {
+      return User.countUserAnswer(user)
+    },
+
+    countRightUserAnswer(user, args, { User }) {
+      return User.countRightUserAnswer(user)
+    },
+
+    userMembers(user, args, { User }) {
+      return User.userMembers(user)
+    },
+
+    member(user, args, { User }) {
+      return User.member(user)
     }
-
-    // countUserAnswer(user, args, { User }) {
-    //   return User.countUserAnswer(user)
-    // },
-
-    // countRightUserAnswer(user, args, { User }) {
-    //   return User.countRightUserAnswer(user)
-    // }
   },
   Query: {
     users(root, { skip, limit, sort }, { User }) {
@@ -70,7 +78,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async signUp(root, { input }, { User, Patient }) {
+    async signUp(root, { input }, { User }) {
       const id = await User.insert(input)
       return User.findOneById(id)
     },

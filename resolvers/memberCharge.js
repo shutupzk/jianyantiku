@@ -18,8 +18,10 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createMemberCharge(root, { input }, { MemberCharge, Patient }) {
-      const id = await MemberCharge.insert(input)
+    async createMemberCharge(root, { input }, { MemberCharge, Member }) {
+      const { memberId } = input
+      const { code } = await Member.findOneById(memberId)
+      const id = await MemberCharge.insert(Object.assign({}, input, { code }))
       return MemberCharge.findOneById(id)
     },
 

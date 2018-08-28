@@ -18,7 +18,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createAnswerImage(root, { input }, { AnswerImage, Patient }) {
+    async createAnswerImage(root, { input }, { AnswerImage }) {
       const id = await AnswerImage.insert(input)
       return AnswerImage.findOneById(id)
     },

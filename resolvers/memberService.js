@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createMemberService(root, { input }, { MemberService, Patient }) {
+    async createMemberService(root, { input }, { MemberService }) {
       const id = await MemberService.insert(input)
       return MemberService.findOneById(id)
     },

@@ -191,6 +191,20 @@ export default class User {
     return UserAnswer.collection.count({ userId: user._id, isAnswer: true })
   }
 
+  userMembers(user) {
+    const { UserMember } = this.context
+    return UserMember.collection
+      .find({ userId: user._id, status: true })
+      .sort({ code: -1 })
+      .toArray()
+  }
+
+  member(user) {
+    if (!user.memberId) return null
+    const { Member } = this.context
+    return Member.collection.findOne({ _id: user.memberId })
+  }
+
   async insert(doc) {
     const { ScoreRecord, UserInvitation, ScoreType } = this.context
     if (!checkPhoneNumber(doc.phone)) throw new Error('手机号格式不正确')

@@ -26,7 +26,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createAnswer(root, { input }, { Answer, Patient }) {
+    async createAnswer(root, { input }, { Answer }) {
       const id = await Answer.insert(input)
       return Answer.findOneById(id)
     },

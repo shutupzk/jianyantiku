@@ -1,8 +1,11 @@
 type MemberCharge {
   id: ObjID!
+  code: Int!
   member: Member!
   price: Float!
   months: Int! #时长，单位月
+  createdAt: Float!
+  updatedAt: Float!
 }
 
 extend type Query {

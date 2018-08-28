@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createAnalysis(root, { input }, { Analysis, Patient }) {
+    async createAnalysis(root, { input }, { Analysis }) {
       const id = await Analysis.insert(input)
       return Analysis.findOneById(id)
     },

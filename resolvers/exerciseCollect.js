@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createExerciseCollect(root, { input }, { ExerciseCollect, Patient }) {
+    async createExerciseCollect(root, { input }, { ExerciseCollect }) {
       const id = await ExerciseCollect.insert(input)
       return ExerciseCollect.findOneById(id)
     },

@@ -1,10 +1,11 @@
 type Member {
   id: ObjID!
-  name: String
+  code: Int!
+  name: String!
   memberCharges: [MemberCharge!]
   memberServices: [MemberService!]
   createdAt: Float!
-	updatedAt: Float!
+  updatedAt: Float!
 }
 
 extend type Query {
@@ -13,7 +14,8 @@ extend type Query {
 }
 
 input createMemberInput {
-  name: String
+  code: Int!
+  name: String!
 }
 
 input updateMemberInput {

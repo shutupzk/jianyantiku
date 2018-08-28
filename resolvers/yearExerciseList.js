@@ -26,7 +26,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createYearExerciseList(root, { input }, { YearExerciseList, Patient }) {
+    async createYearExerciseList(root, { input }, { YearExerciseList }) {
       const id = await YearExerciseList.insert(input)
       return YearExerciseList.findOneById(id)
     },

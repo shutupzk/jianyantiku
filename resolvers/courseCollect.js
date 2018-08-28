@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createCourseCollect(root, { input }, { CourseCollect, Patient }) {
+    async createCourseCollect(root, { input }, { CourseCollect }) {
       const id = await CourseCollect.insert(input)
       return CourseCollect.findOneById(id)
     },

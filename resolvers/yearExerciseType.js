@@ -22,7 +22,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createYearExerciseType(root, { input }, { YearExerciseType, Patient }) {
+    async createYearExerciseType(root, { input }, { YearExerciseType }) {
       const id = await YearExerciseType.insert(input)
       return YearExerciseType.findOneById(id)
     },

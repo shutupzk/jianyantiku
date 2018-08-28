@@ -14,6 +14,7 @@ type User {
   countCourseCollect: Int
   countUserAnswer: Int
   countRightUserAnswer: Int
+  member: Member
   exerciseCollects(skip:Int, limit: Int): [ExerciseCollect!]
   errorExcercises(skip:Int, limit: Int, isAnswer: Boolean, subjectId: ObjID): [Exercise!]
   courseCollects(skip:Int, limit: Int): [CourseCollect!]
@@ -25,6 +26,7 @@ type User {
   userSigns(skip:Int, limit: Int): [UserSign!]
   userShares(skip:Int, limit: Int): [UserShare!]
   userInvitations(skip:Int, limit: Int): [UserInvitation!]
+  userMembers: [UserMember!]
   createdAt: Float!
   updatedAt: Float!
 }

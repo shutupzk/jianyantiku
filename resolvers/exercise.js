@@ -62,7 +62,7 @@ const resolvers = {
     }
   },
   Mutation: {
-    async createExercise(root, { input }, { Exercise, Patient }) {
+    async createExercise(root, { input }, { Exercise }) {
       const id = await Exercise.insert(input)
       return Exercise.findOneById(id)
     },
